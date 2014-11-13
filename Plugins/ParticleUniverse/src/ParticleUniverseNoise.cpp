@@ -30,6 +30,7 @@ by Ken Perlin (copyright by Ken Perlin (c) 2002)
 #endif
 
 #include "ParticleUniverseNoise.h"
+#include "OgreImage.h"
 
 namespace ParticleUniverse
 {

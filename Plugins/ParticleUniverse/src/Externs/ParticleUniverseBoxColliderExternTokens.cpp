@@ -228,7 +228,7 @@ namespace ParticleUniverse
 
 		// Write own attributes
 		if (boxColliderExtern->getWidth() != BoxCollider::DEFAULT_WIDTH) serializer->writeLine(
-			token[TOKEN_BOX_WIDTH], StringConverter::toString(boxColliderExtern->getWidth()), 12);
+			token[TOKEN_BOX_WIDTH], Ogre::StringConverter::toString(boxColliderExtern->getWidth()), 12);
 		if (boxColliderExtern->getHeight() != BoxCollider::DEFAULT_HEIGHT) serializer->writeLine(
 			token[TOKEN_BOX_HEIGHT], StringConverter::toString(boxColliderExtern->getHeight()), 12);
 		if (boxColliderExtern->getDepth() != BoxCollider::DEFAULT_DEPTH) serializer->writeLine(

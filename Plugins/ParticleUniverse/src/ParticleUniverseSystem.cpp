@@ -649,7 +649,7 @@ namespace ParticleUniverse
 	{
 		if (mSceneManager)
 		{
-			return mSceneManager->getCamera(mMainCameraName);
+			return mSceneManager->findCamera(mMainCameraName);
 		}
 		return 0;
 	}
@@ -665,7 +665,7 @@ namespace ParticleUniverse
 		mMainCameraNameSet = true;
 		if (mSceneManager)
 		{
-			mCurrentCamera = mSceneManager->getCamera(cameraName);
+			mCurrentCamera = mSceneManager->findCamera(cameraName);
 		}
 	}
 	//-----------------------------------------------------------------------
@@ -697,12 +697,12 @@ namespace ParticleUniverse
 		mFastForwardSet = false;
 	}
 	//-----------------------------------------------------------------------
-	void ParticleSystem::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void ParticleSystem::_notifyAttached(Ogre::Node* parent)
 	{
 		// Generate the event
 		_pushSystemEvent(PU_EVT_SYSTEM_ATTACHING);
 
-		MovableObject::_notifyAttached(parent, isTagPoint);
+		MovableObject::_notifyAttached(parent);
 		
 		if (parent)
 		{
@@ -731,7 +731,7 @@ namespace ParticleUniverse
 		ParticleTechniqueIterator itEnd = mTechniques.end();
 		for (it = mTechniques.begin(); it != itEnd; ++it)
 		{
-			(*it)->_notifyAttached(parent, isTagPoint);
+			(*it)->_notifyAttached(parent);
 		}
 
 		// Generate the event

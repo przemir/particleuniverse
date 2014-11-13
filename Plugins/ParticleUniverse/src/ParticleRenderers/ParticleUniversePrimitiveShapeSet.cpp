@@ -189,7 +189,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	uint32 PrimitiveShapeSet::getTypeFlags(void) const
 	{
-		return Ogre::SceneManager::FX_TYPE_MASK;
+		return Ogre::SceneManager::QUERY_FX_DEFAULT_MASK;
 	}
 	//-----------------------------------------------------------------------
 	Real PrimitiveShapeSet::getSquaredViewDepth(const Camera* const cam) const

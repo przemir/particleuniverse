@@ -265,8 +265,10 @@ namespace ParticleUniverse
 			for (size_t i = 0; i < mQuota; i++)
 			{
 				sceneNodeName = "ParticleUniverse" + ss.str() + StringConverter::toString(i);
+				Ogre::SceneNode* childNode = parentNode->createChildSceneNode();
+				childNode->setName(sceneNodeName);
 				LightRendererVisualData* visualData = 
-					PU_NEW_T(LightRendererVisualData, MEMCATEGORY_SCENE_OBJECTS)(parentNode->createChildSceneNode(sceneNodeName));
+					PU_NEW_T(LightRendererVisualData, MEMCATEGORY_SCENE_OBJECTS)(childNode);
 
 				mAllVisualData.push_back(visualData); // Managed by this renderer
 				mVisualData.push_back(visualData); // Used to assign to a particle
@@ -279,8 +281,9 @@ namespace ParticleUniverse
 			Ogre::Light* light;
 			for (it = mAllVisualData.begin(), j = 0; it != itEnd; ++it, ++j)
 			{
-				light = technique->getParentSystem()->getSceneManager()->createLight(mLightName + StringConverter::toString(j));
+				light = technique->getParentSystem()->getSceneManager()->createLight();
 				(*it)->node->attachObject(light);
+				light->setName(mLightName + StringConverter::toString(j));
 				light->setType(mLightType);
 				light->setAttenuation(mAttenuationRange, mAttenuationConstant, mAttenuationLinear, mAttenuationQuadratic);
 				light->setDiffuseColour(DEFAULT_DIFFUSE); // The light always gets the diffuse colour from the particle
@@ -396,7 +399,7 @@ namespace ParticleUniverse
 		// No implementation here
 	}
 	//-----------------------------------------------------------------------
-	void LightRenderer::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void LightRenderer::_notifyAttached(Ogre::Node* parent)
 	{
 		// No implementation here
 	}

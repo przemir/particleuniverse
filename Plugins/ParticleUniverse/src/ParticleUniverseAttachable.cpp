@@ -48,9 +48,9 @@ namespace ParticleUniverse
 		MovableObject::mName = "PUExtern" + ss.str();
 	}
 	//-----------------------------------------------------------------------
-	void Attachable::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void Attachable::_notifyAttached(Ogre::Node* parent)
 	{
-		MovableObject::_notifyAttached(parent, isTagPoint);
+		MovableObject::_notifyAttached(parent);
 	}
 	//-----------------------------------------------------------------------
 	void Attachable::_notifyCurrentCamera(Camera* cam)

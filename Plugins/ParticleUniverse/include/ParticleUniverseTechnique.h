@@ -512,13 +512,13 @@ namespace ParticleUniverse
 			@remarks
 				Delegates to the renderer.
 			*/
-			void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false);
+			void _notifyAttached(Ogre::Node* parent);
 
 			/** Notify the pooled techniques that its parent system has been attached or detached.
 			@remarks
 				This is done for emitted ParticleTechniques.
 	        */
-			void _notifyAttachedPooledTechniques(Ogre::Node* parent, bool isTagPoint);
+			void _notifyAttachedPooledTechniques(Ogre::Node* parent);
 
 			/** Implementation of the _notifyCurrentCamera, needed for each technique that is part of a 
 				particle system.

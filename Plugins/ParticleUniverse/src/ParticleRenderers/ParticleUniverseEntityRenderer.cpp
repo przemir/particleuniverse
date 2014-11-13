@@ -201,15 +201,18 @@ namespace ParticleUniverse
 			for (size_t i = 0; i < mQuota; i++)
 			{
 				sceneNodeName = "ParticleUniverse" + ss.str() + StringConverter::toString(i);
+				Ogre::SceneNode *childNode = parentNode->createChildSceneNode();
+				childNode->setName(sceneNodeName);
 				EntityRendererVisualData* visualData = 
-					PU_NEW_T(EntityRendererVisualData, MEMCATEGORY_SCENE_OBJECTS)(parentNode->createChildSceneNode(sceneNodeName));
+					PU_NEW_T(EntityRendererVisualData, MEMCATEGORY_SCENE_OBJECTS)(childNode);
 
 				mAllVisualData.push_back(visualData); // Managed by this renderer
 				mVisualData.push_back(visualData); // Used to assign to a particle
 			}
 
 			// Create number of Entities
-			Ogre::Entity* entity = technique->getParentSystem()->getSceneManager()->createEntity(mEntityName, mMeshName); // Base entity
+			Ogre::Entity* entity = technique->getParentSystem()->getSceneManager()->createEntity(mMeshName); // Base entity
+			entity->setName(mEntityName);
 			vector<EntityRendererVisualData*>::const_iterator it;
 			vector<EntityRendererVisualData*>::const_iterator itEnd = mAllVisualData.end();
 			size_t j;
@@ -287,7 +290,7 @@ namespace ParticleUniverse
 		}
 	}
 	//-----------------------------------------------------------------------
-	void EntityRenderer::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void EntityRenderer::_notifyAttached(Ogre::Node* parent)
 	{
 		_makeNodesVisible(parent); // If parent doesn't exist, make everything invisible
 	}

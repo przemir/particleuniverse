@@ -125,7 +125,7 @@ namespace ParticleUniverse
 		// Only destroy the SceneNodes that start with "ParticleUniverse"
 		if (sceneNode)
 		{
-			Ogre::SceneNode::ChildNodeIterator iterator = sceneNode->getChildIterator();
+			Ogre::SceneNode::NodeVecIterator iterator = sceneNode->getChildIterator();
 			while(iterator.hasMoreElements())
 			{
 				Ogre::SceneNode* childSceneNode = static_cast<Ogre::SceneNode*>(iterator.getNext());

@@ -139,7 +139,7 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			virtual void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false){/* No implementation here */};
+			virtual void _notifyAttached(Ogre::Node* parent){/* No implementation here */};
 
 			/** @copydoc ParticleRenderer::_setMaterialName */
 			virtual void _setMaterialName(const String& materialName);

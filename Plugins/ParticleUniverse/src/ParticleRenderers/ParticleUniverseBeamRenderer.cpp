@@ -186,7 +186,8 @@ namespace ParticleUniverse
 			std::stringstream ss; 
 			ss << this;
 			mBillboardChainName = "Beam" + ss.str();
-			mBillboardChain = sceneManager->createBillboardChain(mBillboardChainName);
+			mBillboardChain = sceneManager->createBillboardChain();
+			mBillboardChain->setName(mBillboardChainName);
 			mBillboardChain->setDynamic(true);
 			mBillboardChain->setNumberOfChains(mQuota);
 			mBillboardChain->setMaxChainElements(mMaxChainElements);

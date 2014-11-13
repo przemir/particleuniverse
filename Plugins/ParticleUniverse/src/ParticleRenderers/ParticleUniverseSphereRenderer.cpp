@@ -64,8 +64,7 @@ namespace ParticleUniverse
 		// Notify attached, but only if the parentnode exists
 		if (technique->getParentSystem()->getParentNode())
 		{		
-			_notifyAttached(technique->getParentSystem()->getParentNode(), 
-							technique->getParentSystem()->isParentIsTagPoint());
+			_notifyAttached(technique->getParentSystem()->getParentNode());
 		}
 		_notifyDefaultDimensions(_mRendererScale.x * technique->getDefaultWidth(),
 								_mRendererScale.y * technique->getDefaultHeight(),
@@ -134,9 +133,9 @@ namespace ParticleUniverse
 		mSphereSet->_updateRenderQueue(queue);
 	}
 	//-----------------------------------------------------------------------
-	void SphereRenderer::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void SphereRenderer::_notifyAttached(Ogre::Node* parent)
 	{
-		mSphereSet->_notifyAttached(parent, isTagPoint);
+		mSphereSet->_notifyAttached(parent);
 	}
 	//-----------------------------------------------------------------------
 	void SphereRenderer::_setMaterialName(const String& materialName)

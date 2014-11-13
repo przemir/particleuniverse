@@ -66,7 +66,8 @@ namespace ParticleUniverse
 				std::stringstream ss; 
 				ss << this;
 				String sceneNodeName = "ParticleUniverse" + ss.str() + StringConverter::toString(mCount++);
-				mSubnode = sceneNode->createChildSceneNode(sceneNodeName);
+				mSubnode = sceneNode->createChildSceneNode();
+                mSubnode->setName(sceneNodeName);
 				mSubnode->setScale(mScale);
 				mSubnode->setPosition(mPosition);
 				if (!mEntity)
@@ -99,7 +100,8 @@ namespace ParticleUniverse
 			ss << this;
 			String sceneNodeName = "ParticleUniverse" + ss.str() + StringConverter::toString(mCount++);
 			Ogre::SceneNode* sceneNode = mParentTechnique->getParentSystem()->getParentSceneNode();
-			mSubnode = sceneNode->createChildSceneNode(sceneNodeName);
+			mSubnode = sceneNode->createChildSceneNode();
+            mSubnode->setName(sceneNodeName);
 		}
 
 		if (!mEntity)
@@ -124,9 +126,9 @@ namespace ParticleUniverse
 				Ogre::SceneNode* child = static_cast<Ogre::SceneNode*>(it.getNext());
 				if (child == mSubnode)
 				{
-					mSubnode->detachAllObjects();
+			mSubnode->detachAllObjects();
 					sceneNode->removeAndDestroyChild(i);
-					mSubnode = 0;
+			mSubnode = 0;
 				}
 				++i;
 			}

@@ -1475,20 +1475,20 @@ namespace ParticleUniverse
 		}
 	}
 	//-----------------------------------------------------------------------
-	void ParticleTechnique::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void ParticleTechnique::_notifyAttached(Ogre::Node* parent)
 	{
 		if (mRenderer && mRenderer->isRendererInitialised())
 		{
-			mRenderer->_notifyAttached(parent, isTagPoint);
+			mRenderer->_notifyAttached(parent);
 		}
 
 		/** Do the same for the the pooled techniques. Pooled Particle Systems are not taken into account, because they are attached
 			to their own SceneNode (you really should emit Particle Systems and detach / attach all the time).
 		*/
-		_notifyAttachedPooledTechniques(parent, isTagPoint);
+		_notifyAttachedPooledTechniques(parent);
 	}
 	//-----------------------------------------------------------------------
-	void ParticleTechnique::_notifyAttachedPooledTechniques(Ogre::Node* parent, bool isTagPoint)
+	void ParticleTechnique::_notifyAttachedPooledTechniques(Ogre::Node* parent)
 	{
 		if (!mPool.isEmpty(Particle::PT_TECHNIQUE))
 		{
@@ -1497,7 +1497,7 @@ namespace ParticleUniverse
 			{
 				if (technique)
 				{
-					technique->_notifyAttached(parent, isTagPoint);
+					technique->_notifyAttached(parent);
 				}
 			
 				technique = static_cast<ParticleTechnique*>(mPool.getNext(Particle::PT_TECHNIQUE));

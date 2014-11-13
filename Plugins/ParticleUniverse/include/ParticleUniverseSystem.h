@@ -174,7 +174,7 @@ namespace ParticleUniverse
 			@see
 				MovableObject
 			*/
-			void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false);
+			void _notifyAttached(Ogre::Node* parent);
 
 			/** Overridden from MovableObject
 			@see

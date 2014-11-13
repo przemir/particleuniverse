@@ -52,7 +52,7 @@ namespace ParticleUniverse
 			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool);
 
 			/** @copydoc ParticleRenderer::_notifyAttached */
-			virtual void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false);
+			virtual void _notifyAttached(Ogre::Node* parent);
 
 			/** @copydoc ParticleRenderer::_setMaterialName */
 			void _setMaterialName(const String& materialName);

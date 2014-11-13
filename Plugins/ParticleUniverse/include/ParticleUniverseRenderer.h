@@ -251,7 +251,7 @@ namespace ParticleUniverse
 			virtual void _notifyCurrentCamera(Camera* cam) = 0;
 	
 			/** Delegated to by ParticleTechnique::_notifyAttached */
-			virtual void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false) = 0;
+			virtual void _notifyAttached(Ogre::Node* parent) = 0;
 
 			/** The particle quota has changed */
 			virtual void _notifyParticleQuota(size_t quota) = 0;

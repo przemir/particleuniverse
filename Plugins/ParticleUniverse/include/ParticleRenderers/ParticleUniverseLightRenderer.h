@@ -202,7 +202,7 @@ namespace ParticleUniverse
 			virtual void _notifyCurrentCamera(Camera* cam);
 	
 			/** @copydoc ParticleRenderer::_notifyAttached */
-			virtual void _notifyAttached(Ogre::Node* parent, bool isTagPoint = false);
+			virtual void _notifyAttached(Ogre::Node* parent);
 
 			/** @copydoc ParticleRenderer::_notifyParticleQuota */
 			virtual void _notifyParticleQuota(size_t quota);

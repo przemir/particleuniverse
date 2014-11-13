@@ -71,8 +71,7 @@ namespace ParticleUniverse
 		// Notify attached, but only if the parentnode exists
 		if (technique->getParentSystem()->getParentNode())
 		{		
-			_notifyAttached(technique->getParentSystem()->getParentNode(), 
-							technique->getParentSystem()->isParentIsTagPoint());
+			_notifyAttached(technique->getParentSystem()->getParentNode());
 		}
 		_notifyDefaultDimensions(_mRendererScale.x * technique->getDefaultWidth(),
 								_mRendererScale.y * technique->getDefaultHeight(),
@@ -248,9 +247,9 @@ namespace ParticleUniverse
 		mBillboardSet->_updateRenderQueue(queue);
 	}
 	//-----------------------------------------------------------------------
-	void BillboardRenderer::_notifyAttached(Ogre::Node* parent, bool isTagPoint)
+	void BillboardRenderer::_notifyAttached(Ogre::Node* parent)
 	{
-		mBillboardSet->_notifyAttached(parent, isTagPoint);
+		mBillboardSet->_notifyAttached(parent);
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_setMaterialName(const String& materialName)
