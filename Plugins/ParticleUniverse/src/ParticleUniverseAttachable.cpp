@@ -84,7 +84,7 @@ namespace ParticleUniverse
 		mDistanceThreshold = distanceThreshold;
 	}
 	//-----------------------------------------------------------------------
-	void Attachable::_updateRenderQueue(Ogre::RenderQueue* queue)
+	void Attachable::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
 	{
 		// Nothing to do here.
 	}

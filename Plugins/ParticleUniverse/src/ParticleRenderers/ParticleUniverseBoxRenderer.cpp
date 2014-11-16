@@ -79,10 +79,10 @@ namespace ParticleUniverse
 		_notifyAttached(0); // Bugfix V1.5: If detached from scenenode, do not use the pointer to it
 	}
 	//-----------------------------------------------------------------------
-	void BoxRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+	void BoxRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 	{
 		// Always perform this one
-		ParticleRenderer::_updateRenderQueue(queue, pool);
+		ParticleRenderer::_updateRenderQueue(queue, camera, lodCamera, pool);
 
 		if (!mVisible)
 			return;
@@ -130,7 +130,7 @@ namespace ParticleUniverse
         mBoxSet->endBoxes();
 
 		// Update the queue
-		mBoxSet->_updateRenderQueue(queue);
+		mBoxSet->_updateRenderQueue(queue, camera, lodCamera);
 	}
 	//-----------------------------------------------------------------------
 	void BoxRenderer::_notifyAttached(Ogre::Node* parent)

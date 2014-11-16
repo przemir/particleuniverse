@@ -318,7 +318,7 @@ namespace ParticleUniverse
 
     }
 	//-----------------------------------------------------------------------
-	void SphereSet::_updateRenderQueue(Ogre::RenderQueue* queue)
+	void SphereSet::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
     {
 		if (!mExternalData)
 		{

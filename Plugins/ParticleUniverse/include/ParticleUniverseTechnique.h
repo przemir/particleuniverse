@@ -423,7 +423,7 @@ namespace ParticleUniverse
 				only performed for this ParticleTechnique, but also for the pooled ParticleTechniques if
 				available. Updating the renderqueue causes the particles to be actually rendered.
 	        */
-			void _updateRenderQueue(Ogre::RenderQueue* queue);
+			 void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera *camera, const Ogre::Camera *lodCamera);
 
 			/** Set the renderqueue group in the renderer
 			*/
@@ -847,7 +847,7 @@ namespace ParticleUniverse
 				also aren't updated by the ParticleSystem. This means that the ParticleTechnique that emits the
 				pooled ParticleTechniques, must update them.
 	        */
-			void _updateRenderQueuePooledTechniques(Ogre::RenderQueue* queue);
+			void _updateRenderQueuePooledTechniques(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
 			/** Reset all MarkForEmission values (to false) for all techniques, affectors and emitters.
 	        */

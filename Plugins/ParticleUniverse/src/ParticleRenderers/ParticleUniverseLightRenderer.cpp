@@ -309,9 +309,9 @@ namespace ParticleUniverse
 		_destroyAll(); // Delete all nodes, they will be rebuild
 	}
 	//-----------------------------------------------------------------------
-//	void LightRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+//	void LightRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 //	{
-//		ParticleRenderer::_updateRenderQueue(queue, pool);
+//		ParticleRenderer::_updateRenderQueue(queue, camera, lodCamera, pool);
 //	}
 	//-----------------------------------------------------------------------
 	void LightRenderer::_processParticle(ParticleTechnique* particleTechnique, 

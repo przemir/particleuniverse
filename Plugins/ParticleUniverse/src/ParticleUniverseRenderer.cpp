@@ -204,7 +204,7 @@ namespace ParticleUniverse
 		return mUVList;
 	}
 	//-----------------------------------------------------------------------
-	void ParticleRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+	void ParticleRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 	{
 		/** Notify the Particle System Manager in case soft particles are used. This cannot be done elsewhere, because 
 			it isn´t sure whether there is already a camera created.

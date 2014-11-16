@@ -229,13 +229,13 @@ namespace ParticleUniverse
 		_destroyAll();
 	}
 	//-----------------------------------------------------------------------
-	void BeamRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+	void BeamRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 	{
 		if (!mParentTechnique && mBillboardChain)
 			return;
 
 		// Always perform this one
-		ParticleRenderer::_updateRenderQueue(queue, pool);
+		ParticleRenderer::_updateRenderQueue(queue, camera, lodCamera, pool);
 
 		if (!mVisible)
 			return;

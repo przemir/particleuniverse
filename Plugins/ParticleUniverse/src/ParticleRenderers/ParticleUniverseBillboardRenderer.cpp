@@ -185,10 +185,10 @@ namespace ParticleUniverse
 		return mBillboardSet->isPointRenderingEnabled();
 	}
 	//-----------------------------------------------------------------------
-	void BillboardRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+	void BillboardRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 	{
 		// Always perform this one
-		ParticleRenderer::_updateRenderQueue(queue, pool);
+		ParticleRenderer::_updateRenderQueue(queue, camera, lodCamera, pool);
 
 		if (!mVisible)
 			return;
@@ -244,7 +244,7 @@ namespace ParticleUniverse
         mBillboardSet->endBillboards();
 
 		// Update the queue
-		mBillboardSet->_updateRenderQueue(queue);
+		mBillboardSet->_updateRenderQueue(queue, camera, lodCamera);
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyAttached(Ogre::Node* parent)

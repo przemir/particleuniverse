@@ -1102,7 +1102,7 @@ namespace ParticleUniverse
 		mExterns.clear();
 	}
 	//-----------------------------------------------------------------------
-	void ParticleTechnique::_updateRenderQueue(Ogre::RenderQueue* queue)
+	void ParticleTechnique::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
 	{
 		if (mRenderer && mRenderer->isRendererInitialised())
 		{
@@ -1110,19 +1110,19 @@ namespace ParticleUniverse
 			{
 				// Update the techniques' own renderqueue or proceed if smooth Lod has been set, 
 				// to be able to render the existing particles.
-				mRenderer->_updateRenderQueue(queue, &mPool);
+				mRenderer->_updateRenderQueue(queue, camera, lodCamera, &mPool);
 
 				/** Update the renderqueue of the pooled techniques (if available)
 					Note, that the _updateRenderQueue() of pooled (emitted) particle systems is NOT
 					called from the parent technique (a pooled particle system is still a movable 
 					object). Same for _notifyCurrentCamera(), ... etc.
 				*/
-				_updateRenderQueuePooledTechniques(queue);
+				_updateRenderQueuePooledTechniques(queue, camera, lodCamera);
 			}
 		}
 	}
 	//-----------------------------------------------------------------------
-	void ParticleTechnique::_updateRenderQueuePooledTechniques(Ogre::RenderQueue* queue)
+	void ParticleTechnique::_updateRenderQueuePooledTechniques(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
 	{
 		if (mPool.isEmpty(Particle::PT_TECHNIQUE))
 			return;
@@ -1132,7 +1132,7 @@ namespace ParticleUniverse
 		{
 			if (technique)
 			{
-				technique->_updateRenderQueue(queue);
+				technique->_updateRenderQueue(queue, camera, lodCamera);
 			}
 			
 			technique = static_cast<ParticleTechnique*>(mPool.getNext(Particle::PT_TECHNIQUE));

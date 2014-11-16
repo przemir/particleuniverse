@@ -187,7 +187,7 @@ namespace ParticleUniverse
 			virtual void _unprepare(ParticleTechnique* technique);
 
 			/** @copydoc ParticleRenderer::_updateRenderQueue */
-			//virtual void _updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool);
+			//virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool);
 
 			/** @copydoc ParticleRenderer::_processParticle */
 			inline virtual void _processParticle(ParticleTechnique* particleTechnique, 

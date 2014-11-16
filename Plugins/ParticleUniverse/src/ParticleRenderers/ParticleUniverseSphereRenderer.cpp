@@ -79,10 +79,10 @@ namespace ParticleUniverse
 		_notifyAttached(0); // Bugfix V1.5: If detached from scenenode, do not use the pointer to it
 	}
 	//-----------------------------------------------------------------------
-	void SphereRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+	void SphereRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 	{
 		// Always perform this one
-		ParticleRenderer::_updateRenderQueue(queue, pool);
+		ParticleRenderer::_updateRenderQueue(queue, camera, lodCamera, pool);
 
 		if (!mVisible)
 			return;
@@ -130,7 +130,7 @@ namespace ParticleUniverse
         mSphereSet->endSpheres();
 
 		// Update the queue
-		mSphereSet->_updateRenderQueue(queue);
+		mSphereSet->_updateRenderQueue(queue, camera, lodCamera);
 	}
 	//-----------------------------------------------------------------------
 	void SphereRenderer::_notifyAttached(Ogre::Node* parent)

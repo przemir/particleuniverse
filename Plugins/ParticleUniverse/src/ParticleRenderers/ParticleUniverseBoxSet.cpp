@@ -310,7 +310,7 @@ namespace ParticleUniverse
 
     }
 	//-----------------------------------------------------------------------
-	void BoxSet::_updateRenderQueue(Ogre::RenderQueue* queue)
+	void BoxSet::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
     {
 		if (!mExternalData)
 		{

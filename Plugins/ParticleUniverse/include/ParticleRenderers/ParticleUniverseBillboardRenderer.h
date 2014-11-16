@@ -130,7 +130,7 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool);
+			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool);
 
 			/** 
 			*/

@@ -231,10 +231,10 @@ namespace ParticleUniverse
 		mRendererInitialised = true;
 	}
 	//-----------------------------------------------------------------------
-	void EntityRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool)
+	void EntityRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
 	{
 		// Always perform this one
-		ParticleRenderer::_updateRenderQueue(queue, pool);
+		ParticleRenderer::_updateRenderQueue(queue, camera, lodCamera, pool);
 
 		if (!mVisible)
 			return;

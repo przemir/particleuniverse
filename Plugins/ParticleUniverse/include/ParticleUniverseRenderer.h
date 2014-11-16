@@ -242,7 +242,7 @@ namespace ParticleUniverse
 			@remarks
 				The subclass must update the render queue using whichever Renderable instance(s) it wishes.
 			*/
-			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, ParticlePool* pool);
+			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool);
 
 			/** Sets the material this renderer must use; called by ParticleTechnique. */
 			virtual void _setMaterialName(const String& materialName) = 0;

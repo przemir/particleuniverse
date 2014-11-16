@@ -827,14 +827,14 @@ namespace ParticleUniverse
 		return mBoundingRadius;
 	}
 	//-----------------------------------------------------------------------
-	void ParticleSystem::_updateRenderQueue(Ogre::RenderQueue* queue)
+	void ParticleSystem::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
 	{
 		// Update renderqueues of all techniques
 		ParticleTechniqueIterator it;
 		ParticleTechniqueIterator itEnd = mTechniques.end();
 		for (it = mTechniques.begin(); it != itEnd; ++it)
 		{
-			(*it)->_updateRenderQueue(queue);
+			(*it)->_updateRenderQueue(queue, camera, lodCamera);
 		}
 	}
 	//-----------------------------------------------------------------------
