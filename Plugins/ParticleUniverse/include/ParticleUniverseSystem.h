@@ -337,10 +337,6 @@ namespace ParticleUniverse
 			*/
 			void fastForward(void);
 
-			/** Determines whether the parent is a TagPoint or a SceneNode.
-			*/
-			inline bool isParentIsTagPoint(void) {return mParentIsTagPoint;};
-
 			/** Returns the distances at which level-of-detail (LOD) levels come into effect.
 			*/
 			const LodDistanceList& getLodDistances(void) const;
