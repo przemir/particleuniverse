@@ -38,27 +38,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	SphereSet::SphereSet(void) :
-		PrimitiveShapeSet(),
-		mAutoExtendPool(true),
-		mVertexData(0),
-		mIndexData(0),
-		mBuffersCreated(false),
-		mPoolSize(0),
-		mExternalData(false),
-		mNumberOfRings(16),
-		mNumberOfSegments(16),
-		mLockPtr(0),
-		pIdx(0),
-		mDefaultRadius(20),
-		mVertexIndex(1)
-	{
-		setNumberOfRings(16);
-		setNumberOfSegments(16);
-	}
-	//-----------------------------------------------------------------------
-	SphereSet::SphereSet(const String& name, unsigned int poolSize, bool externalData) :
-		PrimitiveShapeSet(name, poolSize, externalData),
+	SphereSet::SphereSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, unsigned int poolSize, bool externalData) :
+		PrimitiveShapeSet(id, objectMemoryManager),
 		mAutoExtendPool(true),
 		mVertexData(0),
 		mIndexData(0),
@@ -558,7 +539,8 @@ namespace ParticleUniverse
 		return PU_FACTORY_TYPE_NAME;
 	}
 	//-----------------------------------------------------------------------
-	Ogre::MovableObject* SphereSetFactory::createInstanceImpl(const String& name, const Ogre::NameValuePairList* params)
+	Ogre::MovableObject* SphereSetFactory::createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+																const Ogre::NameValuePairList* params)
 	{
 		bool externalData = false;
 		unsigned int poolSize = 0;
@@ -577,14 +559,7 @@ namespace ParticleUniverse
 			}
 		}
 
-		if (poolSize > 0)
-		{
-			return PU_NEW SphereSet(name, poolSize, externalData);
-		}
-		else
-		{
-			return PU_NEW SphereSet(name);
-		}
+		return PU_NEW SphereSet(id, objectMemoryManager, poolSize, externalData);
 	}
 	//-----------------------------------------------------------------------
 	void SphereSetFactory::destroyInstance(Ogre::MovableObject* obj)

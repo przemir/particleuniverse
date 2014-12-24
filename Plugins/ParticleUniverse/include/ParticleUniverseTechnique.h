@@ -520,19 +520,6 @@ namespace ParticleUniverse
 	        */
 			void _notifyAttachedPooledTechniques(Ogre::Node* parent);
 
-			/** Implementation of the _notifyCurrentCamera, needed for each technique that is part of a 
-				particle system.
-			@remarks
-				Delegates to the renderer.
-			*/
-			void _notifyCurrentCamera(Camera* camera);
-
-			/** Notify the pooled techniques with the current camera.
-			@remarks
-				This is done for emitted ParticleTechniques.
-	        */
-			void _notifyCurrentCameraPooledTechniques(Camera* camera);
-
 			/** Implementation of the _notifyParticleResized, needed for each technique that is part of a 
 				particle system.
 			@remarks

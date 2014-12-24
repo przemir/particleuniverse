@@ -34,9 +34,9 @@ namespace ParticleUniverse
 	// Constants
 	String Attachable::PU_ATTACHABLE = "PUAttachable";
 	//-----------------------------------------------------------------------
-	Attachable::Attachable(void) :
+	Attachable::Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		Extern(),
-		MovableObject(),
+		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
 		mAABB(),
 		mDistanceThreshold(std::numeric_limits<float>::max()),
 		mDistanceThresholdSet(false)
@@ -51,11 +51,6 @@ namespace ParticleUniverse
 	void Attachable::_notifyAttached(Ogre::Node* parent)
 	{
 		MovableObject::_notifyAttached(parent);
-	}
-	//-----------------------------------------------------------------------
-	void Attachable::_notifyCurrentCamera(Camera* cam)
-	{
-		Ogre::MovableObject::_notifyCurrentCamera(cam);
 	}
 	//-----------------------------------------------------------------------
 	const String& Attachable::getMovableType(void) const

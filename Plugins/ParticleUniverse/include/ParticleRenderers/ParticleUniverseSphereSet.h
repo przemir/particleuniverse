@@ -151,11 +151,7 @@ namespace ParticleUniverse
 		public:
 			/** Default constructor.
 			*/
-			SphereSet(const String& name, unsigned int poolSize = 20, bool externalData = false);
-
-			/** Default constructor.
-			*/
-			SphereSet(void);
+			SphereSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, unsigned int poolSize = 20, bool externalData = false);
 
 			/** Default destructor.
 			*/
@@ -274,7 +270,8 @@ namespace ParticleUniverse
 	{
 	
 		protected:
-			Ogre::MovableObject* createInstanceImpl( const String& name, const Ogre::NameValuePairList* params);
+			Ogre::MovableObject* createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+													const Ogre::NameValuePairList* params = 0);
 
 		public:
 			SphereSetFactory(void) {}

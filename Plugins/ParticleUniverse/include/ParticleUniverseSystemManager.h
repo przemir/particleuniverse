@@ -54,6 +54,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ParticleUniverseSingleton.h"
 
 #include <OgreRenderQueue.h>
+#include <Math/Array/OgreObjectMemoryManager.h>
 
 namespace ParticleUniverse
 {
@@ -100,13 +101,13 @@ namespace ParticleUniverse
 			@remarks
 				This function must not be used directly.
 	        */
-			ParticleSystem* _createSystemImpl(const String& name);
+			ParticleSystem* _createSystemImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 
 			/** Implementation of creating a particle system used by the MovableObject factory.
 			@remarks
 				This function must not be used directly.
 	        */
-			ParticleSystem* _createSystemImpl(const String& name, const String& templateName);
+			ParticleSystem* _createSystemImpl(const String& templateName, Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 
 			/** Delete a particle system.
 			@remarks
@@ -206,6 +207,9 @@ namespace ParticleUniverse
 
 			// The ScriptTranslatorManager needed to parse the scripts.
 			BuiltinScriptTranslatorManager* mBuiltinScriptTranslatorManager;
+
+			// Memory manager for particle universe template objects
+			Ogre::ObjectMemoryManager mTemplateMemoryManager;
 
 		public:
 			// Constructor
@@ -414,7 +418,11 @@ namespace ParticleUniverse
 
 			/** Create a ParticleRenderer.
 	        */
-			ParticleRenderer* createRenderer(const String& rendererType);
+			ParticleRenderer* createRenderer(const String& rendererType, Ogre::SceneManager* sceneMgr);
+
+			/** Create a ParticleRenderer.
+			*/
+			ParticleRenderer* createRendererTemplate(const String& rendererType);
 
 			/** Clone a ParticleRenderer.
 	        */
@@ -683,7 +691,8 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport ParticleSystemFactory : public Ogre::MovableObjectFactory
 	{
 		protected:
-			Ogre::MovableObject* createInstanceImpl(const String& name, const Ogre::NameValuePairList* params);
+			Ogre::MovableObject* createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+													const Ogre::NameValuePairList* params = 0);
 		
 		public:
 			ParticleSystemFactory(void) {};

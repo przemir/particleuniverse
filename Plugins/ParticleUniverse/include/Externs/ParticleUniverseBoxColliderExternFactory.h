@@ -49,9 +49,9 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			Extern* createExtern(void)
+			Extern* createExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
 			{
-				return _createExtern<BoxColliderExtern>();
+				return _createExtern<BoxColliderExtern>(id, objectMemoryManager);
 			};
 
 			/** See ScriptReader */

@@ -38,21 +38,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	BoxSet::BoxSet(void) :
-		PrimitiveShapeSet(),
-		mAutoExtendPool(true),
-		mVertexData(0),
-		mIndexData(0),
-		mBuffersCreated(false),
-		mPoolSize(0),
-		mExternalData(false)
-	{
-		setDefaultDimensions(100, 100, 100);
-		_initTextCoord();
-	}
-	//-----------------------------------------------------------------------
-	BoxSet::BoxSet(const String& name, unsigned int poolSize, bool externalData) :
-		PrimitiveShapeSet(name, poolSize, externalData),
+	BoxSet::BoxSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, unsigned int poolSize, bool externalData) :
+		PrimitiveShapeSet(id, objectMemoryManager),
 		mAutoExtendPool(true),
 		mVertexData(0),
 		mIndexData(0),
@@ -712,7 +699,8 @@ namespace ParticleUniverse
 		return PU_FACTORY_TYPE_NAME;
 	}
 	//-----------------------------------------------------------------------
-	Ogre::MovableObject* BoxSetFactory::createInstanceImpl(const String& name, const Ogre::NameValuePairList* params)
+	Ogre::MovableObject* BoxSetFactory::createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+															const Ogre::NameValuePairList* params)
 	{
 		bool externalData = false;
 		unsigned int poolSize = 0;
@@ -731,14 +719,7 @@ namespace ParticleUniverse
 			}
 		}
 
-		if (poolSize > 0)
-		{
-			return PU_NEW BoxSet(name, poolSize, externalData);
-		}
-		else
-		{
-			return PU_NEW BoxSet(name);
-		}
+		return PU_NEW BoxSet(id, objectMemoryManager, poolSize, externalData);
 	}
 	//-----------------------------------------------------------------------
 	void BoxSetFactory::destroyInstance(Ogre::MovableObject* obj)

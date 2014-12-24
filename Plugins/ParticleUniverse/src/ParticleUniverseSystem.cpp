@@ -62,10 +62,10 @@ namespace ParticleUniverse
 			void setValue(Real value) {mTarget->_update(value);}
 	};
 	//-----------------------------------------------------------------------
-	ParticleSystem::ParticleSystem(const String& name) :
+	ParticleSystem::ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		IElement(),
 		mAABB(),
-		MovableObject(name),
+		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
 		mSceneManager(0),
 		mTimeController(0),
 		mUseController(true),
@@ -113,10 +113,11 @@ namespace ParticleUniverse
 		particleType = PT_SYSTEM;
 	}
 	//-----------------------------------------------------------------------
-	ParticleSystem::ParticleSystem(const String& name, const String& resourceGroupName) :
+	ParticleSystem::ParticleSystem(const String& resourceGroupName, Ogre::IdType id, 
+									Ogre::ObjectMemoryManager *objectMemoryManager) :
 		IElement(),
 		mAABB(),
-		MovableObject(name),
+		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
 		mSceneManager(0),
 		mTimeController(0),
 		mUseController(true),
@@ -738,10 +739,24 @@ namespace ParticleUniverse
 		_pushSystemEvent(PU_EVT_SYSTEM_ATTACHED);
 	}
 	//-----------------------------------------------------------------------
-	void ParticleSystem::_notifyCurrentCamera(Camera* cam)
+	const String& ParticleSystem::getMovableType(void) const
 	{
-		mCurrentCamera = cam;
-		Ogre::MovableObject::_notifyCurrentCamera(cam);
+		return ParticleSystemFactory::PU_FACTORY_TYPE_NAME;
+	}
+	//-----------------------------------------------------------------------
+	const AxisAlignedBox& ParticleSystem::getBoundingBox(void) const
+	{
+		return mAABB;
+	}
+	//-----------------------------------------------------------------------
+	Real ParticleSystem::getBoundingRadius(void) const
+	{
+		return mBoundingRadius;
+	}
+	//-----------------------------------------------------------------------
+	void ParticleSystem::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
+	{
+		mCurrentCamera = camera;
 		mLastVisibleFrame = Ogre::Root::getSingleton().getNextFrameNumber();
 		mTimeSinceLastVisible = 0.0f;
 
@@ -750,17 +765,17 @@ namespace ParticleUniverse
 		ParticleTechniqueIterator itEnd = mTechniques.end();
 		Vector3 vec = Vector3::ZERO;
 		Real squareDistance = 0;
-		Vector3 vecCameraParentNode = cam->getDerivedPosition() - getParentNode()->_getDerivedPosition();
+		Vector3 vecCameraParentNode = camera->getDerivedPosition() - getParentNode()->_getDerivedPosition();
 		Real squareDistanceCameraParentNode = vecCameraParentNode.squaredLength();
 		unsigned short index = 0;
-		bool doCamera = !mMainCameraNameSet || (mMainCameraNameSet && mMainCameraName == cam->getName());
+		bool doCamera = !mMainCameraNameSet || (mMainCameraNameSet && mMainCameraName == camera->getName());
 
 		for (it = mTechniques.begin(); it != itEnd; ++it)
 		{
 			// Calculate the distance between the camera and each ParticleTechnique (although it isn´t always used).
 			if ((*it)->_isMarkedForEmission())
 			{
-				vec = cam->getDerivedPosition() - (*it)->position;
+				vec = camera->getDerivedPosition() - (*it)->position;
 				squareDistance = vec.squaredLength();
 			}
 			else
@@ -807,33 +822,7 @@ namespace ParticleUniverse
 				}
 			}
 
-			// Notify technique
-			(*it)->_notifyCurrentCamera(cam);
-		}
-	}
-	//-----------------------------------------------------------------------
-	const String& ParticleSystem::getMovableType(void) const
-	{
-		return ParticleSystemFactory::PU_FACTORY_TYPE_NAME;
-	}
-	//-----------------------------------------------------------------------
-	const AxisAlignedBox& ParticleSystem::getBoundingBox(void) const
-	{
-		return mAABB;
-	}
-	//-----------------------------------------------------------------------
-	Real ParticleSystem::getBoundingRadius(void) const
-	{
-		return mBoundingRadius;
-	}
-	//-----------------------------------------------------------------------
-	void ParticleSystem::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
-	{
-		// Update renderqueues of all techniques
-		ParticleTechniqueIterator it;
-		ParticleTechniqueIterator itEnd = mTechniques.end();
-		for (it = mTechniques.begin(); it != itEnd; ++it)
-		{
+			// Update renderqueue technique
 			(*it)->_updateRenderQueue(queue, camera, lodCamera);
 		}
 	}

@@ -39,7 +39,7 @@ namespace ParticleUniverse
 			SphereSet* mSphereSet;
 
 		public:
-			SphereRenderer(void);
+			SphereRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~SphereRenderer(void);
 
 			/** @copydoc ParticleRenderer::_prepare */
@@ -57,9 +57,6 @@ namespace ParticleUniverse
 			/** @copydoc ParticleRenderer::_setMaterialName */
 			void _setMaterialName(const String& materialName);
 
-			/** @copydoc ParticleRenderer::_notifyCurrentCamera */
-			virtual void _notifyCurrentCamera(Camera* cam);
-	
 			/** @copydoc ParticleRenderer::_notifyParticleQuota */
 			virtual void _notifyParticleQuota(size_t quota);
 

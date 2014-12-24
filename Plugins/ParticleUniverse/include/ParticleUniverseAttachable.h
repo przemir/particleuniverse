@@ -48,7 +48,7 @@ namespace ParticleUniverse
 			// Constants
 			static String PU_ATTACHABLE;
 
-			Attachable(void);
+			Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~Attachable(void){};
 
 			/** Get the Distance Threshold
@@ -65,12 +65,6 @@ namespace ParticleUniverse
 				MovableObject
 			*/
 			void _notifyAttached(Ogre::Node* parent);
-
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
-			virtual void _notifyCurrentCamera(Camera* cam);
 
 			/** Overridden from MovableObject
 			@see

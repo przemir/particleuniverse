@@ -46,9 +46,9 @@ namespace ParticleUniverse
 			}
 
 			/** See ParticleRendererFactory */
-			ParticleRenderer* createRenderer(void)
+			ParticleRenderer* createRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
 			{
-				return _createRenderer<RibbonTrailRenderer>();
+				return _createRenderer<RibbonTrailRenderer>(id, objectMemoryManager);
 			}
 
 			/** See ScriptReader */

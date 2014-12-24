@@ -66,7 +66,7 @@ namespace ParticleUniverse
 			// Constants
 			static const EntityOrientationType DEFAULT_ORIENTATION_TYPE;
 
-			EntityRenderer(void);
+			EntityRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~EntityRenderer(void);
 
 			/** Get the mesh name.

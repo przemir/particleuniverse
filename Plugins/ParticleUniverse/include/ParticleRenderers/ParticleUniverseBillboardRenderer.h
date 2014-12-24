@@ -63,7 +63,7 @@ namespace ParticleUniverse
 			static const Vector3 DEFAULT_COMMON_UP_VECTOR;
 			static const bool DEFAULT_POINT_RENDERING;
 
-			BillboardRenderer(void);
+			BillboardRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~BillboardRenderer(void);
 
 			/** @copydoc ParticleRenderer::_prepare */

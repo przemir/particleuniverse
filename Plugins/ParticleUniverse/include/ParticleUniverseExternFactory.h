@@ -41,9 +41,9 @@ namespace ParticleUniverse
 			/** 
 	        */
 			template <class T>
-			Extern* _createExtern(void)
+			Extern* _createExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
 			{
-				Extern* externObject = PU_NEW T();
+				Extern* externObject = PU_NEW T(id, objectMemoryManager);
 				externObject->setExternType(getExternType());
 				return externObject;
 			};
@@ -58,7 +58,7 @@ namespace ParticleUniverse
 			/** Creates a new Extern instance.
 		    @remarks
 	        */
-		    virtual Extern* createExtern(void) = 0;
+			virtual Extern* createExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) = 0;
 
 			/** Delete an Extern.
 	        */

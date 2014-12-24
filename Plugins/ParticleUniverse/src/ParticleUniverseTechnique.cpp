@@ -1106,6 +1106,13 @@ namespace ParticleUniverse
 	{
 		if (mRenderer && mRenderer->isRendererInitialised())
 		{
+			if (mRenderer->isSorted())
+			{
+				// Although the indication whether to sort the particles is set by the Particle Renderer, the actual 
+				// sorting of the particles is performed in the Particle Technique.
+				_sortVisualParticles(camera);
+			}
+
 			if (mEnabled || mParentSystem->isSmoothLod())
 			{
 				// Update the techniques' own renderqueue or proceed if smooth Lod has been set, 
@@ -1502,41 +1509,6 @@ namespace ParticleUniverse
 			
 				technique = static_cast<ParticleTechnique*>(mPool.getNext(Particle::PT_TECHNIQUE));
 			}
-		}
-	}
-	//-----------------------------------------------------------------------
-	void ParticleTechnique::_notifyCurrentCamera(Camera* camera)
-	{
-		if (mRenderer && mRenderer->isRendererInitialised())
-		{
-			if (mRenderer->isSorted())
-			{
-				// Although the indication whether to sort the particles is set by the Particle Renderer, the actual 
-				// sorting of the particles is performed in the Particle Technique.
-				_sortVisualParticles(camera);
-			}
-
-			mRenderer->_notifyCurrentCamera(camera);
-
-			// Do the same for the the pooled techniques (if available)
-			_notifyCurrentCameraPooledTechniques(camera);
-		}
-	}
-	//-----------------------------------------------------------------------
-	void ParticleTechnique::_notifyCurrentCameraPooledTechniques(Camera* camera)
-	{
-		if (mPool.isEmpty(Particle::PT_TECHNIQUE))
-			return;
-
-		ParticleTechnique* technique = static_cast<ParticleTechnique*>(mPool.getFirst(Particle::PT_TECHNIQUE));
-		while (!mPool.end(Particle::PT_TECHNIQUE))
-		{
-			if (technique)
-			{
-				technique->_notifyCurrentCamera(camera);
-			}
-			
-			technique = static_cast<ParticleTechnique*>(mPool.getNext(Particle::PT_TECHNIQUE));
 		}
 	}
 	//-----------------------------------------------------------------------

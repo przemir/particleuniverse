@@ -42,11 +42,11 @@ namespace ParticleUniverse
 	const bool BillboardRenderer::DEFAULT_POINT_RENDERING = false;
 
 	//-----------------------------------------------------------------------
-	BillboardRenderer::BillboardRenderer(void) : 
+	BillboardRenderer::BillboardRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		ParticleRenderer(),
 		mBillboardType(DEFAULT_BILLBOARD_TYPE)
 	{
-		mBillboardSet = PU_NEW Ogre::BillboardSet("", 0, true);
+		mBillboardSet = PU_NEW Ogre::BillboardSet(id, objectMemoryManager, 0, true);
 		mBillboardSet->setBillboardsInWorldSpace(true);
 		autoRotate = false;
 	}

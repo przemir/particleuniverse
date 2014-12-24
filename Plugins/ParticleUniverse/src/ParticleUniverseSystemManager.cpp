@@ -73,6 +73,8 @@ namespace ParticleUniverse
 
 		mSphereSetFactory = PU_NEW SphereSetFactory();
 		Ogre::Root::getSingleton().addMovableObjectFactory(mSphereSetFactory);
+
+
 	}
 	//-----------------------------------------------------------------------
 	ParticleSystemManager::~ParticleSystemManager (void)
@@ -156,9 +158,12 @@ namespace ParticleUniverse
 		Ogre::NameValuePairList params;
 		params["poolSize"] = StringConverter::toString(poolSize);
 	
-		return static_cast<BoxSet*>(
-			sceneManager->createMovableObject(name, BoxSetFactory::PU_FACTORY_TYPE_NAME,
-			&params));
+		BoxSet* obj = static_cast<BoxSet*>(
+			sceneManager->createMovableObject(BoxSetFactory::PU_FACTORY_TYPE_NAME, 
+												&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+												&params));
+		obj->setName(name);
+		return obj;
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::destroyBoxSet(BoxSet* boxSet, Ogre::SceneManager* sceneManager)
@@ -173,9 +178,12 @@ namespace ParticleUniverse
 		Ogre::NameValuePairList params;
 		params["poolSize"] = StringConverter::toString(poolSize);
 	
-		return static_cast<SphereSet*>(
-			sceneManager->createMovableObject(name, SphereSetFactory::PU_FACTORY_TYPE_NAME,
-			&params));
+		SphereSet* obj = static_cast<SphereSet*>(
+			sceneManager->createMovableObject(SphereSetFactory::PU_FACTORY_TYPE_NAME,
+												&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+												&params));
+		obj->setName(name);
+		return obj;
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::destroySphereSet(SphereSet* sphereSet, Ogre::SceneManager* sceneManager)
@@ -581,7 +589,7 @@ namespace ParticleUniverse
 		mRendererFactories.erase(it);
 	}
 	//-----------------------------------------------------------------------
-	ParticleRenderer* ParticleSystemManager::createRenderer(const String& rendererType)
+	ParticleRenderer* ParticleSystemManager::createRenderer(const String& rendererType, Ogre::SceneManager* sceneMgr)
 	{
 		// Locate renderer type
 		RendererFactoryMap::iterator it = mRendererFactories.find(rendererType);
@@ -592,7 +600,23 @@ namespace ParticleUniverse
 				"ParticleSystemManager::createRenderer");
 		}
 
-		return it->second->createRenderer();
+		return it->second->createRenderer(Ogre::Id::generateNewId<Ogre::MovableObject>(),
+			&sceneMgr->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC));
+	}
+	//-----------------------------------------------------------------------
+	ParticleRenderer* ParticleSystemManager::createRendererTemplate(const String& rendererType)
+	{
+		// Locate renderer type
+		RendererFactoryMap::iterator it = mRendererFactories.find(rendererType);
+
+		if (it == mRendererFactories.end())
+		{
+			EXCEPT(Exception::ERR_INVALIDPARAMS, "PU: Cannot find requested renderer type.",
+				"ParticleSystemManager::createRenderer");
+		}
+
+		//Dont want to waist MovableObject id numbers on tempaltes, so just us ParticleRenderer object id
+		return it->second->createRenderer(Ogre::Id::generateNewId<ParticleRenderer>(), &mTemplateMemoryManager);
 	}
 	//-----------------------------------------------------------------------
 	ParticleRenderer* ParticleSystemManager::cloneRenderer(ParticleRenderer* renderer)
@@ -796,7 +820,11 @@ namespace ParticleUniverse
 #endif
 		}
 
-		ParticleSystem* particleSystemTemplate = PU_NEW ParticleSystem(expName, resourceGroupName);
+		//Dont want to waist MovableObject id numbers on tempaltes, so just us ParticleSystem object id
+		ParticleSystem* particleSystemTemplate = PU_NEW ParticleSystem(resourceGroupName,
+																		Ogre::Id::generateNewId<ParticleSystem>(),
+																		&mTemplateMemoryManager);
+		particleSystemTemplate->setName(expName);
 		addParticleSystemTemplate(expName, particleSystemTemplate);
 		mLastCreatedParticleSystemTemplateName = expName;
 
@@ -879,8 +907,10 @@ namespace ParticleUniverse
 		params["templateName"] = templateName;
 	
 		ParticleSystem* system = static_cast<ParticleSystem*>(
-			sceneManager->createMovableObject(name, ParticleSystemFactory::PU_FACTORY_TYPE_NAME,
-			&params));
+			sceneManager->createMovableObject(ParticleSystemFactory::PU_FACTORY_TYPE_NAME,
+								&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+								&params));
+		system->setName(name);
 		system->setSceneManager(sceneManager);
 		system->setTemplateName(templateName);
 		mParticleSystems[name] = system;
@@ -900,9 +930,11 @@ namespace ParticleUniverse
 
 		Ogre::NameValuePairList params;
 		ParticleSystem* system = static_cast<ParticleSystem*>(
-		sceneManager->createMovableObject(name, ParticleSystemFactory::PU_FACTORY_TYPE_NAME, 
-			&params));
+		sceneManager->createMovableObject(ParticleSystemFactory::PU_FACTORY_TYPE_NAME, 
+											&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+											&params));
 		system->setSceneManager(sceneManager);
+		system->setName(name);
 		mParticleSystems[name] = system;
 		return system;
 	}
@@ -976,13 +1008,14 @@ namespace ParticleUniverse
 		}
 	}
 	//-----------------------------------------------------------------------
-	ParticleSystem* ParticleSystemManager::_createSystemImpl(const String& name)
+	ParticleSystem* ParticleSystemManager::_createSystemImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
 	{
-		ParticleSystem* sys = PU_NEW ParticleSystem(name);
+		ParticleSystem* sys = PU_NEW ParticleSystem(id, objectMemoryManager);
 		return sys;
 	}
 	//-----------------------------------------------------------------------
-	ParticleSystem* ParticleSystemManager::_createSystemImpl(const String& name, const String& templateName)
+	ParticleSystem* ParticleSystemManager::_createSystemImpl(const String& templateName, Ogre::IdType id,
+															Ogre::ObjectMemoryManager *objectMemoryManager)
 	{
 		// Look up template
 		ParticleSystem* pTemplate = getParticleSystemTemplate(templateName);
@@ -991,7 +1024,7 @@ namespace ParticleUniverse
 			EXCEPT(Exception::ERR_INVALIDPARAMS, "PU: Cannot find required template '" + templateName + "'", "ParticleSystemManager::createSystem");
 		}
 
-		ParticleSystem* sys = PU_NEW ParticleSystem(name);
+		ParticleSystem* sys = PU_NEW ParticleSystem(id, objectMemoryManager);
         
 		// Copy template settings
 		*sys = *pTemplate;
@@ -1431,8 +1464,8 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	String ParticleSystemFactory::PU_FACTORY_TYPE_NAME = "PUParticleSystem";
 	//-----------------------------------------------------------------------
-	Ogre::MovableObject* ParticleSystemFactory::createInstanceImpl( const String& name, 
-		const Ogre::NameValuePairList* params)
+	Ogre::MovableObject* ParticleSystemFactory::createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+																	const Ogre::NameValuePairList* params)
 	{
 		if (params != 0)
 		{
@@ -1442,12 +1475,12 @@ namespace ParticleUniverse
 				String templateName = ni->second;
 				
 				// Create using manager
-				return ParticleSystemManager::getSingleton()._createSystemImpl(name, templateName);
+				return ParticleSystemManager::getSingleton()._createSystemImpl(templateName, id, objectMemoryManager);
 			}
 		}
 		
 		// Not template based, just create one with the given name
-		return ParticleSystemManager::getSingleton()._createSystemImpl(name);
+		return ParticleSystemManager::getSingleton()._createSystemImpl(id, objectMemoryManager);
 	}
 	//-----------------------------------------------------------------------
 	const String& ParticleSystemFactory::getType(void) const

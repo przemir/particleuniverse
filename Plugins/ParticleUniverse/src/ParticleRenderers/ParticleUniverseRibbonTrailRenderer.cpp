@@ -42,7 +42,7 @@ namespace ParticleUniverse
 	const ColourValue RibbonTrailRenderer::DEFAULT_COLOUR_CHANGE = ColourValue(0.5, 0.5, 0.5, 0.5);
 
 	//-----------------------------------------------------------------------
-	RibbonTrailRenderer::RibbonTrailRenderer(void) : 
+	RibbonTrailRenderer::RibbonTrailRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		ParticleRenderer(),
 		mQuota(0),
 		mTrail(0),
@@ -351,14 +351,6 @@ namespace ParticleUniverse
 		if (mTrail)
 		{
 			mTrail->setMaterialName(materialName);
-		}
-	}
-	//-----------------------------------------------------------------------
-	void RibbonTrailRenderer::_notifyCurrentCamera(Camera* cam)
-	{
-		if (mTrail)
-		{
-			mTrail->_notifyCurrentCamera(cam);
 		}
 	}
 	//-----------------------------------------------------------------------

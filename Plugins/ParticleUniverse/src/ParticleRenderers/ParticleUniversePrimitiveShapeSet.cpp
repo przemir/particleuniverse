@@ -36,7 +36,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	PrimitiveShapeSet::PrimitiveShapeSet(void) :
+	PrimitiveShapeSet::PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
+		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
 		mBoundingRadius(0.0f), 
 		mWorldSpace(false),
 		mCullIndividual(false),
@@ -46,18 +47,7 @@ namespace ParticleUniverse
 		setMaterialName("BaseWhite");
 		mCastShadows = false;
 	}
-	//-----------------------------------------------------------------------
-	PrimitiveShapeSet::PrimitiveShapeSet(const String& name, unsigned int poolSize, bool externalData) :
-		MovableObject(name),
-		mBoundingRadius(0.0f), 
-		mWorldSpace(false),
-		mCullIndividual(false),
-		mZRotated(false),
-		mAllDefaultSize(true)
-	{
-		setMaterialName("BaseWhite");
-		mCastShadows = false;
-	}
+
 	//-----------------------------------------------------------------------
 	PrimitiveShapeSet::~PrimitiveShapeSet(void)
 	{
@@ -86,10 +76,9 @@ namespace ParticleUniverse
 		return mMaterialName;
 	}
 	//-----------------------------------------------------------------------
-	void PrimitiveShapeSet::_notifyCurrentCamera(Camera* cam)
+	void PrimitiveShapeSet::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
     {
-		Ogre::MovableObject::_notifyCurrentCamera(cam);
-		mCurrentCamera = cam;
+		mCurrentCamera = camera;
     }
 	//-----------------------------------------------------------------------
 	const AxisAlignedBox& PrimitiveShapeSet::getBoundingBox(void) const

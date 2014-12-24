@@ -35,7 +35,7 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport SceneDecoratorExtern : public Extern
 	{
 		public:
-			SceneDecoratorExtern(void);
+			SceneDecoratorExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~SceneDecoratorExtern(void) {};
 
 			/** see Extern::_prepare

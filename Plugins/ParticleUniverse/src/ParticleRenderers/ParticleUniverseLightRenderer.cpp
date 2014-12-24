@@ -46,7 +46,7 @@ namespace ParticleUniverse
 	const Real LightRenderer::DEFAULT_POWER_SCALE = 1.0f;
 
 	//-----------------------------------------------------------------------
-	LightRenderer::LightRenderer(void) : 
+	LightRenderer::LightRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		ParticleRenderer(),
 		mLightType(DEFAULT_LIGHT_TYPE),
 		mLightName(BLANK_STRING),

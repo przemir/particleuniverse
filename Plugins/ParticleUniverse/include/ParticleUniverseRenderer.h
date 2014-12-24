@@ -247,9 +247,6 @@ namespace ParticleUniverse
 			/** Sets the material this renderer must use; called by ParticleTechnique. */
 			virtual void _setMaterialName(const String& materialName) = 0;
 
-			/** Delegated to by ParticleTechnique::_notifyCurrentCamera */
-			virtual void _notifyCurrentCamera(Camera* cam) = 0;
-	
 			/** Delegated to by ParticleTechnique::_notifyAttached */
 			virtual void _notifyAttached(Ogre::Node* parent) = 0;
 

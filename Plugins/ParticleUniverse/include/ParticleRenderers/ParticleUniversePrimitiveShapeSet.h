@@ -76,11 +76,7 @@ namespace ParticleUniverse
 		public:
 			/** Default constructor.
 			*/
-			PrimitiveShapeSet(const String& name, unsigned int poolSize = 20, bool externalData = false);
-
-			/** Default constructor.
-			*/
-			PrimitiveShapeSet(void);
+			PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 
 			/** Default destructor.
 			*/
@@ -116,7 +112,7 @@ namespace ParticleUniverse
 			@see
 				MovableObject
 			*/
-			virtual void _notifyCurrentCamera(Camera* cam);
+			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
 			/** Overridden from MovableObject
 			@see

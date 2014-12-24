@@ -33,10 +33,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	SphereRenderer::SphereRenderer(void) : ParticleRenderer()
+	SphereRenderer::SphereRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) : ParticleRenderer()
 	{
 		// Create sphere set
-		mSphereSet = PU_NEW SphereSet("", 0, true);
+		mSphereSet = PU_NEW SphereSet(id, objectMemoryManager, 0, true);
 
 		// World-relative axes
 		mSphereSet->setSpheresInWorldSpace(true);
@@ -141,11 +141,6 @@ namespace ParticleUniverse
 	void SphereRenderer::_setMaterialName(const String& materialName)
 	{
 		mSphereSet->setMaterialName(materialName);
-	}
-	//-----------------------------------------------------------------------
-	void SphereRenderer::_notifyCurrentCamera(Camera* cam)
-	{
-		mSphereSet->_notifyCurrentCamera(cam);
 	}
 	//-----------------------------------------------------------------------
 	void SphereRenderer::_notifyParticleQuota(size_t quota)

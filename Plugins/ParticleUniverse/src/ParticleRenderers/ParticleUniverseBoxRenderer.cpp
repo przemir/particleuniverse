@@ -33,10 +33,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	BoxRenderer::BoxRenderer(void) : ParticleRenderer()
+	BoxRenderer::BoxRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) : ParticleRenderer()
 	{
 		// Create Box set
-		mBoxSet = PU_NEW BoxSet("", 0, true);
+		mBoxSet = PU_NEW BoxSet(id, objectMemoryManager, 0, true);
 
 		// World-relative axes
 		mBoxSet->setBoxesInWorldSpace(true);
@@ -141,11 +141,6 @@ namespace ParticleUniverse
 	void BoxRenderer::_setMaterialName(const String& materialName)
 	{
 		mBoxSet->setMaterialName(materialName);
-	}
-	//-----------------------------------------------------------------------
-	void BoxRenderer::_notifyCurrentCamera(Camera* cam)
-	{
-		mBoxSet->_notifyCurrentCamera(cam);
 	}
 	//-----------------------------------------------------------------------
 	void BoxRenderer::_notifyParticleQuota(size_t quota)

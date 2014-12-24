@@ -77,8 +77,9 @@ namespace ParticleUniverse
 			typedef vector<ParticleSystemListener*>::iterator ParticleSystemListenerIterator;
 			typedef vector<ParticleSystemListener*> ParticleSystemListenerList;
 
-			ParticleSystem(const String& name);
-			ParticleSystem(const String& name, const String& resourceGroupName);
+			ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			ParticleSystem(const String& resourceGroupName, Ogre::IdType id,
+							Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~ParticleSystem(void);
 
 			/** Gets the derived position of the particle system (i.e derived from the parent node, if available).
@@ -175,12 +176,6 @@ namespace ParticleUniverse
 				MovableObject
 			*/
 			void _notifyAttached(Ogre::Node* parent);
-
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
-			inline virtual void _notifyCurrentCamera(Camera* cam);
 
 			/** Overridden from MovableObject
 			@see
