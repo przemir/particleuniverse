@@ -208,8 +208,8 @@ namespace ParticleUniverse
 			// The ScriptTranslatorManager needed to parse the scripts.
 			BuiltinScriptTranslatorManager* mBuiltinScriptTranslatorManager;
 
-			// Memory manager for particle universe template objects
-			Ogre::ObjectMemoryManager mTemplateMemoryManager;
+			// Memory manager for particle universe objects
+			Ogre::ObjectMemoryManager mPUMemoryManager;
 
 		public:
 			// Constructor
@@ -418,11 +418,7 @@ namespace ParticleUniverse
 
 			/** Create a ParticleRenderer.
 	        */
-			ParticleRenderer* createRenderer(const String& rendererType, Ogre::SceneManager* sceneMgr);
-
-			/** Create a ParticleRenderer.
-			*/
-			ParticleRenderer* createRendererTemplate(const String& rendererType);
+			ParticleRenderer* createRenderer(const String& rendererType);
 
 			/** Clone a ParticleRenderer.
 	        */

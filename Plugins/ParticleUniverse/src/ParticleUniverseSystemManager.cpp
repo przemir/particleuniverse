@@ -589,7 +589,7 @@ namespace ParticleUniverse
 		mRendererFactories.erase(it);
 	}
 	//-----------------------------------------------------------------------
-	ParticleRenderer* ParticleSystemManager::createRenderer(const String& rendererType, Ogre::SceneManager* sceneMgr)
+	ParticleRenderer* ParticleSystemManager::createRenderer(const String& rendererType)
 	{
 		// Locate renderer type
 		RendererFactoryMap::iterator it = mRendererFactories.find(rendererType);
@@ -600,23 +600,7 @@ namespace ParticleUniverse
 				"ParticleSystemManager::createRenderer");
 		}
 
-		return it->second->createRenderer(Ogre::Id::generateNewId<Ogre::MovableObject>(),
-			&sceneMgr->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC));
-	}
-	//-----------------------------------------------------------------------
-	ParticleRenderer* ParticleSystemManager::createRendererTemplate(const String& rendererType)
-	{
-		// Locate renderer type
-		RendererFactoryMap::iterator it = mRendererFactories.find(rendererType);
-
-		if (it == mRendererFactories.end())
-		{
-			EXCEPT(Exception::ERR_INVALIDPARAMS, "PU: Cannot find requested renderer type.",
-				"ParticleSystemManager::createRenderer");
-		}
-
-		//Dont want to waist MovableObject id numbers on tempaltes, so just us ParticleRenderer object id
-		return it->second->createRenderer(Ogre::Id::generateNewId<ParticleRenderer>(), &mTemplateMemoryManager);
+        return it->second->createRenderer(Ogre::Id::generateNewId<ParticleRenderer>(), &mPUMemoryManager);
 	}
 	//-----------------------------------------------------------------------
 	ParticleRenderer* ParticleSystemManager::cloneRenderer(ParticleRenderer* renderer)
@@ -696,7 +680,7 @@ namespace ParticleUniverse
 				"ParticleSystemManager::createExtern");
 		}
 
-		return it->second->createExtern();
+		return it->second->createExtern(Ogre::Id::generateNewId<Extern>(), &mPUMemoryManager);
 	}
 	//-----------------------------------------------------------------------
 	Extern* ParticleSystemManager::cloneExtern(Extern* externObject)
@@ -823,7 +807,7 @@ namespace ParticleUniverse
 		//Dont want to waist MovableObject id numbers on tempaltes, so just us ParticleSystem object id
 		ParticleSystem* particleSystemTemplate = PU_NEW ParticleSystem(resourceGroupName,
 																		Ogre::Id::generateNewId<ParticleSystem>(),
-																		&mTemplateMemoryManager);
+																		&mPUMemoryManager);
 		particleSystemTemplate->setName(expName);
 		addParticleSystemTemplate(expName, particleSystemTemplate);
 		mLastCreatedParticleSystemTemplateName = expName;
