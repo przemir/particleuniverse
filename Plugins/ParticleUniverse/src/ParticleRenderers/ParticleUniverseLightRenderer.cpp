@@ -94,11 +94,11 @@ namespace ParticleUniverse
 		// Destroy the Lights. Do it like this, because it must be assured that the light still exists
 		// and has not already been destroyed.
 		Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
-		for (size_t i = 0; i < mQuota; i++)
+		for (size_t i = 0; i < mLights.size() ; i++)
 		{
-			if (sceneManager->hasLight(mLightName + StringConverter::toString(i)))
+			if (sceneManager->hasMovableObject(mLights[i]))
 			{
-				sceneManager->destroyLight(mLightName + StringConverter::toString(i));
+				sceneManager->destroyLight(mLights[i]);
 			}
 		}
 		mLights.clear();

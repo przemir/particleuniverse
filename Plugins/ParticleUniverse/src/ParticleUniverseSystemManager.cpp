@@ -134,7 +134,7 @@ namespace ParticleUniverse
 				String name = childSceneNode->getName();
 				if(name.compare(0, 16, "ParticleUniverse") == 0)
 				{
-					sceneNode->removeAndDestroyChild(name);
+					sceneNode->removeAndDestroyChild(childSceneNode);
 				}
 			}
 		}
@@ -949,7 +949,7 @@ namespace ParticleUniverse
 		}
 
 		// First determine whether the Particle System still exists, before it is really destroyed.
-		if (sceneManager->hasMovableObject(particleSystem->getName(), ParticleSystemFactory::PU_FACTORY_TYPE_NAME))
+		if (sceneManager->hasMovableObject(particleSystem))
 		{
 			sceneManager->destroyMovableObject(particleSystem);
 		}
@@ -961,14 +961,17 @@ namespace ParticleUniverse
 		ParticleSystemMap::iterator i = mParticleSystems.find(particleSystemName);
 		if (i != mParticleSystems.end())
 		{
+			ParticleSystem* ps = i->second;
+
+			// First determine whether the Particle System still exists, before it is really destroyed.
+			if (sceneManager->hasMovableObject(ps))
+			{
+				sceneManager->destroyMovableObject(ps);
+			}
 			mParticleSystems.erase(i);
 		}
 
-		// First determine whether the Particle System still exists, before it is really destroyed.
-		if (sceneManager->hasMovableObject(particleSystemName, ParticleSystemFactory::PU_FACTORY_TYPE_NAME))
-		{
-			sceneManager->destroyMovableObject(particleSystemName, ParticleSystemFactory::PU_FACTORY_TYPE_NAME);
-		}
+
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::destroyAllParticleSystems(Ogre::SceneManager* sceneManager)
@@ -980,7 +983,7 @@ namespace ParticleUniverse
 		while ( t != mParticleSystems.end() )
 		{
 			ParticleSystem* particleSystem = t->second;
-			if (sceneManager->hasMovableObject(particleSystem->getName(), ParticleSystemFactory::PU_FACTORY_TYPE_NAME))
+			if (sceneManager->hasMovableObject(particleSystem))
 			{
 				sceneManager->destroyMovableObject(particleSystem);
 				mParticleSystems.erase( t++ ); // PU 1.4

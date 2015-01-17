@@ -117,18 +117,21 @@ namespace ParticleUniverse
 			{
 				String sceneNodeName;
 				std::stringstream ss; 
-				unsigned short numChilds = parentNode->numChildren();
-				for (unsigned short i = 0; i < numChilds; ++i)
+				std::vector<Ogre::Node*> destroyList;
+				Ogre::Node::NodeVecIterator childItr = parentNode->getChildIterator();
+				while (childItr.hasMoreElements())
 				{
-					Ogre::Node* node = parentNode->getChild(i);
-					if (node)
+					Ogre::Node* node = childItr.getNext();
+					Ogre::String sceneNodeName = node->getName();
+					if (sceneNodeName.find("ParticleUniverse") != Ogre::String::npos)
 					{
-						Ogre::String name = node->getName();
-						if (name.find("ParticleUniverse") != Ogre::String::npos)
-						{
-							parentNode->removeAndDestroyChild(i);
-						}
+						destroyList.push_back(node);
 					}
+				}
+
+				for (unsigned short i = 0; i < destroyList.size(); ++i)
+				{
+					parentNode->removeAndDestroyChild((Ogre::SceneNode*)destroyList[i]);
 				}
 			}
 		} // V1.5
@@ -136,11 +139,11 @@ namespace ParticleUniverse
 		// Destroy the Entities. Do it like this, because it must be assured that the entity still exists
 		// and has not already been destroyed.
 		Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
-		for (size_t i = 0; i < mQuota; i++)
+		for (size_t i = 0; i < mEntities.size(); i++)
 		{
-			if (sceneManager->hasEntity(mEntityName + StringConverter::toString(i)))
+			if (sceneManager->hasMovableObject(mEntities[i]))
 			{
-				sceneManager->destroyEntity(mEntityName + StringConverter::toString(i));
+				sceneManager->destroyEntity(mEntities[i]);
 			}
 		}
 		mEntities.clear();
@@ -224,7 +227,7 @@ namespace ParticleUniverse
 				mEntities.push_back(clonedEntity);
 				(*it)->node->attachObject(clonedEntity);
 			}
-			technique->getParentSystem()->getSceneManager()->destroyEntity(mEntityName);
+			technique->getParentSystem()->getSceneManager()->destroyEntity(entity);
 		}
 
 		_makeNodesVisible(false);

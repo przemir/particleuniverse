@@ -174,9 +174,9 @@ namespace ParticleUniverse
 
 		// Delete the Ribbontrail
 		Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
-		if (mTrail && sceneManager && sceneManager->hasRibbonTrail(mRibbonTrailName))
+		if (mTrail && sceneManager && sceneManager->hasMovableObject(mTrail))
 		{
-			sceneManager->destroyRibbonTrail(mRibbonTrailName);
+			sceneManager->destroyRibbonTrail(mTrail);
 			mTrail = 0;
 		}
 

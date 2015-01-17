@@ -353,9 +353,9 @@ namespace ParticleUniverse
 
 		// Delete the BillboardChain
 		Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
-		if (mBillboardChain && sceneManager && sceneManager->hasBillboardChain(mBillboardChainName))
+		if (mBillboardChain && sceneManager && sceneManager->hasMovableObject(mBillboardChain))
 		{
-			sceneManager->destroyBillboardChain(mBillboardChainName);
+			sceneManager->destroyBillboardChain(mBillboardChain);
 			mBillboardChain = 0;
 		}
 

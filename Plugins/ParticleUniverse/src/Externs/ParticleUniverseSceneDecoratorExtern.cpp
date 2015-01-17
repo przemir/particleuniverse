@@ -119,19 +119,9 @@ namespace ParticleUniverse
 		if (mSubnode && mParentTechnique->getParentSystem())
 		{
 			Ogre::SceneNode* sceneNode = mParentTechnique->getParentSystem()->getParentSceneNode();
-			Ogre::SceneNode::NodeVecIterator it = sceneNode->getChildIterator();
-			unsigned int i = 0;
-			while (it.hasMoreElements()) 
-			{ 
-				Ogre::SceneNode* child = static_cast<Ogre::SceneNode*>(it.getNext());
-				if (child == mSubnode)
-				{
 			mSubnode->detachAllObjects();
-					sceneNode->removeAndDestroyChild(i);
+			sceneNode->removeAndDestroyChild(mSubnode);
 			mSubnode = 0;
-				}
-				++i;
-			}
 
 			destroyEntity();
 		}
@@ -163,7 +153,7 @@ namespace ParticleUniverse
 			Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
 			if (sceneManager)
 			{
-				sceneManager->destroyEntity(mEntityName);
+				sceneManager->destroyEntity(mEntity);
 				mEntity = 0;
 				mEntityName = BLANK_STRING;
 			}
