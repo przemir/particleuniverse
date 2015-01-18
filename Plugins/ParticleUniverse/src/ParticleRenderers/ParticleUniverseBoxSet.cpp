@@ -291,10 +291,6 @@ namespace ParticleUniverse
             mAABB.setExtents(min, max);
 			mBoundingRadius = Math::Sqrt(maxSqLen);
         }
-
-        if (mParentNode)
-            mParentNode->needUpdate();
-
     }
 	//-----------------------------------------------------------------------
 	void BoxSet::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
@@ -311,14 +307,7 @@ namespace ParticleUniverse
 			endBoxes();
 		}
 
-		if( mRenderQueueIDSet )
-		{
-			queue->addRenderable(this, mRenderQueueID);
-		}
-		else
-		{
-			queue->addRenderable(this);
-		}
+		queue->addRenderable(this, mRenderQueueID, mRenderQueuePriority);
 	}
 	//-----------------------------------------------------------------------
 	void BoxSet::getRenderOperation(Ogre::RenderOperation& op)

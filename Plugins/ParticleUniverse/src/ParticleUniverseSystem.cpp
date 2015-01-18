@@ -988,23 +988,18 @@ namespace ParticleUniverse
 			(world)AABB of that pooled technique into account.
 		*/
 
-		/** V 1.4: Bug http://www.fxpression.com/phpBB3/viewtopic.php?f=5&t=438&p=1453#p1453
-			For some reason particle nodes get updated before the 'make particle local' call in the particle technique, and others do not.
-			Some kind of timing issue.  Explicitly calling Node::_update here fixes the problem
-			Note, the patch in the link was to put the code in each technique. It seems more obvious to put it in the particle system itself, so it
-			is updated only once.
+		/** PU is currently updated before the scene graph is updated, but some of the calcs require an up to date world transform.
+			as a result we call _getDerivedPositionUpdated here so all subsequent calls to _getDerivedPosition or _getDerivedOrientation
+			are correct.
 		*/
-		if (isInScene() && getParentNode())
-		{
-			getParentNode()->_update(true, true);
-		}
+		Ogre::Vector3 position = mParentNode->_getDerivedPositionUpdated();
 
 		ParticleTechniqueIterator it;
 		ParticleTechniqueIterator itEnd = mTechniques.end();
 		size_t particlesLeft = 0;
 		bool mAABBUpdate = mParentNode && (mBoundsAutoUpdate || mBoundsUpdateTime > 0.0f);
 		bool merge = mAABBUpdate;
-		AxisAlignedBox worldAABB(mParentNode->_getDerivedPosition(), mParentNode->_getDerivedPosition());
+		AxisAlignedBox worldAABB(position, position);
 		for (it = mTechniques.begin(); it != itEnd; ++it)
 		{
 			if (!(*it)->_isMarkedForEmission())
@@ -1093,10 +1088,6 @@ namespace ParticleUniverse
 			mAABB.setNull();
 		}
 		mBoundingRadius = 0.0;
-		if (mParentNode)
-		{
-			mParentNode->needUpdate();
-		}
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystem::setBoundsAutoUpdated(bool autoUpdate, Real stopIn)

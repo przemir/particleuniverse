@@ -221,7 +221,8 @@ namespace ParticleUniverse
 			size_t j;
 			for (it = mAllVisualData.begin(), j = 0; it != itEnd; ++it, ++j)
 			{
-				Ogre::Entity* clonedEntity = entity->clone(mEntityName + StringConverter::toString(j));
+				Ogre::Entity* clonedEntity = entity->clone();
+				entity->setName(mEntityName + StringConverter::toString(j));
 				clonedEntity->setMaterialName(technique->getMaterialName());
 				clonedEntity->setRenderQueueGroup(mQueueId);
 				mEntities.push_back(clonedEntity);

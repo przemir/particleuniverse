@@ -235,7 +235,7 @@ namespace ParticleUniverse
 				// PU 1.4: No validation on max. texture coordinate because of performance reasons.
 				bb.setTexcoordIndex(particle->textureCoordsCurrent);
 					
-				mBillboardSet->injectBillboard(bb);
+				mBillboardSet->injectBillboard(bb, camera);
 			}
 			
 			particle = static_cast<VisualParticle*>(pool->getNext(Particle::PT_VISUAL));

@@ -45,7 +45,7 @@ namespace ParticleUniverse
 		mAllDefaultSize(true)
 	{
 		setMaterialName("BaseWhite");
-		mCastShadows = false;
+		setCastShadows(false);
 	}
 
 	//-----------------------------------------------------------------------
