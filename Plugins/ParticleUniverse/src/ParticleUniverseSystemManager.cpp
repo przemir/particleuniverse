@@ -1159,6 +1159,8 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::createDepthMap (Camera* camera, Ogre::SceneManager* sceneManager)
 	{
+		//TODO: AL2950: redo depth map (needs a new way for it to be registered, current automatic way will not work properly
+		/*
 		// Don´t recreate the depth map
 		if (mDepthMap || mDepthMapExtern)
 		{
@@ -1261,6 +1263,7 @@ namespace ParticleUniverse
 //			mDebugOverlay->add2D(mDebugPanel);
 //			mDebugOverlay->show();
 //		}
+*/
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::destroyDepthMap (void)
@@ -1391,9 +1394,6 @@ namespace ParticleUniverse
 			(*it)->setVisible(false);
 		}
 
-		// Exclude the overlays
-		mCamera->getViewport()->setOverlaysEnabled(false);
-
 		// Add the DepthMapTargetListener as a RenderableListener to replace the technique for all renderables
 		Ogre::RenderQueue* queue = mSceneManager->getRenderQueue();
 		queue->setRenderableListener(this);
@@ -1412,9 +1412,6 @@ namespace ParticleUniverse
 		// Reset the RenderableListener
 		Ogre::RenderQueue* queue = mSceneManager->getRenderQueue();
 		queue->setRenderableListener(0);
-
-		// Reset the overlays
-		mCamera->getViewport()->setOverlaysEnabled(true);
 	}
 	//-----------------------------------------------------------------------
 	bool DepthMapTargetListener::renderableQueued(Ogre::Renderable* rend, uint8 groupID, ushort priority, Ogre::Technique** ppTech, Ogre::RenderQueue* pQueue)
