@@ -297,7 +297,6 @@ namespace ParticleUniverse
 	void BillboardRenderer::setVisible(bool visible)
 	{
 		ParticleRenderer::setVisible(visible);
-		mBillboardSet->setVisible(visible);
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::copyAttributesTo (ParticleRenderer* renderer)

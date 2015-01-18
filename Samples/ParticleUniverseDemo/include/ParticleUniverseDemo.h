@@ -10,6 +10,7 @@
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 #include <OgreSceneNode.h>
+#include <Compositor\OgreCompositorManager2.h>
 
 using namespace Ogre;
 
@@ -25,18 +26,39 @@ protected:
 	-----------------------------------------------------------------------*/
 	void createScene()
 	{		
-		mSceneMgr = Root::getSingleton().createSceneManager(ST_GENERIC);
+#if OGRE_DEBUG_MODE
+		//Debugging multithreaded code is a PITA, disable it.
+		const size_t numThreads = 1;
+		Ogre::InstancingTheadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
+#else
+		//getNumLogicalCores() may return 0 if couldn't detect
+		const size_t numThreads = std::max<size_t>(1, Ogre::PlatformInformation::getNumLogicalCores());
+
+		Ogre::InstancingTheadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
+
+		//See doxygen documentation regarding culling methods.
+		//In some cases you may still want to use single thread.
+		if (numThreads > 1)
+			threadedCullingMethod = Ogre::INSTANCING_CULLING_THREADED;
+#endif
+		mSceneMgr = Ogre::Root::getSingleton().createSceneManager(Ogre::ST_GENERIC, numThreads, threadedCullingMethod);
 		mCamera = mSceneMgr->createCamera("Camera");
 		mCamera->setPosition(320,0,40);
 		mCamera->lookAt(0,0,-50);
 		mCamera->setFarClipDistance(10000);
 		mCamera->setNearClipDistance(0.1);
-		mViewport = mWindow->addViewport(mCamera);
 
+		Ogre::Root::getSingleton().getCompositorManager2()->createBasicWorkspaceDef("BasicWorkspace",
+		Ogre::ColourValue(0.6f, 0.0f, 0.6f),
+		Ogre::IdString());
+
+		Ogre::Root::getSingleton().getCompositorManager2()->addWorkspace(mSceneMgr, mWindow, mCamera, "BasicWorkspace", true);
 		
 		// setup some basic lighting for our scene
         mSceneMgr->setAmbientLight(ColourValue(0.3, 0.3, 0.3));
-        mSceneMgr->createLight()->setPosition(20, 80, 50);
+		SceneNode* lightNode = mSceneMgr->createSceneNode();
+        lightNode->attachObject(mSceneMgr->createLight());
+		lightNode->setPosition(20, 80, 50);
         
 		// create a skyplane 5000 units away, facing down, 10000 square units large, with 3x texture tiling
         //mSceneMgr->setSkyPlane(true, Plane(0, -1, 0, 5000), "Examples/SpaceSkyPlane", 10000, 3);
