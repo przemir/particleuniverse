@@ -84,11 +84,11 @@ namespace ParticleUniverse
 
 			/** Gets the derived position of the particle system (i.e derived from the parent node, if available).
 	        */
-			virtual const Vector3& getDerivedPosition(void);
+			virtual const Vector3 getDerivedPosition(void);
 
 			/** Gets the derived orientation of the particle system (i.e derived from the parent node, if available).
 	        */
-			virtual const Quaternion& getDerivedOrientation(void) const;
+			virtual const Quaternion getDerivedOrientation(void) const;
 
 			/** Gets the latest orientation of the particle system before update.
 	        */

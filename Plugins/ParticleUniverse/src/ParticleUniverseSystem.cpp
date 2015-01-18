@@ -438,7 +438,7 @@ namespace ParticleUniverse
 		return true;
 	}
 	//-----------------------------------------------------------------------
-	const Vector3& ParticleSystem::getDerivedPosition(void)
+	const Vector3 ParticleSystem::getDerivedPosition(void)
 	{
 		if (mMarkedForEmission)
 		{
@@ -459,7 +459,7 @@ namespace ParticleUniverse
 		return mDerivedPosition;
 	}
 	//-----------------------------------------------------------------------
-	const Quaternion& ParticleSystem::getDerivedOrientation(void) const
+	const Quaternion ParticleSystem::getDerivedOrientation(void) const
 	{
 		if (mMarkedForEmission)
 		{
