@@ -64,7 +64,6 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	ParticleSystem::ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		IElement(),
-		mAABB(),
 		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
 		mSceneManager(0),
 		mTimeController(0),
@@ -109,14 +108,12 @@ namespace ParticleUniverse
 		mAtLeastOneParticleEmitted(false),
 		mLastLodIndex(0)
 	{
-		mBoundingRadius = 1;
 		particleType = PT_SYSTEM;
 	}
 	//-----------------------------------------------------------------------
 	ParticleSystem::ParticleSystem(const String& resourceGroupName, Ogre::IdType id, 
 									Ogre::ObjectMemoryManager *objectMemoryManager) :
 		IElement(),
-		mAABB(),
 		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
 		mSceneManager(0),
 		mTimeController(0),
@@ -161,7 +158,6 @@ namespace ParticleUniverse
 		mAtLeastOneParticleEmitted(false),
 		mLastLodIndex(0)
 	{
-		mBoundingRadius = 1;
 	}
 	//-----------------------------------------------------------------------
 	ParticleSystem::~ParticleSystem(void)
@@ -744,16 +740,6 @@ namespace ParticleUniverse
 		return ParticleSystemFactory::PU_FACTORY_TYPE_NAME;
 	}
 	//-----------------------------------------------------------------------
-	const AxisAlignedBox& ParticleSystem::getBoundingBox(void) const
-	{
-		return mAABB;
-	}
-	//-----------------------------------------------------------------------
-	Real ParticleSystem::getBoundingRadius(void) const
-	{
-		return mBoundingRadius;
-	}
-	//-----------------------------------------------------------------------
 	void ParticleSystem::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera)
 	{
 		mCurrentCamera = camera;
@@ -1049,23 +1035,23 @@ namespace ParticleUniverse
 				if (mTightBoundingBox)
 				{
 					// Wrap the bounding box tight around the particle system
-					mAABB = worldAABB;
-					mAABB.transformAffine(mParentNode->_getFullTransform().inverseAffine());
+					worldAABB.transformAffine(mParentNode->_getFullTransform().inverseAffine());
+
+					//NB at this point worldAABB is actuallyt in local space
+					Ogre::Aabb localBounds(worldAABB.getCenter(), worldAABB.getHalfSize());
+					setLocalAabb(localBounds);
 				}
 				else
 				{
 					// Merge with the current bounding box
 					// Note, that the mAABB must in localspace, so transformation of the worldAABB is required.
-					AxisAlignedBox newAABB(worldAABB);
-					newAABB.transformAffine(mParentNode->_getFullTransform().inverseAffine());
+					worldAABB.transformAffine(mParentNode->_getFullTransform().inverseAffine());
 	
-					// Merge calculated box with current AABB.
-					mAABB.merge(newAABB);
+					// Merge calculated box with current AABB. NB worldAABB is now in local space
+					Ogre::Aabb localBounds(worldAABB.getCenter(), worldAABB.getHalfSize());
+					localBounds.merge(getLocalAabb());
+					setLocalAabb(localBounds);
 				}
-
-				// Update bounding radius
-				Real sqDist = std::max(mAABB.getMinimum().squaredLength(), mAABB.getMaximum().squaredLength());
-				mBoundingRadius = Math::Sqrt(sqDist);
 			}
 			else
 			{
@@ -1083,11 +1069,8 @@ namespace ParticleUniverse
 	void ParticleSystem::_resetBounds(void)
 	{
 		// Reset the bounds to zero
-		if (!mAABB.isNull())
-		{
-			mAABB.setNull();
-		}
-		mBoundingRadius = 0.0;
+		setLocalAabb(Ogre::Aabb::BOX_NULL);
+
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystem::setBoundsAutoUpdated(bool autoUpdate, Real stopIn)
@@ -1371,7 +1354,7 @@ namespace ParticleUniverse
 		mBoundsUpdateTime = mOriginalBoundsUpdateTime;
 		ParticleTechniqueIterator it;
 		ParticleTechniqueIterator itEnd = mTechniques.end();
-		mAABB.setExtents(0, 0, 0, 0, 0, 0);
+		setLocalAabb(Ogre::Aabb::BOX_ZERO);
 		mFastForwardSet = mOriginalFastForwardSet;
 		position = Vector3::ZERO;
 		mDerivedPosition = Vector3::ZERO;

@@ -187,18 +187,6 @@ namespace ParticleUniverse
 			@see
 				MovableObject
 			*/
-			const AxisAlignedBox& getBoundingBox(void) const;
-
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
-			virtual Real getBoundingRadius(void) const;
-			
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
 			inline virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
 			/** Overridden from MovableObject
@@ -554,9 +542,6 @@ namespace ParticleUniverse
 				Possible states are started, stopped, paused and resumed.
 			*/
 			ParticleSystemState mState;
-
-			AxisAlignedBox mAABB;
-			Real mBoundingRadius;
 
 			/*	ParticleTechniques that are part of this ParticleSystem.
 			*/
