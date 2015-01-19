@@ -175,7 +175,6 @@ namespace ParticleUniverse
 	void BoxRenderer::setVisible(bool visible)
 	{
 		ParticleRenderer::setVisible(visible);
-		mBoxSet->setVisible(visible);
 	}
 	//-----------------------------------------------------------------------
 	void BoxRenderer::copyAttributesTo (ParticleRenderer* renderer)

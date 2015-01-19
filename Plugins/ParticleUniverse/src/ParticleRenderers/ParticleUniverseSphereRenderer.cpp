@@ -175,7 +175,6 @@ namespace ParticleUniverse
 	void SphereRenderer::setVisible(bool visible)
 	{
 		ParticleRenderer::setVisible(visible);
-		mSphereSet->setVisible(visible);
 	}
 	//-----------------------------------------------------------------------
 	void SphereRenderer::copyAttributesTo (ParticleRenderer* renderer)

@@ -196,7 +196,6 @@ namespace ParticleUniverse
 			mBillboardChain->setTextureCoordDirection(mTexCoordDirection);
 			setUseVertexColours(mUseVertexColours);
 			mBillboardChain->setOtherTextureCoordRange(0.0f, 1.0f);
-			mBillboardChain->setVisible(true);
 
 			// Create number of VisualData objects
 			for (size_t i = 0; i < mQuota; i++)
