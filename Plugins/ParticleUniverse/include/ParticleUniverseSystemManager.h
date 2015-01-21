@@ -55,6 +55,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <OgreRenderQueue.h>
 #include <Math/Array/OgreObjectMemoryManager.h>
+#include <OgreFrameListener.h>
 
 namespace ParticleUniverse
 {
@@ -92,7 +93,7 @@ namespace ParticleUniverse
 		responsible for actually creating techniques, emitters, observers, etc.
 	*/
 	class _ParticleUniverseExport ParticleSystemManager:
-		public Singleton<ParticleSystemManager>, public ScriptWriter
+		public Singleton<ParticleSystemManager>, public ScriptWriter, public Ogre::FrameListener
     {
 		friend class ParticleSystemFactory;
 
@@ -191,6 +192,7 @@ namespace ParticleUniverse
 			bool mAutoLoadMaterials;
 
 			// Attributes used for creation of a depth map.
+			static const String PU_DEPTH_MAP_COMP_NAME; //name of node & workspace definitions
 			DepthMapTargetListener mDepthMapTargetListener;
 			String mDepthTextureName;
 			String mDepthMaterialName;
@@ -201,6 +203,10 @@ namespace ParticleUniverse
 			Ogre::Pass* mDepthPass;
 			bool mDepthMapExtern;
 			Real mDepthScale;
+			Ogre::Camera* mDepthMapCamera;
+			Ogre::SceneManager* mDepthMapSceneMgr;
+			bool mEnableDepthWorspace;
+			Ogre::CompositorWorkspace* mDepthMapWorkspace;
 
 			// Name of the last created template.
 			String mLastCreatedParticleSystemTemplateName;
@@ -678,6 +684,10 @@ namespace ParticleUniverse
 				This function gives more control over loading the materials.
 	        */
 			void setAutoLoadMaterials(bool autoLoadMaterials);
+
+			/** Ogre::FrameListener function
+			*/
+			bool frameEnded(const Ogre::FrameEvent& evt);
 	};
 
 	//-----------------------------------------------------------------------

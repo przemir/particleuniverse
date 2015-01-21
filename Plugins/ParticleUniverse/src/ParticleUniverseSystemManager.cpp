@@ -38,10 +38,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "OgreViewport.h"
 #include "OgreTextureManager.h"
 #include "OgreTechnique.h"
+#include "Compositor\OgreCompositorManager2.h"
+#include "Compositor/OgreCompositorNode.h"
+#include "Compositor/OgreCompositorNodeDef.h"
+#include "Compositor/OgreCompositorWorkspace.h"
+#include "Compositor/OgreCompositorWorkspaceDef.h"
+#include "Compositor/Pass/PassClear/OgreCompositorPassClearDef.h"
+#include "Compositor/Pass/PassScene/OgreCompositorPassSceneDef.h"
 
 template<> ParticleUniverse::ParticleSystemManager* Ogre::Singleton<ParticleUniverse::ParticleSystemManager>::msSingleton = 0;
 namespace ParticleUniverse
 {
+	const String ParticleSystemManager::PU_DEPTH_MAP_COMP_NAME = "ParticleUniverseDepthMap";
+
 	ParticleSystemManager::ParticleSystemManager (void) :
 		mDepthTextureName(BLANK_STRING),
 		mDepthMaterialName(BLANK_STRING),
@@ -53,7 +62,11 @@ namespace ParticleUniverse
 		mDepthPass(0),
 		mDepthMapExtern(false),
 		mAutoLoadMaterials(true),
-		mDepthScale(1.0f)
+		mDepthScale(1.0f),
+		mEnableDepthWorspace(false),
+		mDepthMapCamera(0),
+		mDepthMapWorkspace(0),
+		mDepthMapSceneMgr(0)
 	{
 		// Initialise script deserialisation
 		ScriptCompilerManager::getSingleton().addScriptPattern("*.pua");
@@ -74,7 +87,7 @@ namespace ParticleUniverse
 		mSphereSetFactory = PU_NEW SphereSetFactory();
 		Ogre::Root::getSingleton().addMovableObjectFactory(mSphereSetFactory);
 
-
+		Ogre::Root::getSingleton().addFrameListener(this);
 	}
 	//-----------------------------------------------------------------------
 	ParticleSystemManager::~ParticleSystemManager (void)
@@ -120,6 +133,8 @@ namespace ParticleUniverse
 			PU_DELETE mSphereSetFactory;
 			mSphereSetFactory = 0;
 		}
+
+		Ogre::Root::getSingleton().removeFrameListener(this);
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::removeAndDestroyDanglingSceneNodes(Ogre::SceneNode* sceneNode)
@@ -1159,15 +1174,16 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::createDepthMap (Camera* camera, Ogre::SceneManager* sceneManager)
 	{
-		//TODO: AL2950: redo depth map (needs a new way for it to be registered, current automatic way will not work properly
-		/*
 		// Don´t recreate the depth map
 		if (mDepthMap || mDepthMapExtern)
 		{
+			mEnableDepthWorspace = true;
 			return;
 		}
 
 		// Create a RenderTexture and material if not available already
+		// NB We make a massive assumption, in that the last viewport used by the camera is the main camera
+		// TODO: AL2950, fix the above assumption!
 		if (mDepthTextureName.empty())
 		{
 			std::stringstream ss1;
@@ -1176,14 +1192,15 @@ namespace ParticleUniverse
 			Ogre::TexturePtr depthTexturePtr = Ogre::TextureManager::getSingleton().createManual(mDepthTextureName, 
 				Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
 				Ogre::TEX_TYPE_2D, 
-				camera->getViewport()->getActualWidth(), 
-				camera->getViewport()->getActualHeight(),
+				camera->getLastViewport()->getActualWidth(), 
+				camera->getLastViewport()->getActualHeight(),
 				0, 
 //				Ogre::PF_FLOAT16_R, 
 				Ogre::PF_R8G8B8A8, 
 				Ogre::TU_RENDERTARGET);
 		}
 
+		//setup up the material for soft particles
 		if (mDepthMaterialName.empty())
 		{
 			// Create a vertex and fragment program (hlsl)
@@ -1231,15 +1248,12 @@ namespace ParticleUniverse
 			vertexParams->setNamedConstant("depthScale", mDepthScale);
 		}
 
-		// Set depth map
+		// Set depth map listener
 		Ogre::TexturePtr depthTexturePtr = Ogre::TextureManager::getSingleton().getByName(mDepthTextureName);
 		if (!depthTexturePtr.isNull())
 		{
 			mDepthMap = depthTexturePtr->getBuffer()->getRenderTarget();
-			Ogre::Viewport* viewport = mDepthMap->addViewport(camera);
-			viewport->setBackgroundColour(ColourValue::Black);
 			mDepthMap->addListener(&mDepthMapTargetListener);
-			mDepthMap->setAutoUpdated(true);
 
 			// Set attributes to the target listener
 			mDepthMapTargetListener.mSceneManager = sceneManager;
@@ -1247,6 +1261,46 @@ namespace ParticleUniverse
 			mDepthMapTargetListener.mCamera = camera;
 			mDepthMapTargetListener.mDepthMap = mDepthMap;
 		}
+
+		//setup up the workspace to manage this RTT
+		Ogre::CompositorManager2* compMgr = Ogre::Root::getSingleton().getCompositorManager2();
+		if (!compMgr->hasNodeDefinition(PU_DEPTH_MAP_COMP_NAME))
+		{
+			Ogre::CompositorNodeDef* depthMapDef = compMgr->addNodeDefinition(PU_DEPTH_MAP_COMP_NAME);
+			depthMapDef->addTextureSourceName( "rt_input", 0, Ogre::TextureDefinitionBase::TEXTURE_INPUT);
+			depthMapDef->setNumTargetPass(2);
+			{
+				Ogre::CompositorTargetDef *targetDef = depthMapDef->addTargetPass( "rt_input" );
+
+				{
+					Ogre::CompositorPassClearDef *passClear;
+					passClear = static_cast<Ogre::CompositorPassClearDef*>( targetDef->addPass( Ogre::PASS_CLEAR ) );
+					passClear->mColourValue = Ogre::ColourValue::White;
+				}
+			}
+			{
+				Ogre::CompositorTargetDef *targetDef = depthMapDef->addTargetPass( "rt_input" );
+
+				{
+					Ogre::CompositorPassSceneDef *passScene;
+					passScene = static_cast<Ogre::CompositorPassSceneDef*>( targetDef->addPass( Ogre::PASS_SCENE ) );
+					passScene->mIncludeOverlays = false;
+				}
+			}			
+		}
+
+		if (!compMgr->hasWorkspaceDefinition(PU_DEPTH_MAP_COMP_NAME))
+		{
+			Ogre::CompositorWorkspaceDef *workspaceDef = compMgr->addWorkspaceDefinition(
+																					PU_DEPTH_MAP_COMP_NAME );
+			workspaceDef->connectOutput( PU_DEPTH_MAP_COMP_NAME, 0 );
+		}
+
+		// This function can be called half way through a renderer, so we have to request for the workspace to be
+		// enabled after the render has finished, otherwise Ogre compsitor will get angry!
+		mEnableDepthWorspace = true;
+		mDepthMapCamera = camera;
+		mDepthMapSceneMgr = sceneManager;
 
 		// Set debug overlay for testing purposes (uncomment if you want to view the depth map in the debug overlay)
 //		if (!mDebugOverlay)
@@ -1263,7 +1317,6 @@ namespace ParticleUniverse
 //			mDebugOverlay->add2D(mDebugPanel);
 //			mDebugOverlay->show();
 //		}
-*/
 	}
 	//-----------------------------------------------------------------------
 	void ParticleSystemManager::destroyDepthMap (void)
@@ -1273,6 +1326,7 @@ namespace ParticleUniverse
 		{
 			mDepthMap->removeAllListeners();
 			mDepthMap->removeAllViewports();
+			mDepthMapWorkspace->setEnabled(false);
 			mDepthMap = 0;
 		}
 	}
@@ -1382,10 +1436,37 @@ namespace ParticleUniverse
 		mAutoLoadMaterials = autoLoadMaterials;
 	}
 	//-----------------------------------------------------------------------
+	bool ParticleSystemManager::frameEnded(const Ogre::FrameEvent& evt)
+	{
+		//if depthMap has been requested but workspace is not enabled, enabled it
+		if (mEnableDepthWorspace)
+		{
+			Ogre::CompositorManager2* compMgr = Ogre::Root::getSingleton().getCompositorManager2();
+			if (!mDepthMapWorkspace)
+			{
+				Ogre::TexturePtr depthTexturePtr = Ogre::TextureManager::getSingleton().getByName(mDepthTextureName);
+				Ogre::CompositorChannel channel;
+				channel.target = depthTexturePtr->getBuffer(0)->getRenderTarget(); //Any of the render targets will do
+				channel.textures.push_back( depthTexturePtr );
+				//finally add workspace, enable it, and make sure it is the first workspace added
+				mDepthMapWorkspace = compMgr->addWorkspace( mDepthMapSceneMgr, channel, mDepthMapCamera,
+											PU_DEPTH_MAP_COMP_NAME, true, 0);
+			}
+			else
+			{
+				mDepthMapWorkspace->setEnabled(true);
+			}
+
+			mEnableDepthWorspace = false;
+		}
+		return true;
+	}
+	//-----------------------------------------------------------------------
 	//-----------------------------------------------------------------------
 	//-----------------------------------------------------------------------
 	void DepthMapTargetListener::preViewportUpdate(const Ogre::RenderTargetViewportEvent& evt)
 	{
+		// TODO: AL2950 It would be better to set viewport visibility instead of hiding/showing particles every time
 		// Exclude the particle system renderers that renders soft particles, by setting visibility to false
 		vector<ParticleRenderer*>::iterator it;
 		vector<ParticleRenderer*>::iterator itEnd = mRenderers.end();
