@@ -29,12 +29,12 @@ protected:
 #if OGRE_DEBUG_MODE
 		//Debugging multithreaded code is a PITA, disable it.
 		const size_t numThreads = 1;
-		Ogre::InstancingTheadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
+		Ogre::InstancingThreadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
 #else
 		//getNumLogicalCores() may return 0 if couldn't detect
 		const size_t numThreads = std::max<size_t>(1, Ogre::PlatformInformation::getNumLogicalCores());
 
-		Ogre::InstancingTheadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
+		Ogre::InstancingThreadedCullingMethod threadedCullingMethod = Ogre::INSTANCING_CULLING_SINGLETHREAD;
 
 		//See doxygen documentation regarding culling methods.
 		//In some cases you may still want to use single thread.
@@ -65,11 +65,41 @@ protected:
 
 		// Create the particle systems and attach them to a SceneNode
 		ParticleUniverse::ParticleSystemManager* pManager = ParticleUniverse::ParticleSystemManager::getSingletonPtr();
+
+		//billboard renderer
 		ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys1", "mp_torch", mSceneMgr);
 		ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys2", "mp_torch", mSceneMgr);
+
+
+		//beam renderer
+		//ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys2", "example_003", mSceneMgr);
+		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys3", "example_003", mSceneMgr);
+
+
+		//Ribbon renderer
+		//ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys4", "example_022", mSceneMgr);
+		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys5", "example_022", mSceneMgr);
+
+		//Box renderer
+		//ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys6", "example_006", mSceneMgr);
+		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys7", "example_006", mSceneMgr);
+
+		//Sphere Renderer
+		//ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys8", "atomicity", mSceneMgr);
+		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys9", "atomicity", mSceneMgr);
+
+		//Entity Renderer
+		//ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys10", "example_027", mSceneMgr);
+		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys11", "example_027", mSceneMgr);
+
+		//light Renderer
+		//ParticleUniverse::ParticleSystem* pSys1 = pManager->createParticleSystem("pSys12", "example_032", mSceneMgr);
+		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys13", "example_032", mSceneMgr);
+
+
 		mSceneMgr->getRootSceneNode()->attachObject(pSys1);
 		mSceneMgr->getRootSceneNode()->attachObject(pSys2);
-
+		
 		// Scale the particle systems, just because we can!
 		pSys1->setScaleVelocity(10);
 		pSys1->setScale(Ogre::Vector3(10, 10, 10));
