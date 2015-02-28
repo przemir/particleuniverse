@@ -93,12 +93,7 @@ namespace ParticleUniverse
 		Vector3 newMin = position - vecAdjust;
 		Vector3 newMax = position + vecAdjust;
 
-        mAABB.merge(newMin);
-        mAABB.merge(newMax);
-
-		Real sqlen = std::max(newMin.squaredLength(), newMax.squaredLength());
-		mBoundingRadius = std::max(mBoundingRadius, Math::Sqrt(sqlen));
-
+		setLocalAabb(Ogre::Aabb::newFromExtents(newMin, newMax));
         return newBox;
 	}
 	//-----------------------------------------------------------------------
@@ -253,8 +248,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void BoxSet::setBounds(const AxisAlignedBox& box, Real radius)
 	{
-		mAABB = box;
-		mBoundingRadius = radius;
+		setLocalAabb(Ogre::Aabb(box.getCenter(), box.getHalfSize()));
 	}
     //-----------------------------------------------------------------------
     void BoxSet::_updateBounds(void)
@@ -262,13 +256,10 @@ namespace ParticleUniverse
         if (mActiveBoxes.empty())
         {
             // No boxes
-            mAABB.setNull();
-			mBoundingRadius = 0.0f;
+			setLocalAabb(Ogre::Aabb::BOX_NULL);
         }
         else
         {
-			Real maxSqLen = -1.0f;
-
             Vector3 min(Math::POS_INFINITY, Math::POS_INFINITY, Math::POS_INFINITY);
             Vector3 max(Math::NEG_INFINITY, Math::NEG_INFINITY, Math::NEG_INFINITY);
             ActiveBoxList::iterator i, iend;
@@ -279,8 +270,6 @@ namespace ParticleUniverse
                 const Vector3& pos = (*i)->getPosition();
                 min.makeFloor(pos);
                 max.makeCeil(pos);
-
-				maxSqLen = std::max(maxSqLen, pos.squaredLength());
             }
 
 			Real adjust = std::max(mDefaultWidth, mDefaultHeight);
@@ -288,8 +277,7 @@ namespace ParticleUniverse
             min -= vecAdjust;
             max += vecAdjust;
 
-            mAABB.setExtents(min, max);
-			mBoundingRadius = Math::Sqrt(maxSqLen);
+			setLocalAabb(Ogre::Aabb::newFromExtents(min, max));
         }
     }
 	//-----------------------------------------------------------------------

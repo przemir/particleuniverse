@@ -1358,6 +1358,11 @@ namespace ParticleUniverse
 		mFastForwardSet = mOriginalFastForwardSet;
 		position = Vector3::ZERO;
 		mDerivedPosition = Vector3::ZERO;
+
+		//make sure parent node trasform is up to date 
+		//TODO: This is a bit rubbish and should be sorted! 
+		if (mParentNode)
+			mParentNode->_getDerivedPositionUpdated();
 		latestPosition = getDerivedPosition();
 		mLatestOrientation = getDerivedOrientation(); // Added for 1.3 (orientation not pr)
 		mEnabled = true;

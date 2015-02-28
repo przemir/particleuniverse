@@ -96,10 +96,8 @@ namespace ParticleUniverse
         Vector3 vecAdjust(mDefaultRadius, mDefaultRadius, mDefaultRadius);
 		Vector3 newMin = position - vecAdjust;
 		Vector3 newMax = position + vecAdjust;
-        mAABB.merge(newMin);
-        mAABB.merge(newMax);
-		mBoundingRadius = std::max(mBoundingRadius, mDefaultRadius);
 
+		setLocalAabb(Ogre::Aabb::newFromExtents(newMin, newMax));
 		return newSphere;
 	}
 	//-----------------------------------------------------------------------
@@ -256,8 +254,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void SphereSet::setBounds(const AxisAlignedBox& box, Real radius)
 	{
-		mAABB = box;
-		mBoundingRadius = radius;
+		setLocalAabb(Ogre::Aabb(box.getCenter(), box.getHalfSize()));
 	}
     //-----------------------------------------------------------------------
     void SphereSet::_updateBounds(void)
@@ -265,8 +262,7 @@ namespace ParticleUniverse
         if (mActiveSpheres.empty())
         {
             // No spheres
-            mAABB.setNull();
-			mBoundingRadius = 0.0f;
+			setLocalAabb(Ogre::Aabb::BOX_NULL);
         }
         else
         {
@@ -290,8 +286,7 @@ namespace ParticleUniverse
             min -= vecAdjust;
             max += vecAdjust;
 
-            mAABB.setExtents(min, max);
-			mBoundingRadius = Math::Sqrt(maxSqLen);
+			setLocalAabb(Ogre::Aabb::newFromExtents(min, max));
         }
     }
 	//-----------------------------------------------------------------------

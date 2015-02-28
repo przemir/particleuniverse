@@ -76,18 +76,6 @@ namespace ParticleUniverse
 			@see
 				MovableObject
 			*/
-			const AxisAlignedBox& getBoundingBox(void) const;
-
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
-			virtual Real getBoundingRadius(void) const;
-			
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
 			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
 			/** @see MovableObject
@@ -114,8 +102,6 @@ namespace ParticleUniverse
 				Real timeElapsed);
 
 		protected:
-			AxisAlignedBox mAABB;
-			Real mBoundingRadius;
 			Real mDistanceThreshold;
 			bool mDistanceThresholdSet;
 	};

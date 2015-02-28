@@ -38,7 +38,6 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	PrimitiveShapeSet::PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
-		mBoundingRadius(0.0f), 
 		mWorldSpace(false),
 		mCullIndividual(false),
 		mZRotated(false),
@@ -81,11 +80,6 @@ namespace ParticleUniverse
 		mCurrentCamera = camera;
     }
 	//-----------------------------------------------------------------------
-	const AxisAlignedBox& PrimitiveShapeSet::getBoundingBox(void) const
-	{
-		return mAABB;
-	}
-	//-----------------------------------------------------------------------
 	const Ogre::MaterialPtr& PrimitiveShapeSet::getMaterial(void) const
 	{
 		return mpMaterial;
@@ -106,16 +100,6 @@ namespace ParticleUniverse
 		{
 			*xform = _getParentNodeFullTransform();
 		}
-	}
-	//-----------------------------------------------------------------------
-    const Quaternion& PrimitiveShapeSet::getWorldOrientation(void) const
-	{
-		return mParentNode->_getDerivedOrientation();
-	}
-	//-----------------------------------------------------------------------
-	const Vector3& PrimitiveShapeSet::getWorldPosition(void) const
-	{
-		return mParentNode->_getDerivedPosition();
 	}
 	//-----------------------------------------------------------------------
 	void PrimitiveShapeSet::setZRotated(bool zRotated)
@@ -185,11 +169,6 @@ namespace ParticleUniverse
 	{
 		assert(mParentNode);
 		return mParentNode->getSquaredViewDepth(cam);
-	}
-	//-----------------------------------------------------------------------
-	Real PrimitiveShapeSet::getBoundingRadius(void) const
-	{
-		return mBoundingRadius;
 	}
 	//-----------------------------------------------------------------------
 	const Ogre::LightList& PrimitiveShapeSet::getLights(void) const

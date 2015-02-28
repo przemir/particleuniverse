@@ -97,8 +97,11 @@ protected:
 		//ParticleUniverse::ParticleSystem* pSys2 = pManager->createParticleSystem("pSys13", "example_032", mSceneMgr);
 
 
-		mSceneMgr->getRootSceneNode()->attachObject(pSys1);
-		mSceneMgr->getRootSceneNode()->attachObject(pSys2);
+		Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+		node->attachObject(pSys1);
+		node->attachObject(pSys2);
+
+		node->translate(Ogre::Vector3(0, 0, -300));
 		
 		// Scale the particle systems, just because we can!
 		pSys1->setScaleVelocity(10);

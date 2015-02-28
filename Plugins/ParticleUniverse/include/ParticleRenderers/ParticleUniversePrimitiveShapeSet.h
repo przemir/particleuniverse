@@ -37,14 +37,6 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport PrimitiveShapeSet : public Ogre::MovableObject, public Ogre::Renderable
 	{
 		protected:
-			/** Bounds of all billboards in this set
-			*/
-			AxisAlignedBox mAABB;
-		
-			/** Bounding radius
-			*/
-			Real mBoundingRadius;
-
 			/** Name of the material to use
 			*/
 			String mMaterialName;
@@ -114,35 +106,17 @@ namespace ParticleUniverse
 			*/
 			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
-			/** Overridden from MovableObject
+			/** Overridden from Renderable
 			@see
-				MovableObject
-			*/
-			virtual const AxisAlignedBox& getBoundingBox(void) const;
-
-			/** Overridden from MovableObject
-			@see
-				MovableObject
-			*/
-			virtual Real getBoundingRadius(void) const;
-
-			/** Overridden from MovableObject
-			@see
-				MovableObject
+				Renderable
 			*/
 			virtual const Ogre::MaterialPtr& getMaterial(void) const;
 
-			/** Overridden from MovableObject
+			/** Overridden from Renderable
 			@see
-				MovableObject
+				Renderable
 			*/
 			virtual void getWorldTransforms(Ogre::Matrix4* xform) const;
-
-			/** @copydoc Renderable::getWorldOrientation */
-			virtual const Quaternion& getWorldOrientation(void) const;
-
-			/** @copydoc Renderable::getWorldPosition */
-			virtual const Vector3& getWorldPosition(void) const;
 
 			/** Returns whether or not primitive shapes in this primitive shapeset are tested individually for culling.
 			*/

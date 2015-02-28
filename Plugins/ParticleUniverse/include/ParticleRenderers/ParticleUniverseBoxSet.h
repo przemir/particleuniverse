@@ -262,9 +262,9 @@ namespace ParticleUniverse
 			*/
 			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
-			/** Overridden from MovableObject
+			/** Overridden from Renderable
 			@see
-				MovableObject
+				Renderable
 			*/
 			virtual void getRenderOperation(Ogre::RenderOperation& op);
 

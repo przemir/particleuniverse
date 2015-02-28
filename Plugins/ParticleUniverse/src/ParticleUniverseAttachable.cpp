@@ -37,12 +37,10 @@ namespace ParticleUniverse
 	Attachable::Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		Extern(),
 		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
-		mAABB(),
 		mDistanceThreshold(std::numeric_limits<float>::max()),
 		mDistanceThresholdSet(false)
 	{
 		// The Movableobject name is auto generated to prevent a clash in Ogre
-		mBoundingRadius = 1;
 		std::stringstream ss; 
 		ss << this;
 		MovableObject::mName = "PUExtern" + ss.str();
@@ -56,16 +54,6 @@ namespace ParticleUniverse
 	const String& Attachable::getMovableType(void) const
 	{
 		return PU_ATTACHABLE;
-	}
-	//-----------------------------------------------------------------------
-	const AxisAlignedBox& Attachable::getBoundingBox(void) const
-	{
-		return mAABB;
-	}
-	//-----------------------------------------------------------------------
-	Real Attachable::getBoundingRadius(void) const
-	{
-		return mBoundingRadius;
 	}
 	//-----------------------------------------------------------------------
 	const Real Attachable::getDistanceThreshold(void) const
