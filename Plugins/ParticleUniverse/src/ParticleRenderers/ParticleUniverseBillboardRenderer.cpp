@@ -35,8 +35,8 @@ namespace ParticleUniverse
 	// Constants
 	const BillboardRenderer::BillboardType BillboardRenderer::DEFAULT_BILLBOARD_TYPE = BillboardRenderer::BBT_POINT;
 	const bool BillboardRenderer::DEFAULT_ACCURATE_FACING = false;
-	const Ogre::BillboardOrigin BillboardRenderer::DEFAULT_ORIGIN = Ogre::BBO_CENTER;
-	const Ogre::BillboardRotationType BillboardRenderer::DEFAULT_ROTATION_TYPE = Ogre::BBR_TEXCOORD;
+	const Ogre::v1::BillboardOrigin BillboardRenderer::DEFAULT_ORIGIN = Ogre::v1::BBO_CENTER;
+	const Ogre::v1::BillboardRotationType BillboardRenderer::DEFAULT_ROTATION_TYPE = Ogre::v1::BBR_TEXCOORD;
 	const Vector3 BillboardRenderer::DEFAULT_COMMON_DIRECTION(0, 0, 1);
 	const Vector3 BillboardRenderer::DEFAULT_COMMON_UP_VECTOR(0, 1, 0);
 	const bool BillboardRenderer::DEFAULT_POINT_RENDERING = false;
@@ -46,7 +46,7 @@ namespace ParticleUniverse
 		ParticleRenderer(),
 		mBillboardType(DEFAULT_BILLBOARD_TYPE)
 	{
-		mBillboardSet = PU_NEW Ogre::BillboardSet(id, objectMemoryManager, 0, true);
+		mBillboardSet = PU_NEW Ogre::v1::BillboardSet(id, objectMemoryManager, 0, true);
 		mBillboardSet->setBillboardsInWorldSpace(true);
 		autoRotate = false;
 	}
@@ -105,27 +105,27 @@ namespace ParticleUniverse
 		switch (bbt)
 		{
 			case BBT_POINT:
-				mBillboardSet->setBillboardType(Ogre::BBT_POINT);
+				mBillboardSet->setBillboardType(Ogre::v1::BBT_POINT);
 				break;
 
 			case BBT_ORIENTED_COMMON:
-				mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_COMMON);
+				mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_COMMON);
 				break;
 
 			case BBT_ORIENTED_SELF:
-				mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_SELF);
+				mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_SELF);
 				break;
 
 			case BBT_ORIENTED_SHAPE:
-				mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_SELF);
+				mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_SELF);
 				break;
 
 			case BBT_PERPENDICULAR_COMMON:
-				mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_COMMON);
+				mBillboardSet->setBillboardType(Ogre::v1::BBT_PERPENDICULAR_COMMON);
 				break;
 
 			case BBT_PERPENDICULAR_SELF:
-				mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_SELF);
+				mBillboardSet->setBillboardType(Ogre::v1::BBT_PERPENDICULAR_SELF);
 				break;
 		}
 	}
@@ -145,12 +145,12 @@ namespace ParticleUniverse
 		return mBillboardSet->getUseAccurateFacing();
 	}
 	//-----------------------------------------------------------------------
-	void BillboardRenderer::setBillboardRotationType(Ogre::BillboardRotationType rotationType)
+	void BillboardRenderer::setBillboardRotationType(Ogre::v1::BillboardRotationType rotationType)
 	{
 		mBillboardSet->setBillboardRotationType(rotationType);
 	}
 	//-----------------------------------------------------------------------
-	Ogre::BillboardRotationType BillboardRenderer::getBillboardRotationType(void) const
+	Ogre::v1::BillboardRotationType BillboardRenderer::getBillboardRotationType(void) const
 	{
 		return mBillboardSet->getBillboardRotationType();
 	}

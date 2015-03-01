@@ -222,11 +222,11 @@ namespace ParticleUniverse
 
 			mLockPtr = static_cast<float*>(
 				mMainBuf->lock(0, numBoxes * boxSize, 
-				Ogre::HardwareBuffer::HBL_DISCARD));
+				Ogre::v1::HardwareBuffer::HBL_DISCARD));
 		}
 		else // lock the entire thing
 			mLockPtr = static_cast<float*>(
-				mMainBuf->lock(Ogre::HardwareBuffer::HBL_DISCARD) );
+			mMainBuf->lock(Ogre::v1::HardwareBuffer::HBL_DISCARD));
 	}
 	//-----------------------------------------------------------------------
 	void BoxSet::injectBox(Box& box)
@@ -298,11 +298,11 @@ namespace ParticleUniverse
 		queue->addRenderable(this, mRenderQueueID, mRenderQueuePriority);
 	}
 	//-----------------------------------------------------------------------
-	void BoxSet::getRenderOperation(Ogre::RenderOperation& op)
+	void BoxSet::getRenderOperation(Ogre::v1::RenderOperation& op)
 	{
 		op.vertexData = mVertexData;
 		op.vertexData->vertexStart = 0;
-		op.operationType = Ogre::RenderOperation::OT_TRIANGLE_LIST;
+		op.operationType = Ogre::v1::RenderOperation::OT_TRIANGLE_LIST;
 		op.useIndexes = true;
 		op.vertexData->vertexCount = mNumVisibleBoxes * 16;
 		op.indexData = mIndexData;
@@ -344,46 +344,46 @@ namespace ParticleUniverse
 	void BoxSet::_createBuffers(void)
 	{
 		// Create vertex buffer
-		mVertexData = PU_NEW Ogre::VertexData();
+		mVertexData = PU_NEW Ogre::v1::VertexData();
 		mVertexData->vertexCount = mPoolSize * 16;
 
         mVertexData->vertexStart = 0;
-		Ogre::VertexDeclaration* decl = mVertexData->vertexDeclaration;
-		Ogre::VertexBufferBinding* binding = mVertexData->vertexBufferBinding;
+		Ogre::v1::VertexDeclaration* decl = mVertexData->vertexDeclaration;
+		Ogre::v1::VertexBufferBinding* binding = mVertexData->vertexBufferBinding;
 
 		// Create Vertices, Colour and Texture Coordinates
 		size_t offset = 0;
 		decl->addElement(0, offset, Ogre::VET_FLOAT3, Ogre::VES_POSITION);
-		offset += Ogre::VertexElement::getTypeSize(Ogre::VET_FLOAT3);
+		offset += Ogre::v1::VertexElement::getTypeSize(Ogre::VET_FLOAT3);
 //		decl->addElement(0, offset, Ogre::VET_FLOAT3, Ogre::VES_NORMAL);
 //		offset += Ogre::VertexElement::getTypeSize(Ogre::VET_FLOAT3);
 		decl->addElement(0, offset, Ogre::VET_COLOUR, Ogre::VES_DIFFUSE);
-		offset += Ogre::VertexElement::getTypeSize(Ogre::VET_COLOUR);
+		offset += Ogre::v1::VertexElement::getTypeSize(Ogre::VET_COLOUR);
 		decl->addElement(0, offset, Ogre::VET_FLOAT2, Ogre::VES_TEXTURE_COORDINATES, 0);
 
 		mMainBuf =
-			Ogre::HardwareBufferManager::getSingleton().createVertexBuffer(
+			Ogre::v1::HardwareBufferManager::getSingleton().createVertexBuffer(
 			decl->getVertexSize(0),
 			mVertexData->vertexCount,
-			Ogre::HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+			Ogre::v1::HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 
 		// Bind
 		binding->setBinding(0, mMainBuf);
 
 		// Create indices
 		const size_t ibufCount = 36;
-		mIndexData = PU_NEW Ogre::IndexData();
+		mIndexData = PU_NEW Ogre::v1::IndexData();
 		mIndexData->indexStart = 0;
 		mIndexData->indexCount = mPoolSize * ibufCount;
-		mIndexData->indexBuffer = Ogre::HardwareBufferManager::getSingleton().
-			createIndexBuffer(Ogre::HardwareIndexBuffer::IT_16BIT,
+		mIndexData->indexBuffer = Ogre::v1::HardwareBufferManager::getSingleton().
+			createIndexBuffer(Ogre::v1::HardwareIndexBuffer::IT_16BIT,
 			mIndexData->indexCount,
-			Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+			Ogre::v1::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
 		ushort* pIdx = static_cast<ushort*>(
 			mIndexData->indexBuffer->lock(0,
 			mIndexData->indexBuffer->getSizeInBytes(),
-			Ogre::HardwareBuffer::HBL_DISCARD));
+			Ogre::v1::HardwareBuffer::HBL_DISCARD));
 
 		for(size_t idx, idxOff, box = 0; box < mPoolSize; ++box)
 		{

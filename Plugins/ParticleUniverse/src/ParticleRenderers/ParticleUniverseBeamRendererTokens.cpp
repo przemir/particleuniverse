@@ -127,12 +127,12 @@ namespace ParticleUniverse
 				{
 					if (val == token[TOKEN_BEAMRENDERER_TCD_U])
 					{
-						renderer->setTexCoordDirection(Ogre::BillboardChain::TCD_U);
+						renderer->setTexCoordDirection(Ogre::v1::BillboardChain::TCD_U);
 						return true;
 					}
 					else if (val == token[TOKEN_BEAMRENDERER_TCD_V])
 					{
-						renderer->setTexCoordDirection(Ogre::BillboardChain::TCD_V);
+						renderer->setTexCoordDirection(Ogre::v1::BillboardChain::TCD_V);
 						return true;
 					}
 				}

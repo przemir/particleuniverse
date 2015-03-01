@@ -30,12 +30,12 @@ namespace ParticleUniverse
 {
 	/** This is a child of the Ogre Billboard class, with the exception that it has new friends ;-)
     */
-	class _ParticleUniverseExport Billboard : public Ogre::Billboard
+	class _ParticleUniverseExport Billboard : public Ogre::v1::Billboard
 	{
         friend class BillboardRenderer;
 
 		public:
-			Billboard(void) : Ogre::Billboard(){};
+			Billboard(void) : Ogre::v1::Billboard(){};
 	        virtual ~Billboard(void){};
 	};
 

@@ -190,8 +190,8 @@ namespace ParticleUniverse
 		mEntityName = mMeshName + ss.str();
 		mQuota = technique->getVisualParticleQuota();
 		Ogre::SceneNode* parentNode = technique->getParentSystem()->getParentSceneNode();
-		Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(mMeshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-		Ogre::Mesh* meshPointer = mesh.getPointer();
+		Ogre::v1::MeshPtr mesh = Ogre::v1::MeshManager::getSingleton().load(mMeshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		Ogre::v1::Mesh* meshPointer = mesh.getPointer();
 		Vector3 size = meshPointer->getBounds().getSize();
 		mBoxWidth = size.x == 0.0f ? 1.0f : size.x;
 		mBoxHeight = size.y == 0.0f ? 1.0f : size.y;
@@ -214,14 +214,14 @@ namespace ParticleUniverse
 			}
 
 			// Create number of Entities
-			Ogre::Entity* entity = technique->getParentSystem()->getSceneManager()->createEntity(mMeshName); // Base entity
+			Ogre::v1::Entity* entity = technique->getParentSystem()->getSceneManager()->createEntity(mMeshName); // Base entity
 			entity->setName(mEntityName);
 			vector<EntityRendererVisualData*>::const_iterator it;
 			vector<EntityRendererVisualData*>::const_iterator itEnd = mAllVisualData.end();
 			size_t j;
 			for (it = mAllVisualData.begin(), j = 0; it != itEnd; ++it, ++j)
 			{
-				Ogre::Entity* clonedEntity = entity->clone();
+				Ogre::v1::Entity* clonedEntity = entity->clone();
 				entity->setName(mEntityName + StringConverter::toString(j));
 				clonedEntity->setMaterialName(technique->getMaterialName());
 				clonedEntity->setRenderQueueGroup(mQueueId);
@@ -285,7 +285,7 @@ namespace ParticleUniverse
 						node->setScale(particle->width / mBoxWidth, particle->height / mBoxHeight, particle->depth / mBoxDepth);
 						if (mZRotated)
 						{
-							_rotateTexture(particle, static_cast<Ogre::Entity*>(node->getAttachedObject(0))); // We know for sure there is only one and it is an Entity*
+							_rotateTexture(particle, static_cast<Ogre::v1::Entity*>(node->getAttachedObject(0))); // We know for sure there is only one and it is an Entity*
 						}
 					}
 				}
@@ -304,8 +304,8 @@ namespace ParticleUniverse
 		if (mEntities.empty())
 			return;
 
-		vector<Ogre::Entity*>::const_iterator itEntity = mEntities.begin();
-		vector<Ogre::Entity*>::const_iterator itEntityEnd = mEntities.end();
+		vector<Ogre::v1::Entity*>::const_iterator itEntity = mEntities.begin();
+		vector<Ogre::v1::Entity*>::const_iterator itEntityEnd = mEntities.end();
 		for (itEntity = mEntities.begin(); itEntity != itEntityEnd; ++itEntity)
 		{
 			(*itEntity)->setMaterialName(materialName);
@@ -346,7 +346,7 @@ namespace ParticleUniverse
 		mZRotated = true;
 	}
 	//-----------------------------------------------------------------------
-	void EntityRenderer::_rotateTexture(VisualParticle* particle, Ogre::Entity* entity)
+	void EntityRenderer::_rotateTexture(VisualParticle* particle, Ogre::v1::Entity* entity)
 	{
 		Ogre::TextureUnitState::EffectMap::const_iterator it;
 		// Get the material and rotate it
@@ -387,8 +387,8 @@ namespace ParticleUniverse
 		if (mEntities.empty())
 			return;
 
-		vector<Ogre::Entity*>::const_iterator itEntity = mEntities.begin();
-		vector<Ogre::Entity*>::const_iterator itEntityEnd = mEntities.end();
+		vector<Ogre::v1::Entity*>::const_iterator itEntity = mEntities.begin();
+		vector<Ogre::v1::Entity*>::const_iterator itEntityEnd = mEntities.end();
 		for (itEntity = mEntities.begin(); itEntity != itEntityEnd; ++itEntity)
 		{
 			(*itEntity)->setRenderQueueGroup(mQueueId);

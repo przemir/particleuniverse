@@ -90,47 +90,47 @@ namespace ParticleUniverse
 				{
 					if (val == token[TOKEN_BILLBOARD_CENTER])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_CENTER);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_CENTER);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_BOTTOM_CENTER])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_BOTTOM_CENTER);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_BOTTOM_CENTER);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_BOTTON_LEFT])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_BOTTOM_LEFT);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_BOTTOM_LEFT);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_BOTTOM_RIGHT])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_BOTTOM_RIGHT);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_BOTTOM_RIGHT);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_CENTER_LEFT])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_CENTER_LEFT);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_CENTER_LEFT);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_CENTER_RIGHT])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_CENTER_RIGHT);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_CENTER_RIGHT);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_TOP_CENTER])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_TOP_CENTER);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_TOP_CENTER);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_TOP_LEFT])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_TOP_LEFT);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_TOP_LEFT);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_TOP_RIGHT])
 					{
-						renderer->setBillboardOrigin(Ogre::BBO_TOP_RIGHT);
+						renderer->setBillboardOrigin(Ogre::v1::BBO_TOP_RIGHT);
 						return true;
 					}
 				}
@@ -146,12 +146,12 @@ namespace ParticleUniverse
 				{
 					if (val == token[TOKEN_VERTEX])
 					{
-						renderer->setBillboardRotationType(Ogre::BBR_VERTEX);
+						renderer->setBillboardRotationType(Ogre::v1::BBR_VERTEX);
 						return true;
 					}
 					else if (val == token[TOKEN_BILLBOARD_TEXCOORD])
 					{
-						renderer->setBillboardRotationType(Ogre::BBR_TEXCOORD);
+						renderer->setBillboardRotationType(Ogre::v1::BBR_TEXCOORD);
 						return true;
 					}
 				}
@@ -248,21 +248,21 @@ namespace ParticleUniverse
 		if (renderer->getBillboardOrigin() != BillboardRenderer::DEFAULT_ORIGIN)
 		{
 			String origin = token[TOKEN_BILLBOARD_CENTER];
-			if (renderer->getBillboardOrigin() == Ogre::BBO_BOTTOM_CENTER) origin = token[TOKEN_BILLBOARD_BOTTOM_CENTER];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_BOTTOM_LEFT) origin = token[TOKEN_BILLBOARD_BOTTON_LEFT];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_BOTTOM_RIGHT) origin = token[TOKEN_BILLBOARD_BOTTOM_RIGHT];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_CENTER_LEFT) origin = token[TOKEN_BILLBOARD_CENTER_LEFT];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_CENTER_RIGHT) origin = token[TOKEN_BILLBOARD_CENTER_RIGHT];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_TOP_CENTER) origin = token[TOKEN_BILLBOARD_TOP_CENTER];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_TOP_LEFT) origin = token[TOKEN_BILLBOARD_TOP_LEFT];
-			else if (renderer->getBillboardOrigin() == Ogre::BBO_TOP_RIGHT) origin = token[TOKEN_BILLBOARD_TOP_RIGHT];
+			if (renderer->getBillboardOrigin() == Ogre::v1::BBO_BOTTOM_CENTER) origin = token[TOKEN_BILLBOARD_BOTTOM_CENTER];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_BOTTOM_LEFT) origin = token[TOKEN_BILLBOARD_BOTTON_LEFT];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_BOTTOM_RIGHT) origin = token[TOKEN_BILLBOARD_BOTTOM_RIGHT];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_CENTER_LEFT) origin = token[TOKEN_BILLBOARD_CENTER_LEFT];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_CENTER_RIGHT) origin = token[TOKEN_BILLBOARD_CENTER_RIGHT];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_TOP_CENTER) origin = token[TOKEN_BILLBOARD_TOP_CENTER];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_TOP_LEFT) origin = token[TOKEN_BILLBOARD_TOP_LEFT];
+			else if (renderer->getBillboardOrigin() == Ogre::v1::BBO_TOP_RIGHT) origin = token[TOKEN_BILLBOARD_TOP_RIGHT];
 			serializer->writeLine(token[TOKEN_BILLBOARD_ORIGIN], origin, 12);
 		}
 
 		if (renderer->getBillboardRotationType() != BillboardRenderer::DEFAULT_ROTATION_TYPE)
 		{
 			String rotationType = token[TOKEN_VERTEX];
-			if (renderer->getBillboardRotationType() == Ogre::BBR_TEXCOORD) rotationType = token[TOKEN_BILLBOARD_TEXCOORD];
+			if (renderer->getBillboardRotationType() == Ogre::v1::BBR_TEXCOORD) rotationType = token[TOKEN_BILLBOARD_TEXCOORD];
 			serializer->writeLine(token[TOKEN_BILLBOARD_ROTATION_TYPE], rotationType, 12);
 		}
 

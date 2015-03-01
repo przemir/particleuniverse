@@ -39,7 +39,7 @@ namespace ParticleUniverse
 	const Real BeamRenderer::DEFAULT_UPDATE_INTERVAL = 0.1f;
 	const Real BeamRenderer::DEFAULT_DEVIATION = 300;
 	const size_t BeamRenderer::DEFAULT_NUMBER_OF_SEGMENTS = 2;
-	const Ogre::BillboardChain::TexCoordDirection BeamRenderer::DEFAULT_TEXTURE_DIRECTION = Ogre::BillboardChain::TCD_V;
+	const Ogre::v1::BillboardChain::TexCoordDirection BeamRenderer::DEFAULT_TEXTURE_DIRECTION = Ogre::v1::BillboardChain::TCD_V;
 
 	//-----------------------------------------------------------------------
 	BeamRenderer::BeamRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
@@ -153,12 +153,12 @@ namespace ParticleUniverse
 		mJump = jump;
 	}
 	//-----------------------------------------------------------------------
-	Ogre::BillboardChain::TexCoordDirection BeamRenderer::getTexCoordDirection(void) const
+	Ogre::v1::BillboardChain::TexCoordDirection BeamRenderer::getTexCoordDirection(void) const
 	{
 		return mTexCoordDirection;
 	}
 	//-----------------------------------------------------------------------
-	void BeamRenderer::setTexCoordDirection(Ogre::BillboardChain::TexCoordDirection texCoordDirection)
+	void BeamRenderer::setTexCoordDirection(Ogre::v1::BillboardChain::TexCoordDirection texCoordDirection)
 	{
 		mTexCoordDirection = texCoordDirection;
 	}
@@ -202,8 +202,8 @@ namespace ParticleUniverse
 			{
 				for (size_t j = 0; j < mMaxChainElements; j++)
 				{
-					Ogre::BillboardChain::Element element;
-					element = Ogre::BillboardChain::Element(Vector3::ZERO, _mRendererScale.x * mParentTechnique->getDefaultWidth(), 0.0f, ColourValue::White, Ogre::Quaternion::IDENTITY); // V1.51
+					Ogre::v1::BillboardChain::Element element;
+					element = Ogre::v1::BillboardChain::Element(Vector3::ZERO, _mRendererScale.x * mParentTechnique->getDefaultWidth(), 0.0f, ColourValue::White, Ogre::Quaternion::IDENTITY); // V1.51
 					mBillboardChain->addChainElement(i, element);
 				}
 				BeamRendererVisualData* visualData = PU_NEW_T(BeamRendererVisualData, MEMCATEGORY_SCENE_OBJECTS)(i, mBillboardChain);
@@ -264,7 +264,7 @@ namespace ParticleUniverse
 					// Loop through all chain elements
 					for (size_t j = 0; j < mMaxChainElements; ++j)
 					{
-						Ogre::BillboardChain::Element element = mBillboardChain->getChainElement(visualData->chainIndex, j);
+						Ogre::v1::BillboardChain::Element element = mBillboardChain->getChainElement(visualData->chainIndex, j);
 
 						// 1. Set the width of the chain if required
 						if (visualParticle->ownDimensions)

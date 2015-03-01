@@ -53,7 +53,7 @@ namespace ParticleUniverse
 			ParticleTechnique* mParentTechnique;
 
 			// The billboard set that's doing the rendering
-			Ogre::BillboardSet* mBillboardSet;
+			Ogre::v1::BillboardSet* mBillboardSet;
 
 			// Type of the renderer
 			String mRendererType;

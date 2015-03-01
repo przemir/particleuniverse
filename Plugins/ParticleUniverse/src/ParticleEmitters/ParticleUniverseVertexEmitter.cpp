@@ -189,7 +189,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void VertexEmitter::_loadMesh (void)
 	{
-		Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(mMeshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		Ogre::v1::MeshPtr mesh = Ogre::v1::MeshManager::getSingleton().load(mMeshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 		mMesh = mesh.getPointer();
 		mMeshProcessed = false;
 			
@@ -292,7 +292,7 @@ namespace ParticleUniverse
 		mPositionElement = mVertexData->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
 		mBuffer = mVertexData->vertexBufferBinding->getBuffer(mPositionElement->getSource());
 		mVertexSize = mBuffer->getVertexSize();
-		mVertexBuffer = static_cast<unsigned char*>(mBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+		mVertexBuffer = static_cast<unsigned char*>(mBuffer->lock(Ogre::v1::HardwareBuffer::HBL_READ_ONLY));
 	}
 	//-----------------------------------------------------------------------
 	void VertexEmitter::_generatePointsFromVertexBuffer(void)

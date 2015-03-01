@@ -137,7 +137,7 @@ namespace ParticleUniverse
 			Real getGaussianRandom (Real high, Real cutoff = 4);
 
 		    /** Retrieve vertex info **/
-			void getMeshInformation(Ogre::MeshPtr mesh,
+			void getMeshInformation(Ogre::v1::MeshPtr mesh,
 									const Vector3& position = Vector3::ZERO,
 									const Quaternion& orient = Quaternion::IDENTITY,
 									const Vector3& scale = Vector3::UNIT_SCALE);

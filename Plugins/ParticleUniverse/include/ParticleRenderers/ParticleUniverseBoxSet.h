@@ -98,11 +98,11 @@ namespace ParticleUniverse
 
 			/** The vertex position data for all boxes in this set.
 			*/
-			Ogre::VertexData* mVertexData;
+			Ogre::v1::VertexData* mVertexData;
 
 			/** Shortcut to main buffer
 			*/
-			Ogre::HardwareVertexBufferSharedPtr mMainBuf;
+			Ogre::v1::HardwareVertexBufferSharedPtr mMainBuf;
 
 			/** Locked pointer to buffer
 			*/
@@ -110,7 +110,7 @@ namespace ParticleUniverse
 
 			/** The vertex index data for all boxes in this set (1 set only)
 			*/
-			Ogre::IndexData* mIndexData;
+			Ogre::v1::IndexData* mIndexData;
 
 			typedef vector<Ogre::FloatRect> TextureCoordSets;
 			TextureCoordSets mTextureCoords;
@@ -266,7 +266,7 @@ namespace ParticleUniverse
 			@see
 				Renderable
 			*/
-			virtual void getRenderOperation(Ogre::RenderOperation& op);
+			virtual void getRenderOperation(Ogre::v1::RenderOperation& op);
 
 			/** Overridden from MovableObject 
 			*/

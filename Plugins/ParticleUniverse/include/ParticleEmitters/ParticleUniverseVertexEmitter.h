@@ -44,12 +44,12 @@ namespace ParticleUniverse
 	{
 		protected:
 			list<Vector3> mSpawnPositionList;
-			const Ogre::VertexElement* mPositionElement;
-			Ogre::VertexData* mVertexData;
-			Ogre::HardwareVertexBufferSharedPtr mBuffer;
+			const Ogre::v1::VertexElement* mPositionElement;
+			Ogre::v1::VertexData* mVertexData;
+			Ogre::v1::HardwareVertexBufferSharedPtr mBuffer;
 			unsigned char* mVertexBuffer;
-			Ogre::Mesh* mMesh;
-			Ogre::SubMesh* mSubMesh;
+			Ogre::v1::Mesh* mMesh;
+			Ogre::v1::SubMesh* mSubMesh;
 			bool mMeshProcessed;
 			size_t mVertexSize;
 			size_t mMaxVertexCount;

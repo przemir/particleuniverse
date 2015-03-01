@@ -57,8 +57,8 @@ namespace ParticleUniverse
 			// Constants
 			static const BillboardType DEFAULT_BILLBOARD_TYPE;
 			static const bool DEFAULT_ACCURATE_FACING;
-			static const Ogre::BillboardOrigin DEFAULT_ORIGIN;
-			static const Ogre::BillboardRotationType DEFAULT_ROTATION_TYPE;
+			static const Ogre::v1::BillboardOrigin DEFAULT_ORIGIN;
+			static const Ogre::v1::BillboardRotationType DEFAULT_ROTATION_TYPE;
 			static const Vector3 DEFAULT_COMMON_DIRECTION;
 			static const Vector3 DEFAULT_COMMON_UP_VECTOR;
 			static const bool DEFAULT_POINT_RENDERING;
@@ -90,19 +90,19 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			void setBillboardOrigin(Ogre::BillboardOrigin origin) { mBillboardSet->setBillboardOrigin(origin); }
+			void setBillboardOrigin(Ogre::v1::BillboardOrigin origin) { mBillboardSet->setBillboardOrigin(origin); }
 
 			/** 
 			*/
-			Ogre::BillboardOrigin getBillboardOrigin(void) const { return mBillboardSet->getBillboardOrigin(); }
+			Ogre::v1::BillboardOrigin getBillboardOrigin(void) const { return mBillboardSet->getBillboardOrigin(); }
 
 			/** 
 			*/
-			void setBillboardRotationType(Ogre::BillboardRotationType rotationType);
+			void setBillboardRotationType(Ogre::v1::BillboardRotationType rotationType);
 
 			/** 
 			*/
-			Ogre::BillboardRotationType getBillboardRotationType(void) const;
+			Ogre::v1::BillboardRotationType getBillboardRotationType(void) const;
 
 			/** 
 			*/
@@ -173,7 +173,7 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			Ogre::BillboardSet* getBillboardSet(void) const { return mBillboardSet; }
+			Ogre::v1::BillboardSet* getBillboardSet(void) const { return mBillboardSet; }
 
 			/** @copydoc ParticleRenderer::setVisible */
 			virtual void setVisible(bool visible);
@@ -181,7 +181,7 @@ namespace ParticleUniverse
 		protected:
 			/** 
 			*/
-			Ogre::BillboardSet* mBillboardSet;
+			Ogre::v1::BillboardSet* mBillboardSet;
 
 			/** 
 			*/

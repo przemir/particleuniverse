@@ -185,7 +185,7 @@ namespace ParticleUniverse
 		const Vector3& scale) : 
 		mDistribution(distribution)
 	{
-		Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		Ogre::v1::MeshPtr mesh = Ogre::v1::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 		getMeshInformation(mesh, Vector3::ZERO, orientation, scale);
 	}
 	//-----------------------------------------------------------------------
@@ -271,7 +271,7 @@ namespace ParticleUniverse
 	}
 
 	//-----------------------------------------------------------------------
-	void MeshInfo::getMeshInformation(	Ogre::MeshPtr mesh,
+	void MeshInfo::getMeshInformation(	Ogre::v1::MeshPtr mesh,
 										const Vector3 &position,
 										const Quaternion &orient,
 										const Vector3 &scale)
@@ -291,7 +291,7 @@ namespace ParticleUniverse
 		// Calculate how many vertices and indices we're going to need
 		for ( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
 		{
-			Ogre::SubMesh* submesh = mesh->getSubMesh( i );
+			Ogre::v1::SubMesh* submesh = mesh->getSubMesh(i);
 
 			// We only need to add the shared vertices once
 			if(submesh->useSharedVertices)
@@ -320,8 +320,8 @@ namespace ParticleUniverse
 		// Run through the submeshes again, adding the data into the arrays
 		for ( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
 		{
-			Ogre::SubMesh* submesh = mesh->getSubMesh(i);
-			Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
+			Ogre::v1::SubMesh* submesh = mesh->getSubMesh(i);
+			Ogre::v1::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
 
 			if((!submesh->useSharedVertices)||(submesh->useSharedVertices && !added_shared))
 			{
@@ -331,10 +331,10 @@ namespace ParticleUniverse
 					shared_offset = current_offset;
 				}
 
-				const Ogre::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
-				const Ogre::VertexElement* normalElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_NORMAL);
-				Ogre::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
-				unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+				const Ogre::v1::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
+				const Ogre::v1::VertexElement* normalElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_NORMAL);
+				Ogre::v1::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
+				unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(Ogre::v1::HardwareBuffer::HBL_READ_ONLY));
 				float* pReal;
 
 				for( size_t j = 0; j < vertex_data->vertexCount; ++j, vertex += vbuf->getVertexSize())
@@ -352,11 +352,11 @@ namespace ParticleUniverse
 				next_offset += vertex_data->vertexCount;
 			}
 
-			Ogre::IndexData* index_data = submesh->indexData;
+			Ogre::v1::IndexData* index_data = submesh->indexData;
 			size_t numTris = index_data->indexCount / 3;
-			Ogre::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
-    		bool use32bitindexes = (ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT);
-			unsigned long*  pLong = static_cast<unsigned long*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+			Ogre::v1::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
+			bool use32bitindexes = (ibuf->getType() == Ogre::v1::HardwareIndexBuffer::IT_32BIT);
+			unsigned long*  pLong = static_cast<unsigned long*>(ibuf->lock(Ogre::v1::HardwareBuffer::HBL_READ_ONLY));
 			unsigned short* pShort = reinterpret_cast<unsigned short*>(pLong);
 			size_t offset = (submesh->useSharedVertices)? shared_offset : current_offset;
 

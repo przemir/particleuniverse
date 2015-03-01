@@ -37,7 +37,7 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport BeamRendererVisualData : public IVisualData
 	{
 		public:
-			BeamRendererVisualData (size_t index, Ogre::BillboardChain* billboardChain) : 
+			BeamRendererVisualData(size_t index, Ogre::v1::BillboardChain* billboardChain) :
 				IVisualData(), 
 				chainIndex(index),
 				mTimeSinceLastUpdate(0.0f),
@@ -58,10 +58,10 @@ namespace ParticleUniverse
 				width = visible ? width : 0;
 				
 				size_t max = mBillboardChain->getMaxChainElements();
-				Ogre::BillboardChain::Element element;
+				Ogre::v1::BillboardChain::Element element;
 				for (size_t j = 0; j < max; j++)
 				{
-					Ogre::BillboardChain::Element element;
+					Ogre::v1::BillboardChain::Element element;
 					element = mBillboardChain->getChainElement(chainIndex, j);
 					element.width = width;
 					mBillboardChain->updateChainElement(chainIndex, j, element);
@@ -73,7 +73,7 @@ namespace ParticleUniverse
 			Vector3 half[100];
 			Vector3 destinationHalf[100];
 			Real mTimeSinceLastUpdate;
-			Ogre::BillboardChain* mBillboardChain;
+			Ogre::v1::BillboardChain* mBillboardChain;
 	};
 
 	/** The BeamRenderer class is responsible to render particles as a BillboardChain.
@@ -88,7 +88,7 @@ namespace ParticleUniverse
 			static const Real DEFAULT_UPDATE_INTERVAL;
 			static const Real DEFAULT_DEVIATION;
 			static const size_t DEFAULT_NUMBER_OF_SEGMENTS;
-			static const Ogre::BillboardChain::TexCoordDirection DEFAULT_TEXTURE_DIRECTION;
+			static const Ogre::v1::BillboardChain::TexCoordDirection DEFAULT_TEXTURE_DIRECTION;
 
 			BeamRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
 	        virtual ~BeamRenderer(void);
@@ -113,8 +113,8 @@ namespace ParticleUniverse
 			bool isJump(void) const;
 			void setJump(bool jump);
 
-			Ogre::BillboardChain::TexCoordDirection getTexCoordDirection(void) const;
-			void setTexCoordDirection(Ogre::BillboardChain::TexCoordDirection texCoordDirection);
+			Ogre::v1::BillboardChain::TexCoordDirection getTexCoordDirection(void) const;
+			void setTexCoordDirection(Ogre::v1::BillboardChain::TexCoordDirection texCoordDirection);
 
 			/** @copydoc ParticleRenderer::_prepare */
 			virtual void _prepare(ParticleTechnique* technique);
@@ -185,7 +185,7 @@ namespace ParticleUniverse
 		protected:
 
 			String mBillboardChainName;
-			Ogre::BillboardChain* mBillboardChain;
+			Ogre::v1::BillboardChain* mBillboardChain;
 			vector<BeamRendererVisualData*> mAllVisualData;
 			vector<BeamRendererVisualData*> mVisualData;
 			size_t mQuota;
@@ -195,7 +195,7 @@ namespace ParticleUniverse
 			Real mDeviation;
 			size_t mNumberOfSegments;
 			bool mJump;
-			Ogre::BillboardChain::TexCoordDirection mTexCoordDirection;
+			Ogre::v1::BillboardChain::TexCoordDirection mTexCoordDirection;
 	};
 
 }

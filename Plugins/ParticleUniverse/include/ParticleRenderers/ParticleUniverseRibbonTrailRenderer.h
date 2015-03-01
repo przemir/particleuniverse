@@ -38,7 +38,7 @@ namespace ParticleUniverse
 		public:
 
 			//Constructor
-			RibbonTrailRendererVisualData (Ogre::SceneNode* sceneNode, Ogre::RibbonTrail* ribbonTrail) : 
+			RibbonTrailRendererVisualData(Ogre::SceneNode* sceneNode, Ogre::v1::RibbonTrail* ribbonTrail) :
 				IVisualData(), 
 				node(sceneNode),
 				trail(ribbonTrail),
@@ -47,7 +47,7 @@ namespace ParticleUniverse
 
 			Ogre::SceneNode* node;
 			bool addedToTrail;
-			Ogre::RibbonTrail* trail;
+			Ogre::v1::RibbonTrail* trail;
 			size_t index;
 			virtual void setVisible(bool visible)
 			{
@@ -78,7 +78,7 @@ namespace ParticleUniverse
 			vector<RibbonTrailRendererVisualData*> mAllVisualData;
 			vector<RibbonTrailRendererVisualData*> mVisualData;
 			size_t mQuota;
-			Ogre::RibbonTrail* mTrail;
+			Ogre::v1::RibbonTrail* mTrail;
 			String mRibbonTrailName;
 			bool mUseVertexColours;
 			size_t mMaxChainElements;

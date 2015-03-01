@@ -107,7 +107,7 @@ namespace ParticleUniverse
 		protected:
 
 			bool mEntitySet;
-			Ogre::Entity* mEntity;
+			Ogre::v1::Entity* mEntity;
 			String mMeshName;
 			String mEntityName;
 			String mMaterialName;

@@ -128,7 +128,7 @@ namespace ParticleUniverse
 
 			/** Rotate the textures of eacht entity.
 			*/
-			void _rotateTexture(VisualParticle* particle, Ogre::Entity* entity);
+			void _rotateTexture(VisualParticle* particle, Ogre::v1::Entity* entity);
 
 			/** 
 			*/
@@ -153,7 +153,7 @@ namespace ParticleUniverse
 		protected:
 			vector<EntityRendererVisualData*> mAllVisualData;
 			vector<EntityRendererVisualData*> mVisualData;
-			vector<Ogre::Entity*> mEntities;
+			vector<Ogre::v1::Entity*> mEntities;
 			size_t mQuota;
 			String mMeshName;
 			String mEntityName; // Used for random entity name prefix
