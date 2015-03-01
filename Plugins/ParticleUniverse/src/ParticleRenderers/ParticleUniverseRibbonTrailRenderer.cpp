@@ -242,7 +242,7 @@ namespace ParticleUniverse
 			mTrail->setName(mRibbonTrailName);
 			mTrail->setNumberOfChains(mQuota);
 			mTrail->setMaxChainElements(mMaxChainElements);
-			mTrail->setMaterialName(technique->getMaterialName());
+			mTrail->setMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 			mTrail->setRenderQueueGroup(mQueueId);
 			if (mSetLength)
 			{
@@ -350,7 +350,7 @@ namespace ParticleUniverse
 	{
 		if (mTrail)
 		{
-			mTrail->setMaterialName(materialName);
+			mTrail->setMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 		}
 	}
 	//-----------------------------------------------------------------------

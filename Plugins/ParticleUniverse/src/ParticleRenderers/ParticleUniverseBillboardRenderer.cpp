@@ -254,7 +254,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_setMaterialName(const String& materialName)
 	{
-		mBillboardSet->setMaterialName(materialName);
+		mBillboardSet->setMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyCurrentCamera(Camera* cam)

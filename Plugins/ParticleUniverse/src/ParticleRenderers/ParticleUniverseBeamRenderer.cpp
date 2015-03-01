@@ -191,7 +191,7 @@ namespace ParticleUniverse
 			mBillboardChain->setDynamic(true);
 			mBillboardChain->setNumberOfChains(mQuota);
 			mBillboardChain->setMaxChainElements(mMaxChainElements);
-			mBillboardChain->setMaterialName(technique->getMaterialName());
+			mBillboardChain->setMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 			mBillboardChain->setRenderQueueGroup(mQueueId);
 			mBillboardChain->setTextureCoordDirection(mTexCoordDirection);
 			setUseVertexColours(mUseVertexColours);
@@ -377,7 +377,7 @@ namespace ParticleUniverse
 	{
 		if (mBillboardChain)
 		{
-			mBillboardChain->setMaterialName(materialName);
+			mBillboardChain->setMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 		}
 	}
 	//-----------------------------------------------------------------------
