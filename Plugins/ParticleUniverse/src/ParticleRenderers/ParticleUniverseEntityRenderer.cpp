@@ -42,7 +42,7 @@ namespace ParticleUniverse
 	const EntityRenderer::EntityOrientationType EntityRenderer::DEFAULT_ORIENTATION_TYPE = EntityRenderer::ENT_ORIENTED_SHAPE;
 
 	//-----------------------------------------------------------------------
-	EntityRenderer::EntityRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
+	EntityRenderer::EntityRenderer() :
 		ParticleRenderer(),
 		mQuota(0),
 		mMeshName(BLANK_STRING),

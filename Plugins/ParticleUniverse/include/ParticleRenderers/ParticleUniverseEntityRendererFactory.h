@@ -46,9 +46,9 @@ namespace ParticleUniverse
 			}
 
 			/** See ParticleRendererFactory */
-			ParticleRenderer* createRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
+			ParticleRenderer* createRenderer()
 			{
-				return _createRenderer<EntityRenderer>(id, objectMemoryManager);
+				return _createRenderer<EntityRenderer>();
 			}
 
 			/** See ScriptReader */

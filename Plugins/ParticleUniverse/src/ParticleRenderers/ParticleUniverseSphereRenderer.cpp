@@ -33,14 +33,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	SphereRenderer::SphereRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) : ParticleRenderer()
+	SphereRenderer::SphereRenderer() :
+		ParticleRenderer(),
+		mSphereSet(0)
 	{
-		// Create sphere set
-		mSphereSet = PU_NEW SphereSet(id, objectMemoryManager, 0, true);
-
-		// World-relative axes
-		mSphereSet->setSpheresInWorldSpace(true);
-
 		autoRotate = false;
 	}
 	//-----------------------------------------------------------------------
@@ -58,6 +54,14 @@ namespace ParticleUniverse
 		// Use the given technique, although it should be the same as mParentTechnique (must be set already)
 		if (!technique || mRendererInitialised)
 			return;
+
+		// Create sphere set
+		mSphereSet = PU_NEW SphereSet(Ogre::Id::generateNewId<ParticleRenderer>(), 
+									technique->getParentSystem()->getDummyObjectMemMgr(),
+									technique->getParentSystem()->_getManager(),
+									0, true);
+		// World-relative axes
+		mSphereSet->setSpheresInWorldSpace(true);
 
 		_notifyParticleQuota(technique->getVisualParticleQuota());
 

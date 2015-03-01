@@ -62,9 +62,11 @@ namespace ParticleUniverse
 			void setValue(Real value) {mTarget->_update(value);}
 	};
 	//-----------------------------------------------------------------------
-	ParticleSystem::ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager) :
+	ParticleSystem::ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+								Ogre::SceneManager* manager, Ogre::ObjectMemoryManager *dummyObjectMemMgr) :
 		IElement(),
 		MovableObject(id, objectMemoryManager, manager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
+		mDummyMemMgr(dummyObjectMemMgr),
 		mSceneManager(0),
 		mTimeController(0),
 		mUseController(true),
@@ -112,9 +114,11 @@ namespace ParticleUniverse
 	}
 	//-----------------------------------------------------------------------
 	ParticleSystem::ParticleSystem(const String& resourceGroupName, Ogre::IdType id, 
-									Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager) :
+							Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager,
+							Ogre::ObjectMemoryManager *dummyObjectMemMgr) :
 		IElement(),
 		MovableObject(id, objectMemoryManager, manager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
+		mDummyMemMgr(dummyObjectMemMgr),
 		mSceneManager(0),
 		mTimeController(0),
 		mUseController(true),

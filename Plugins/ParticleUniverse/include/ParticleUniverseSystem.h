@@ -77,9 +77,17 @@ namespace ParticleUniverse
 			typedef vector<ParticleSystemListener*>::iterator ParticleSystemListenerIterator;
 			typedef vector<ParticleSystemListener*> ParticleSystemListenerList;
 
-			ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager);
+			/** Particle system contructor
+			@param id					MovableObject id
+			@param objectMemoryManager	The scene managers object manager to use for rendering
+			@param manager				The Scene Manager
+			@param dummyObjectMemMgr	A dummy mem mgr to use for movable objects that make up a particle system but are not 
+										updated or rendered direclty by the scene manager
+			*/
+			ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+				Ogre::SceneManager* manager, Ogre::ObjectMemoryManager *dummyObjectMemMgr);
 			ParticleSystem(const String& resourceGroupName, Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
-							Ogre::SceneManager* manager);
+				Ogre::SceneManager* manager, Ogre::ObjectMemoryManager *dummyObjectMemMgr);
 	        virtual ~ParticleSystem(void);
 
 			/** Gets the derived position of the particle system (i.e derived from the parent node, if available).
@@ -518,6 +526,10 @@ namespace ParticleUniverse
 			const String& getCategory(void) const {return mCategory;};
 			void setCategory(const String& category){mCategory = category;};
 
+			/** Get the dummy memory manager
+			*/
+			Ogre::ObjectMemoryManager* getDummyObjectMemMgr() { return mDummyMemMgr; };
+
 		protected:
 			/** Gets the LOD index to use at the given distance.
 			*/
@@ -725,6 +737,11 @@ namespace ParticleUniverse
 				This is pure for administration and can be used in an editor. There is no technical reason to set this attribute.
 			*/
 			String mCategory;
+
+			/** A dummy memory manger to use for movable objects that make up a particle system but are not 
+				updated or rendered direclty by the scene manager
+			*/
+			Ogre::ObjectMemoryManager* mDummyMemMgr;
 	};
 
 }

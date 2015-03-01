@@ -90,7 +90,7 @@ namespace ParticleUniverse
 			static const size_t DEFAULT_NUMBER_OF_SEGMENTS;
 			static const Ogre::v1::BillboardChain::TexCoordDirection DEFAULT_TEXTURE_DIRECTION;
 
-			BeamRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			BeamRenderer();
 	        virtual ~BeamRenderer(void);
 
 			/** Getters and Setters

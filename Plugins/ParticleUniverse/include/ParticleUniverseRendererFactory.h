@@ -41,9 +41,9 @@ namespace ParticleUniverse
 			/** 
 	        */
 			template <class T>
-			ParticleRenderer* _createRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
+			ParticleRenderer* _createRenderer()
 			{
-				ParticleRenderer* particleRenderer = PU_NEW_T(T, MEMCATEGORY_SCENE_OBJECTS)(id, objectMemoryManager);
+				ParticleRenderer* particleRenderer = PU_NEW_T(T, MEMCATEGORY_SCENE_OBJECTS)();
 				particleRenderer->setRendererType(getRendererType());
 				return particleRenderer;
 			};
@@ -58,7 +58,7 @@ namespace ParticleUniverse
 			/** Creates a new renderer instance.
 		    @remarks
 	        */
-			virtual ParticleRenderer* createRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) = 0;
+			virtual ParticleRenderer* createRenderer() = 0;
 
 			/** Delete a renderer.
 	        */

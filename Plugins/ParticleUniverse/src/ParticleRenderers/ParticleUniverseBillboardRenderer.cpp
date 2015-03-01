@@ -42,12 +42,17 @@ namespace ParticleUniverse
 	const bool BillboardRenderer::DEFAULT_POINT_RENDERING = false;
 
 	//-----------------------------------------------------------------------
-	BillboardRenderer::BillboardRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
+	BillboardRenderer::BillboardRenderer() :
 		ParticleRenderer(),
-		mBillboardType(DEFAULT_BILLBOARD_TYPE)
+		mBillboardType(DEFAULT_BILLBOARD_TYPE),
+		mBillboardOrigin(Ogre::v1::BBO_CENTER),
+		mBillboardRotationType(Ogre::v1::BBR_TEXCOORD),
+		mBillboardUpVector(Vector3::UNIT_Y),
+		mBillboardDirection(Vector3::UNIT_Z),
+		mPointRenderingEnabled(false),
+		mUseAccurateFacing(false),
+		mBillboardSet(0)
 	{
-		mBillboardSet = PU_NEW Ogre::v1::BillboardSet(id, objectMemoryManager, 0, true);
-		mBillboardSet->setBillboardsInWorldSpace(true);
 		autoRotate = false;
 	}
 	//-----------------------------------------------------------------------
@@ -65,6 +70,20 @@ namespace ParticleUniverse
 		// Use the given technique, although it should be the same as mParentTechnique (must be set already)
 		if (!technique || mRendererInitialised)
 			return;
+
+		mBillboardSet = PU_NEW Ogre::v1::BillboardSet(Ogre::Id::generateNewId<ParticleRenderer>(),
+											technique->getParentSystem()->getDummyObjectMemMgr(),
+											technique->getParentSystem()->_getManager(),
+											0, true);
+		mBillboardSet->setBillboardsInWorldSpace(true);
+
+		setBillboardType(mBillboardType);
+		setUseAccurateFacing(mUseAccurateFacing);
+		setBillboardOrigin(mBillboardOrigin);
+		setBillboardRotationType(mBillboardRotationType);
+		setCommonDirection(mBillboardDirection);
+		setCommonUpVector(mBillboardUpVector);
+		setPointRenderingEnabled(mPointRenderingEnabled);
 
 		_notifyParticleQuota(technique->getVisualParticleQuota());
 
@@ -100,33 +119,35 @@ namespace ParticleUniverse
 	void BillboardRenderer::setBillboardType(BillboardType bbt)
 	{
 		mBillboardType = bbt;
-
-		// Because BBT_ORIENTED_SHAPE is unknown to Ogre, this switch is needed
-		switch (bbt)
+		if (mBillboardSet)
 		{
-			case BBT_POINT:
-				mBillboardSet->setBillboardType(Ogre::v1::BBT_POINT);
-				break;
+			// Because BBT_ORIENTED_SHAPE is unknown to Ogre, this switch is needed
+			switch (bbt)
+			{
+				case BBT_POINT:
+					mBillboardSet->setBillboardType(Ogre::v1::BBT_POINT);
+					break;
 
-			case BBT_ORIENTED_COMMON:
-				mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_COMMON);
-				break;
+				case BBT_ORIENTED_COMMON:
+					mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_COMMON);
+					break;
 
-			case BBT_ORIENTED_SELF:
-				mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_SELF);
-				break;
+				case BBT_ORIENTED_SELF:
+					mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_SELF);
+					break;
 
-			case BBT_ORIENTED_SHAPE:
-				mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_SELF);
-				break;
+				case BBT_ORIENTED_SHAPE:
+					mBillboardSet->setBillboardType(Ogre::v1::BBT_ORIENTED_SELF);
+					break;
 
-			case BBT_PERPENDICULAR_COMMON:
-				mBillboardSet->setBillboardType(Ogre::v1::BBT_PERPENDICULAR_COMMON);
-				break;
+				case BBT_PERPENDICULAR_COMMON:
+					mBillboardSet->setBillboardType(Ogre::v1::BBT_PERPENDICULAR_COMMON);
+					break;
 
-			case BBT_PERPENDICULAR_SELF:
-				mBillboardSet->setBillboardType(Ogre::v1::BBT_PERPENDICULAR_SELF);
-				break;
+				case BBT_PERPENDICULAR_SELF:
+					mBillboardSet->setBillboardType(Ogre::v1::BBT_PERPENDICULAR_SELF);
+					break;
+			}
 		}
 	}
 	//-----------------------------------------------------------------------
@@ -137,52 +158,86 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::setUseAccurateFacing(bool acc)
 	{
-		mBillboardSet->setUseAccurateFacing(acc);
+		mUseAccurateFacing = acc;
+		if (mBillboardSet)
+		{
+			mBillboardSet->setUseAccurateFacing(acc);
+		}
 	}
 	//-----------------------------------------------------------------------
 	bool BillboardRenderer::isUseAccurateFacing(void) const
 	{
-		return mBillboardSet->getUseAccurateFacing();
+		return mUseAccurateFacing;
+	}
+	//-----------------------------------------------------------------------
+	void BillboardRenderer::setBillboardOrigin(Ogre::v1::BillboardOrigin origin)
+	{
+		mBillboardOrigin = origin;
+		if (mBillboardSet)
+		{
+			mBillboardSet->setBillboardOrigin(origin);
+		}
+	}
+	//-----------------------------------------------------------------------
+	Ogre::v1::BillboardOrigin BillboardRenderer::getBillboardOrigin(void) const
+	{
+		return mBillboardOrigin;
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::setBillboardRotationType(Ogre::v1::BillboardRotationType rotationType)
 	{
-		mBillboardSet->setBillboardRotationType(rotationType);
+		mBillboardRotationType = rotationType;
+		if (mBillboardSet)
+		{
+			mBillboardSet->setBillboardRotationType(rotationType);
+		}
 	}
 	//-----------------------------------------------------------------------
 	Ogre::v1::BillboardRotationType BillboardRenderer::getBillboardRotationType(void) const
 	{
-		return mBillboardSet->getBillboardRotationType();
+		return mBillboardRotationType;
 	}
     //-----------------------------------------------------------------------
 	void BillboardRenderer::setCommonDirection(const Vector3& vec)
 	{
-		mBillboardSet->setCommonDirection(vec);
+		mBillboardDirection = vec;
+		if (mBillboardSet)
+		{
+			mBillboardSet->setCommonDirection(vec);
+		}
 	}
 	//-----------------------------------------------------------------------
 	const Vector3& BillboardRenderer::getCommonDirection(void) const
 	{
-		return mBillboardSet->getCommonDirection();
+		return mBillboardDirection;
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::setCommonUpVector(const Vector3& vec)
 	{
-		mBillboardSet->setCommonUpVector(vec);
+		mBillboardUpVector = vec;
+		if (mBillboardSet)
+		{
+			mBillboardSet->setCommonUpVector(vec);
+		}
 	}
 	//-----------------------------------------------------------------------
 	const Vector3& BillboardRenderer::getCommonUpVector(void) const
 	{
-		return mBillboardSet->getCommonUpVector();
+		return mBillboardUpVector;
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::setPointRenderingEnabled(bool enabled)
 	{
-		mBillboardSet->setPointRenderingEnabled(enabled);
+		mPointRenderingEnabled = enabled;
+		if (mBillboardSet)
+		{
+			mBillboardSet->setPointRenderingEnabled(enabled);
+		}
 	}
 	//-----------------------------------------------------------------------
 	bool BillboardRenderer::isPointRenderingEnabled(void) const
 	{
-		return mBillboardSet->isPointRenderingEnabled();
+		return mPointRenderingEnabled;
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera, ParticlePool* pool)
@@ -269,8 +324,11 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyDefaultDimensions(Real width, Real height, Real depth)
 	{
-		// Ignore the depth, because the billboard is flat.
-		mBillboardSet->setDefaultDimensions(width, height);
+		if (mBillboardSet)
+		{
+			// Ignore the depth, because the billboard is flat.
+			mBillboardSet->setDefaultDimensions(width, height);
+		}
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyParticleResized(void)
@@ -286,7 +344,10 @@ namespace ParticleUniverse
 	void BillboardRenderer::setRenderQueueGroup(uint8 queueId)
 	{
 		mQueueId = queueId;
-		mBillboardSet->setRenderQueueGroup(mQueueId);
+		if (mBillboardSet)
+		{
+			mBillboardSet->setRenderQueueGroup(mQueueId);
+		}
 	}
 	//-----------------------------------------------------------------------
 	SortMode BillboardRenderer::_getSortMode(void) const

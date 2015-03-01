@@ -102,7 +102,7 @@ namespace ParticleUniverse
 			static const Real DEFAULT_FALLOFF;
 			static const Real DEFAULT_POWER_SCALE;
 
-			LightRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			LightRenderer();
 	        virtual ~LightRenderer(void);
 
 			/** Return the type of light that is emitted.

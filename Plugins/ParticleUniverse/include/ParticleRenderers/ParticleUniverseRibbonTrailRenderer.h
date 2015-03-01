@@ -101,7 +101,7 @@ namespace ParticleUniverse
 			static const ColourValue DEFAULT_INITIAL_COLOUR;
 			static const ColourValue DEFAULT_COLOUR_CHANGE;
 
-			RibbonTrailRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			RibbonTrailRenderer();
 	        virtual ~RibbonTrailRenderer(void);
 
 			/** Notify that the Particle System is rescaled.

@@ -39,7 +39,7 @@ namespace ParticleUniverse
 			BoxSet* mBoxSet;
 
 		public:
-			BoxRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			BoxRenderer();
 	        virtual ~BoxRenderer(void);
 
 			/** @copydoc ParticleRenderer::_prepare */

@@ -33,14 +33,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	BoxRenderer::BoxRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) : ParticleRenderer()
+	BoxRenderer::BoxRenderer() :
+		ParticleRenderer(),
+		mBoxSet(0)
 	{
-		// Create Box set
-		mBoxSet = PU_NEW BoxSet(id, objectMemoryManager, 0, true);
-
-		// World-relative axes
-		mBoxSet->setBoxesInWorldSpace(true);
-
 		autoRotate = false;
 	}
 	//-----------------------------------------------------------------------
@@ -58,6 +54,14 @@ namespace ParticleUniverse
 		// Use the given technique, although it should be the same as mParentTechnique (must be set already)
 		if (!technique || mRendererInitialised)
 			return;
+
+		// Create Box set
+		mBoxSet = PU_NEW BoxSet(Ogre::Id::generateNewId<ParticleRenderer>(), 
+							technique->getParentSystem()->getDummyObjectMemMgr(),
+							technique->getParentSystem()->_getManager(),
+							0, true);
+		// World-relative axes
+		mBoxSet->setBoxesInWorldSpace(true);
 
 		_notifyParticleQuota(technique->getVisualParticleQuota());
 

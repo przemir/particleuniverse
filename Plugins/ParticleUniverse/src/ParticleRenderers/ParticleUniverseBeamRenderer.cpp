@@ -42,7 +42,7 @@ namespace ParticleUniverse
 	const Ogre::v1::BillboardChain::TexCoordDirection BeamRenderer::DEFAULT_TEXTURE_DIRECTION = Ogre::v1::BillboardChain::TCD_V;
 
 	//-----------------------------------------------------------------------
-	BeamRenderer::BeamRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
+	BeamRenderer::BeamRenderer() :
 		TechniqueListener(),
 		ParticleRenderer(),
 		mBillboardChain(0),

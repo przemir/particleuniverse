@@ -39,7 +39,7 @@ namespace ParticleUniverse
 			SphereSet* mSphereSet;
 
 		public:
-			SphereRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			SphereRenderer();
 	        virtual ~SphereRenderer(void);
 
 			/** @copydoc ParticleRenderer::_prepare */

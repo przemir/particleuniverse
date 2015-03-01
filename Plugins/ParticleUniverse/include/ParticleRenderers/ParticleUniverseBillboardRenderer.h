@@ -63,7 +63,7 @@ namespace ParticleUniverse
 			static const Vector3 DEFAULT_COMMON_UP_VECTOR;
 			static const bool DEFAULT_POINT_RENDERING;
 
-			BillboardRenderer(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			BillboardRenderer();
 	        virtual ~BillboardRenderer(void);
 
 			/** @copydoc ParticleRenderer::_prepare */
@@ -90,11 +90,11 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			void setBillboardOrigin(Ogre::v1::BillboardOrigin origin) { mBillboardSet->setBillboardOrigin(origin); }
+			void setBillboardOrigin(Ogre::v1::BillboardOrigin origin);
 
 			/** 
 			*/
-			Ogre::v1::BillboardOrigin getBillboardOrigin(void) const { return mBillboardSet->getBillboardOrigin(); }
+			Ogre::v1::BillboardOrigin getBillboardOrigin(void) const;
 
 			/** 
 			*/
@@ -186,6 +186,30 @@ namespace ParticleUniverse
 			/** 
 			*/
 			BillboardType mBillboardType;
+
+			/**
+			*/
+			Ogre::v1::BillboardOrigin mBillboardOrigin;
+
+			/**
+			*/
+			Ogre::v1::BillboardRotationType mBillboardRotationType;
+
+			/**
+			*/
+			Vector3 mBillboardDirection;
+
+			/**
+			*/
+			Vector3 mBillboardUpVector;
+
+			/**
+			*/
+			bool mPointRenderingEnabled;
+
+			/**
+			*/
+			bool mUseAccurateFacing;
 	};
 
 }
