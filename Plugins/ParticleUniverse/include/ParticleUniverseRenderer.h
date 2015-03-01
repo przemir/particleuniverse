@@ -43,11 +43,11 @@ namespace ParticleUniverse
 		protected:
 			/** In case soft particles are used, a new material must be created.
 	        */
-			void _createSoftMaterial(void);
+			//void _createSoftMaterial(void);
 
 			/** Used to determine the original material name
 			*/
-			void _stripNameFromSoftPrefix(String& name);
+			//void _stripNameFromSoftPrefix(String& name);
 
 			// The technique to which this renderer belongs
 			ParticleTechnique* mParentTechnique;
@@ -114,20 +114,20 @@ namespace ParticleUniverse
 	        */
 			bool mTextureCoordsSet;
 
-			/** Determines whether soft particles are used.
-	        */
-			bool mUseSoftParticles;
+			///** Determines whether soft particles are used.
+	  //      */
+			//bool mUseSoftParticles;
 
-			/** Soft particles properties.
-	        */
-			Real mSoftParticlesContrastPower;
-			Real mSoftParticlesScale;
-			Real mSoftParticlesDelta;
+			///** Soft particles properties.
+	  //      */
+			//Real mSoftParticlesContrastPower;
+			//Real mSoftParticlesScale;
+			//Real mSoftParticlesDelta;
 
-			/** In case soft particles are used, the renderer notifies the ParticleSystemManager until notification succeeded. The notification
-				may be done multiple times, because a camera is needed from the Parent System, and it is not guaranteed that it already exists.
-	        */
-			bool mNotifiedDepthMap;
+			///** In case soft particles are used, the renderer notifies the ParticleSystemManager until notification succeeded. The notification
+			//	may be done multiple times, because a camera is needed from the Parent System, and it is not guaranteed that it already exists.
+	  //      */
+			//bool mNotifiedDepthMap;
 
 			/** Determines visibility of the renderer. This means that particles aren´t renderer anymore.
 	        */
@@ -206,37 +206,37 @@ namespace ParticleUniverse
 				Real timeElapsed, 
 				bool firstParticle){/* No default behaviour */};
 
-			/** Returns value that indicates whether usage of soft particles is on or off.
-			*/
-			bool getUseSoftParticles(void) const;
+			///** Returns value that indicates whether usage of soft particles is on or off.
+			//*/
+			//bool getUseSoftParticles(void) const;
 
-			/** Set usage of soft particles on or off.
-			*/
-			void setUseSoftParticles(bool useSoftParticles);
+			///** Set usage of soft particles on or off.
+			//*/
+			//void setUseSoftParticles(bool useSoftParticles);
 
-			/** Contrast Power determines the strength of the alpha that is applied to the particles.
-			*/
-			Real getSoftParticlesContrastPower(void) const;
+			///** Contrast Power determines the strength of the alpha that is applied to the particles.
+			//*/
+			//Real getSoftParticlesContrastPower(void) const;
 
-			/** Scale determines the 'velocity' of alpha fading.
-			*/
-			Real getSoftParticlesScale(void) const;
+			///** Scale determines the 'velocity' of alpha fading.
+			//*/
+			//Real getSoftParticlesScale(void) const;
 
-			/** The delta is a threshold value that determines at what 'depth distance' alpha fading is applied.
-			*/
-			Real getSoftParticlesDelta(void) const;
+			///** The delta is a threshold value that determines at what 'depth distance' alpha fading is applied.
+			//*/
+			//Real getSoftParticlesDelta(void) const;
 
-			/** Todo
-			*/
-			void setSoftParticlesContrastPower(Real softParticlesContrastPower);
+			///** Todo
+			//*/
+			//void setSoftParticlesContrastPower(Real softParticlesContrastPower);
 
-			/** Todo
-			*/
-			void setSoftParticlesScale(Real softParticlesScale);
+			///** Todo
+			//*/
+			//void setSoftParticlesScale(Real softParticlesScale);
 
-			/** Todo
-			*/
-			void setSoftParticlesDelta(Real softParticlesDelta);
+			///** Todo
+			//*/
+			//void setSoftParticlesDelta(Real softParticlesDelta);
 
 			/** Updates the renderqueue
 			@remarks

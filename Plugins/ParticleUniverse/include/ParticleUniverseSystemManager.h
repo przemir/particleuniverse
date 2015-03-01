@@ -61,39 +61,39 @@ namespace ParticleUniverse
 {
 	class ParticleSystemFactory;
 
-	/** RenderTargetListener to be used for depth map */
-	class _ParticleUniverseExport DepthMapTargetListener : public Ogre::RenderTargetListener, public Ogre::RenderQueue::RenderableListener
-	{
-		public: 
-			DepthMapTargetListener(void) : 
-				RenderTargetListener(),
-				mSceneManager(0),
-				mCamera(0),
-				mDepthMap(0){};
-			~DepthMapTargetListener(void){};
+	///** RenderTargetListener to be used for depth map */
+	//class _ParticleUniverseExport DepthMapTargetListener : public Ogre::RenderTargetListener, public Ogre::RenderQueue::RenderableListener
+	//{
+	//	public: 
+	//		DepthMapTargetListener(void) : 
+	//			RenderTargetListener(),
+	//			mSceneManager(0),
+	//			mCamera(0),
+	//			mDepthMap(0){};
+	//		~DepthMapTargetListener(void){};
 
-			virtual void preViewportUpdate(const Ogre::RenderTargetViewportEvent& evt);
-			virtual void postViewportUpdate(const Ogre::RenderTargetViewportEvent& evt);
-			virtual bool renderableQueued(Ogre::Renderable* rend, 
-				uint8 groupID, 
-				ushort priority, 
-				Ogre::Technique** ppTech, 
-				Ogre::RenderQueue* pQueue);
-			void registerRenderer(ParticleRenderer* renderer);
-			void unregisterRenderer(ParticleRenderer* renderer);
-			bool registeredRenderersEmpty(void);
-			Ogre::SceneManager* mSceneManager;
-			Ogre::Technique* mDepthTechnique;
-			Camera* mCamera;
-			Ogre::RenderTexture* mDepthMap;
-			vector<ParticleRenderer*> mRenderers;
-	};
+	//		virtual void preViewportUpdate(const Ogre::RenderTargetViewportEvent& evt);
+	//		virtual void postViewportUpdate(const Ogre::RenderTargetViewportEvent& evt);
+	//		virtual bool renderableQueued(Ogre::Renderable* rend, 
+	//			uint8 groupID, 
+	//			ushort priority, 
+	//			Ogre::Technique** ppTech, 
+	//			Ogre::RenderQueue* pQueue);
+	//		void registerRenderer(ParticleRenderer* renderer);
+	//		void unregisterRenderer(ParticleRenderer* renderer);
+	//		bool registeredRenderersEmpty(void);
+	//		Ogre::SceneManager* mSceneManager;
+	//		Ogre::Technique* mDepthTechnique;
+	//		Camera* mCamera;
+	//		Ogre::RenderTexture* mDepthMap;
+	//		vector<ParticleRenderer*> mRenderers;
+	//};
 
     /** The ParticleSystemManager manages particle systems, particle system scripts (templates), etc. It is also 
 		responsible for actually creating techniques, emitters, observers, etc.
 	*/
 	class _ParticleUniverseExport ParticleSystemManager:
-		public Singleton<ParticleSystemManager>, public ScriptWriter, public Ogre::FrameListener
+		public Singleton<ParticleSystemManager>, public ScriptWriter//, public Ogre::FrameListener
     {
 		friend class ParticleSystemFactory;
 
@@ -191,22 +191,23 @@ namespace ParticleUniverse
 			// Used as a global setting to determine whether materials must be loaded manually or not.
 			bool mAutoLoadMaterials;
 
-			// Attributes used for creation of a depth map.
-			static const String PU_DEPTH_MAP_COMP_NAME; //name of node & workspace definitions
-			DepthMapTargetListener mDepthMapTargetListener;
-			String mDepthTextureName;
-			String mDepthMaterialName;
-			String mDepthVertexName;
-			String mDepthFragmentName;
-			Ogre::RenderTexture* mDepthMap;
-			Ogre::Technique* mDepthTechnique;
-			Ogre::Pass* mDepthPass;
-			bool mDepthMapExtern;
-			Real mDepthScale;
-			Ogre::Camera* mDepthMapCamera;
-			Ogre::SceneManager* mDepthMapSceneMgr;
-			bool mEnableDepthWorspace;
-			Ogre::CompositorWorkspace* mDepthMapWorkspace;
+			//// Attributes used for creation of a depth map.
+			//static const String PU_DEPTH_MAP_COMP_NAME; //name of node & workspace definitions
+			//DepthMapTargetListener mDepthMapTargetListener;
+			//String mDepthTextureName;
+			//String mDepthMaterialName;
+			//String mDepthVertexName;
+			//String mDepthFragmentName;
+			//Ogre::RenderTexture* mDepthMap;
+			//Ogre::Technique* mDepthTechnique;
+			//Ogre::Pass* mDepthPass;
+			//bool mDepthMapExtern;
+			//Real mDepthScale;
+			//Ogre::Camera* mDepthMapCamera;
+			//Ogre::SceneManager* mDepthMapSceneMgr;
+			//bool mEnableDepthWorspace;
+			//Ogre::CompositorWorkspace* mDepthMapWorkspace;
+			
 
 			// Name of the last created template.
 			String mLastCreatedParticleSystemTemplateName;
@@ -625,48 +626,48 @@ namespace ParticleUniverse
 			*/
 			CameraDependency* createCameraDependency(void);
 
-			/** Create a depth map (texture) of all visible scene objects, except overlays and particle systems that render soft particles.
-	        */
-			void createDepthMap (Camera* camera, Ogre::SceneManager* sceneManager);
+			///** Create a depth map (texture) of all visible scene objects, except overlays and particle systems that render soft particles.
+	  //      */
+			//void createDepthMap (Camera* camera, Ogre::SceneManager* sceneManager);
 
-			/** Perform cleanup activities.
-	        */
-			void destroyDepthMap (void);
+			///** Perform cleanup activities.
+	  //      */
+			//void destroyDepthMap (void);
 
-			/** Notify the Particle System Manager that is depthmap is needed.
-	        */
-			bool notifyDepthMapNeeded(Camera* camera, Ogre::SceneManager* sceneManager);
+			///** Notify the Particle System Manager that is depthmap is needed.
+	  //      */
+			//bool notifyDepthMapNeeded(Camera* camera, Ogre::SceneManager* sceneManager);
 
-			/** Register the renderer, because it renders soft particles.
-			@remarks
-				Registration of the renderers is done by the ParticleSystemManager, because the depthmap that is used for soft particles
-				is rendered only once under management of the ParticleSystemManager. The reason why the renderers are registered and
-				not the complete ParticleSystems is to allow that ParticleSystem can contain a ParticleTechnique with soft particles and
-				one without (also in relation to LOD strategies).
-	        */
-			void registerSoftParticlesRenderer(ParticleRenderer* renderer);
+			///** Register the renderer, because it renders soft particles.
+			//@remarks
+			//	Registration of the renderers is done by the ParticleSystemManager, because the depthmap that is used for soft particles
+			//	is rendered only once under management of the ParticleSystemManager. The reason why the renderers are registered and
+			//	not the complete ParticleSystems is to allow that ParticleSystem can contain a ParticleTechnique with soft particles and
+			//	one without (also in relation to LOD strategies).
+	  //      */
+			//void registerSoftParticlesRenderer(ParticleRenderer* renderer);
 
-			/** Unregister the renderer, because it will not use soft particles anymore.
-	        */
-			void unregisterSoftParticlesRenderer(ParticleRenderer* renderer);
+			///** Unregister the renderer, because it will not use soft particles anymore.
+	  //      */
+			//void unregisterSoftParticlesRenderer(ParticleRenderer* renderer);
 
-			/** Used to scale the values of the generated depth map
-	        */
-			Real getDepthScale(void) const;
-			void setDepthScale(Real depthScale);
+			///** Used to scale the values of the generated depth map
+	  //      */
+			//Real getDepthScale(void) const;
+			//void setDepthScale(Real depthScale);
 
-			/** Returns the name of the depth texture.
-	        */
-			const String& getDepthTextureName (void);
+			///** Returns the name of the depth texture.
+	  //      */
+			//const String& getDepthTextureName (void);
 
-			/** Set a depth texture name from a depthmap that is created outside Particle Universe. This means that the external source
-				also has to take into account that the Particle Universe particles are excluded from the depth map.
-	        */
-			void setExternDepthTextureName (const String& depthTextureName);
+			///** Set a depth texture name from a depthmap that is created outside Particle Universe. This means that the external source
+			//	also has to take into account that the Particle Universe particles are excluded from the depth map.
+	  //      */
+			//void setExternDepthTextureName (const String& depthTextureName);
 
-			/** Reset the external depth texture name, so it is not used anymore.
-	        */
-			void resetExternDepthTextureName (void);
+			///** Reset the external depth texture name, so it is not used anymore.
+	  //      */
+			//void resetExternDepthTextureName (void);
 
 			/** Create a DynamicAttribute.
 			@remarks
@@ -687,7 +688,7 @@ namespace ParticleUniverse
 
 			/** Ogre::FrameListener function
 			*/
-			bool frameEnded(const Ogre::FrameEvent& evt);
+			//bool frameEnded(const Ogre::FrameEvent& evt);
 	};
 
 	//-----------------------------------------------------------------------

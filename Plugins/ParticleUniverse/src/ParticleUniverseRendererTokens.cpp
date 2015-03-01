@@ -183,54 +183,54 @@ namespace ParticleUniverse
 						}
 					}
 				}
-				else if (prop->name == token[TOKEN_RENDERER_USE_SOFT_PARTICLES])
-				{
-					// Property: use_soft_particles
-					if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_USE_SOFT_PARTICLES], VAL_BOOL))
-					{
-						bool val = 0;
-						if(getBoolean(prop->values.front(), &val))
-						{
-							mRenderer->setUseSoftParticles(val);
-						}
-					}
-				}
-				else if (prop->name == token[TOKEN_RENDERER_SOFT_PARTICLES_CONTRAST_POWER])
-				{
-					// Property: soft_particles_contrast_power
-					if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_SOFT_PARTICLES_CONTRAST_POWER], VAL_REAL))
-					{
-						Real val = 0;
-						if(getReal(prop->values.front(), &val))
-						{
-							mRenderer->setSoftParticlesContrastPower(val);
-						}
-					}
-				}
-				else if (prop->name == token[TOKEN_RENDERER_SOFT_PARTICLES_SCALE])
-				{
-					// Property: soft_particles_scale
-					if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_SOFT_PARTICLES_SCALE], VAL_REAL))
-					{
-						Real val = 0;
-						if(getReal(prop->values.front(), &val))
-						{
-							mRenderer->setSoftParticlesScale(val);
-						}
-					}
-				}
-				else if (prop->name == token[TOKEN_RENDERER_SOFT_PARTICLES_DELTA])
-				{
-					// Property: soft_particles_delta
-					if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_SOFT_PARTICLES_DELTA], VAL_REAL))
-					{
-						Real val = 0;
-						if(getReal(prop->values.front(), &val))
-						{
-							mRenderer->setSoftParticlesDelta(val);
-						}
-					}
-				}
+				//else if (prop->name == token[TOKEN_RENDERER_USE_SOFT_PARTICLES])
+				//{
+				//	// Property: use_soft_particles
+				//	if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_USE_SOFT_PARTICLES], VAL_BOOL))
+				//	{
+				//		bool val = 0;
+				//		if(getBoolean(prop->values.front(), &val))
+				//		{
+				//			mRenderer->setUseSoftParticles(val);
+				//		}
+				//	}
+				//}
+				//else if (prop->name == token[TOKEN_RENDERER_SOFT_PARTICLES_CONTRAST_POWER])
+				//{
+				//	// Property: soft_particles_contrast_power
+				//	if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_SOFT_PARTICLES_CONTRAST_POWER], VAL_REAL))
+				//	{
+				//		Real val = 0;
+				//		if(getReal(prop->values.front(), &val))
+				//		{
+				//			mRenderer->setSoftParticlesContrastPower(val);
+				//		}
+				//	}
+				//}
+				//else if (prop->name == token[TOKEN_RENDERER_SOFT_PARTICLES_SCALE])
+				//{
+				//	// Property: soft_particles_scale
+				//	if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_SOFT_PARTICLES_SCALE], VAL_REAL))
+				//	{
+				//		Real val = 0;
+				//		if(getReal(prop->values.front(), &val))
+				//		{
+				//			mRenderer->setSoftParticlesScale(val);
+				//		}
+				//	}
+				//}
+				//else if (prop->name == token[TOKEN_RENDERER_SOFT_PARTICLES_DELTA])
+				//{
+				//	// Property: soft_particles_delta
+				//	if (passValidateProperty(compiler, prop, token[TOKEN_RENDERER_SOFT_PARTICLES_DELTA], VAL_REAL))
+				//	{
+				//		Real val = 0;
+				//		if(getReal(prop->values.front(), &val))
+				//		{
+				//			mRenderer->setSoftParticlesDelta(val);
+				//		}
+				//	}
+				//}
 				else if (particleRendererFactory->translateChildProperty(compiler, *i))
 				{
 					// Parsed the property by another translator; do nothing
@@ -297,14 +297,14 @@ namespace ParticleUniverse
 			serializer->writeLine("}", 12);
 		}
 
-		if (renderer->getUseSoftParticles() != ParticleRenderer::DEFAULT_USE_SOFT_PARTICLES) serializer->writeLine(
-			token[TOKEN_RENDERER_USE_SOFT_PARTICLES], StringConverter::toString(renderer->getUseSoftParticles()), 12);
-		if (renderer->getSoftParticlesContrastPower() != ParticleRenderer::DEFAULT_SOFT_PARTICLES_CONTRAST_POWER) serializer->writeLine(
-			token[TOKEN_RENDERER_SOFT_PARTICLES_CONTRAST_POWER], StringConverter::toString(renderer->getSoftParticlesContrastPower()), 12);
-		if (renderer->getSoftParticlesScale() != ParticleRenderer::DEFAULT_SOFT_PARTICLES_SCALE) serializer->writeLine(
-			token[TOKEN_RENDERER_SOFT_PARTICLES_SCALE], StringConverter::toString(renderer->getSoftParticlesScale()), 12);
-		if (renderer->getSoftParticlesDelta() != ParticleRenderer::DEFAULT_SOFT_PARTICLES_DELTA) serializer->writeLine(
-			token[TOKEN_RENDERER_SOFT_PARTICLES_DELTA], StringConverter::toString(renderer->getSoftParticlesDelta()), 12);
+		//if (renderer->getUseSoftParticles() != ParticleRenderer::DEFAULT_USE_SOFT_PARTICLES) serializer->writeLine(
+		//	token[TOKEN_RENDERER_USE_SOFT_PARTICLES], StringConverter::toString(renderer->getUseSoftParticles()), 12);
+		//if (renderer->getSoftParticlesContrastPower() != ParticleRenderer::DEFAULT_SOFT_PARTICLES_CONTRAST_POWER) serializer->writeLine(
+		//	token[TOKEN_RENDERER_SOFT_PARTICLES_CONTRAST_POWER], StringConverter::toString(renderer->getSoftParticlesContrastPower()), 12);
+		//if (renderer->getSoftParticlesScale() != ParticleRenderer::DEFAULT_SOFT_PARTICLES_SCALE) serializer->writeLine(
+		//	token[TOKEN_RENDERER_SOFT_PARTICLES_SCALE], StringConverter::toString(renderer->getSoftParticlesScale()), 12);
+		//if (renderer->getSoftParticlesDelta() != ParticleRenderer::DEFAULT_SOFT_PARTICLES_DELTA) serializer->writeLine(
+		//	token[TOKEN_RENDERER_SOFT_PARTICLES_DELTA], StringConverter::toString(renderer->getSoftParticlesDelta()), 12);
 	}
 
 }

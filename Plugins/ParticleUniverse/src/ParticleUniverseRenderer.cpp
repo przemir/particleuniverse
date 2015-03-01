@@ -62,11 +62,11 @@ namespace ParticleUniverse
 		mTextureCoordsRows(DEFAULT_TEXTURECOORDS_ROWS),
 		mTextureCoordsColumns(DEFAULT_TEXTURECOORDS_COLUMNS),
 		mTextureCoordsSet(false),
-		mUseSoftParticles(DEFAULT_USE_SOFT_PARTICLES),
-		mSoftParticlesContrastPower(DEFAULT_SOFT_PARTICLES_CONTRAST_POWER),
-		mSoftParticlesScale(DEFAULT_SOFT_PARTICLES_SCALE),
-		mSoftParticlesDelta(DEFAULT_SOFT_PARTICLES_DELTA),
-		mNotifiedDepthMap(false),
+		//mUseSoftParticles(DEFAULT_USE_SOFT_PARTICLES),
+		//mSoftParticlesContrastPower(DEFAULT_SOFT_PARTICLES_CONTRAST_POWER),
+		//mSoftParticlesScale(DEFAULT_SOFT_PARTICLES_SCALE),
+		//mSoftParticlesDelta(DEFAULT_SOFT_PARTICLES_DELTA),
+		//mNotifiedDepthMap(false),
 		mTextureCoordsRowsAndColumnsSet(false),
 		mVisible(true)
 	{
@@ -83,11 +83,11 @@ namespace ParticleUniverse
 			delete *it;
 		}
 
-		// Unregister
-		if (mUseSoftParticles)
-		{
-			ParticleSystemManager::getSingleton().unregisterSoftParticlesRenderer(this);
-		}
+		//// Unregister
+		//if (mUseSoftParticles)
+		//{
+		//	ParticleSystemManager::getSingleton().unregisterSoftParticlesRenderer(this);
+		//}
 	}
 	//-----------------------------------------------------------------------
 	void ParticleRenderer::_notifyStart(void)
@@ -209,221 +209,221 @@ namespace ParticleUniverse
 		/** Notify the Particle System Manager in case soft particles are used. This cannot be done elsewhere, because 
 			it isn´t sure whether there is already a camera created.
 		*/
-		if (mUseSoftParticles && !mNotifiedDepthMap)
-		{
-			Camera* camera = 0;
-			ParticleSystem* sys = mParentTechnique->getParentSystem();
-			if (sys->hasMainCamera())
-			{
-				// Always use the main camera
-				camera = sys->getMainCamera();
-			}
-			else
-			{
-				// Use the first camera that is encountered
-				camera = sys->getCurrentCamera();
-			}
-			Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
-			if (camera && sceneManager)
-			{
-				mNotifiedDepthMap = ParticleSystemManager::getSingleton().notifyDepthMapNeeded(camera, sceneManager);
-				if (mNotifiedDepthMap)
-				{
-					ParticleSystemManager::getSingleton().registerSoftParticlesRenderer(this);
-					_createSoftMaterial();
-				}
-			}
-		}
+		//if (mUseSoftParticles && !mNotifiedDepthMap)
+		//{
+		//	Camera* camera = 0;
+		//	ParticleSystem* sys = mParentTechnique->getParentSystem();
+		//	if (sys->hasMainCamera())
+		//	{
+		//		// Always use the main camera
+		//		camera = sys->getMainCamera();
+		//	}
+		//	else
+		//	{
+		//		// Use the first camera that is encountered
+		//		camera = sys->getCurrentCamera();
+		//	}
+		//	Ogre::SceneManager* sceneManager = mParentTechnique->getParentSystem()->getSceneManager();
+		//	if (camera && sceneManager)
+		//	{
+		//		mNotifiedDepthMap = ParticleSystemManager::getSingleton().notifyDepthMapNeeded(camera, sceneManager);
+		//		if (mNotifiedDepthMap)
+		//		{
+		//			ParticleSystemManager::getSingleton().registerSoftParticlesRenderer(this);
+		//			_createSoftMaterial();
+		//		}
+		//	}
+		//}
 	}
-	//-----------------------------------------------------------------------
-	bool ParticleRenderer::getUseSoftParticles(void) const
-	{
-		return mUseSoftParticles;
-	}
-	//-----------------------------------------------------------------------
-	void ParticleRenderer::setUseSoftParticles(bool useSoftParticles)
-	{
-		mUseSoftParticles = useSoftParticles;
-		if (!mUseSoftParticles)
-		{
-			// Unregister is always executed if set to false
-			ParticleSystemManager::getSingleton().unregisterSoftParticlesRenderer(this);
-			String originalMaterialName = mParentTechnique->getMaterialName();
-			_stripNameFromSoftPrefix(originalMaterialName);
-			mParentTechnique->setMaterialName(originalMaterialName);
-			mNotifiedDepthMap = false;
-		}
-	}
-	//-----------------------------------------------------------------------
-	void ParticleRenderer::_stripNameFromSoftPrefix(String& name)
-	{
-		if (name.find(SOFT_PREFIX) != String::npos)
-		{
-			// Remove the prefix
-			name.erase(0, SOFT_PREFIX.length());
-		}
-	}
-	//-----------------------------------------------------------------------
-	Real ParticleRenderer::getSoftParticlesContrastPower(void) const
-	{
-		return mSoftParticlesContrastPower;
-	}
-	//-----------------------------------------------------------------------
-	Real ParticleRenderer::getSoftParticlesScale(void) const
-	{
-		return mSoftParticlesScale;
-	}
-	//-----------------------------------------------------------------------
-	Real ParticleRenderer::getSoftParticlesDelta(void) const
-	{
-		return mSoftParticlesDelta;
-	}
-	//-----------------------------------------------------------------------
-	void ParticleRenderer::setSoftParticlesContrastPower(Real softParticlesContrastPower)
-	{
-		mSoftParticlesContrastPower = softParticlesContrastPower;
-		if (mUseSoftParticles)
-		{
-			// Set GPU param
-			Ogre::MaterialPtr mat = mParentTechnique->getMaterial();
-			if (!mat.isNull())
-			{
-				if (mat->getBestTechnique() && mat->getBestTechnique()->getPass(0))
-				{
-					Ogre::Pass* gpuPass = mat->getBestTechnique()->getPass(0);
-					if (gpuPass->hasFragmentProgram())
-					{
-						Ogre::GpuProgramParametersSharedPtr fragmentParams = gpuPass->getFragmentProgramParameters();
-						fragmentParams->setNamedConstant("contrastPower", mSoftParticlesContrastPower);
-					}
-				}
-			}
-		}
-	}
-	//-----------------------------------------------------------------------
-	void ParticleRenderer::setSoftParticlesScale(Real softParticlesScale)
-	{
-		mSoftParticlesScale = softParticlesScale;
-		if (mUseSoftParticles)
-		{
-			// Set GPU param
-			Ogre::MaterialPtr mat = mParentTechnique->getMaterial();
-			if (!mat.isNull())
-			{
-				if (mat->getBestTechnique() && mat->getBestTechnique()->getPass(0))
-				{
-					Ogre::Pass* gpuPass = mat->getBestTechnique()->getPass(0);
-					if (gpuPass->hasFragmentProgram())
-					{
-						Ogre::GpuProgramParametersSharedPtr fragmentParams = gpuPass->getFragmentProgramParameters();
-						fragmentParams->setNamedConstant("scale", mSoftParticlesScale);
-					}
-				}
-			}
-		}
-	}
-	//-----------------------------------------------------------------------
-	void ParticleRenderer::setSoftParticlesDelta(Real softParticlesDelta)
-	{
-		mSoftParticlesDelta = softParticlesDelta;
-		if (mUseSoftParticles)
-		{
-			// Set GPU param
-			Ogre::MaterialPtr mat = mParentTechnique->getMaterial();
-			if (!mat.isNull())
-			{
-				if (mat->getBestTechnique() && mat->getBestTechnique()->getPass(0))
-				{
-					Ogre::Pass* gpuPass = mat->getBestTechnique()->getPass(0);
-					if (gpuPass->hasFragmentProgram())
-					{
-						Ogre::GpuProgramParametersSharedPtr fragmentParams = gpuPass->getFragmentProgramParameters();
-						fragmentParams->setNamedConstant("delta", mSoftParticlesDelta);
-					}
-				}
-			}
-		}
-	}
-	//-----------------------------------------------------------------------
-	void ParticleRenderer::_createSoftMaterial(void)
-	{
-		String newMaterialName = SOFT_PREFIX + mParentTechnique->getMaterialName();
-		if (!Ogre::MaterialManager::getSingletonPtr()->getByName(newMaterialName).isNull())
-		{
-			mParentTechnique->setMaterialName(newMaterialName);
-			return;
-		}
+	////-----------------------------------------------------------------------
+	//bool ParticleRenderer::getUseSoftParticles(void) const
+	//{
+	//	return mUseSoftParticles;
+	//}
+	////-----------------------------------------------------------------------
+	//void ParticleRenderer::setUseSoftParticles(bool useSoftParticles)
+	//{
+	//	mUseSoftParticles = useSoftParticles;
+	//	if (!mUseSoftParticles)
+	//	{
+	//		// Unregister is always executed if set to false
+	//		ParticleSystemManager::getSingleton().unregisterSoftParticlesRenderer(this);
+	//		String originalMaterialName = mParentTechnique->getMaterialName();
+	//		_stripNameFromSoftPrefix(originalMaterialName);
+	//		mParentTechnique->setMaterialName(originalMaterialName);
+	//		mNotifiedDepthMap = false;
+	//	}
+	//}
+	////-----------------------------------------------------------------------
+	//void ParticleRenderer::_stripNameFromSoftPrefix(String& name)
+	//{
+	//	if (name.find(SOFT_PREFIX) != String::npos)
+	//	{
+	//		// Remove the prefix
+	//		name.erase(0, SOFT_PREFIX.length());
+	//	}
+	//}
+	////-----------------------------------------------------------------------
+	//Real ParticleRenderer::getSoftParticlesContrastPower(void) const
+	//{
+	//	return mSoftParticlesContrastPower;
+	//}
+	////-----------------------------------------------------------------------
+	//Real ParticleRenderer::getSoftParticlesScale(void) const
+	//{
+	//	return mSoftParticlesScale;
+	//}
+	////-----------------------------------------------------------------------
+	//Real ParticleRenderer::getSoftParticlesDelta(void) const
+	//{
+	//	return mSoftParticlesDelta;
+	//}
+	////-----------------------------------------------------------------------
+	//void ParticleRenderer::setSoftParticlesContrastPower(Real softParticlesContrastPower)
+	//{
+	//	mSoftParticlesContrastPower = softParticlesContrastPower;
+	//	if (mUseSoftParticles)
+	//	{
+	//		// Set GPU param
+	//		Ogre::MaterialPtr mat = mParentTechnique->getMaterial();
+	//		if (!mat.isNull())
+	//		{
+	//			if (mat->getBestTechnique() && mat->getBestTechnique()->getPass(0))
+	//			{
+	//				Ogre::Pass* gpuPass = mat->getBestTechnique()->getPass(0);
+	//				if (gpuPass->hasFragmentProgram())
+	//				{
+	//					Ogre::GpuProgramParametersSharedPtr fragmentParams = gpuPass->getFragmentProgramParameters();
+	//					fragmentParams->setNamedConstant("contrastPower", mSoftParticlesContrastPower);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	////-----------------------------------------------------------------------
+	//void ParticleRenderer::setSoftParticlesScale(Real softParticlesScale)
+	//{
+	//	mSoftParticlesScale = softParticlesScale;
+	//	if (mUseSoftParticles)
+	//	{
+	//		// Set GPU param
+	//		Ogre::MaterialPtr mat = mParentTechnique->getMaterial();
+	//		if (!mat.isNull())
+	//		{
+	//			if (mat->getBestTechnique() && mat->getBestTechnique()->getPass(0))
+	//			{
+	//				Ogre::Pass* gpuPass = mat->getBestTechnique()->getPass(0);
+	//				if (gpuPass->hasFragmentProgram())
+	//				{
+	//					Ogre::GpuProgramParametersSharedPtr fragmentParams = gpuPass->getFragmentProgramParameters();
+	//					fragmentParams->setNamedConstant("scale", mSoftParticlesScale);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	////-----------------------------------------------------------------------
+	//void ParticleRenderer::setSoftParticlesDelta(Real softParticlesDelta)
+	//{
+	//	mSoftParticlesDelta = softParticlesDelta;
+	//	if (mUseSoftParticles)
+	//	{
+	//		// Set GPU param
+	//		Ogre::MaterialPtr mat = mParentTechnique->getMaterial();
+	//		if (!mat.isNull())
+	//		{
+	//			if (mat->getBestTechnique() && mat->getBestTechnique()->getPass(0))
+	//			{
+	//				Ogre::Pass* gpuPass = mat->getBestTechnique()->getPass(0);
+	//				if (gpuPass->hasFragmentProgram())
+	//				{
+	//					Ogre::GpuProgramParametersSharedPtr fragmentParams = gpuPass->getFragmentProgramParameters();
+	//					fragmentParams->setNamedConstant("delta", mSoftParticlesDelta);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	////-----------------------------------------------------------------------
+	//void ParticleRenderer::_createSoftMaterial(void)
+	//{
+	//	String newMaterialName = SOFT_PREFIX + mParentTechnique->getMaterialName();
+	//	if (!Ogre::MaterialManager::getSingletonPtr()->getByName(newMaterialName).isNull())
+	//	{
+	//		mParentTechnique->setMaterialName(newMaterialName);
+	//		return;
+	//	}
 
-		// Create a new material for soft particles
-		if (mUseSoftParticles && mNotifiedDepthMap)
-		{
-			// Create Vertex program
-			String softVertexName = "ParticleUniverse_SoftVP"; // Use ParticleUniverse_ to avoid name conflicts.
-			Ogre::HighLevelGpuProgramPtr vertexProgram = Ogre::HighLevelGpuProgramManager::getSingleton().createProgram( 
-			softVertexName,
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-			"hlsl",
-			Ogre::GPT_VERTEX_PROGRAM);
-			vertexProgram->setSourceFile("pu_soft_sm20.hlsl");
-			vertexProgram->setParameter("target", "vs_2_0");
-			vertexProgram->setParameter("entry_point", "mainVP"); // Must be same name as in pu_soft_sm20.hlsl
-			vertexProgram->load();
+	//	// Create a new material for soft particles
+	//	if (mUseSoftParticles && mNotifiedDepthMap)
+	//	{
+	//		// Create Vertex program
+	//		String softVertexName = "ParticleUniverse_SoftVP"; // Use ParticleUniverse_ to avoid name conflicts.
+	//		Ogre::HighLevelGpuProgramPtr vertexProgram = Ogre::HighLevelGpuProgramManager::getSingleton().createProgram( 
+	//		softVertexName,
+	//		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+	//		"hlsl",
+	//		Ogre::GPT_VERTEX_PROGRAM);
+	//		vertexProgram->setSourceFile("pu_soft_sm20.hlsl");
+	//		vertexProgram->setParameter("target", "vs_2_0");
+	//		vertexProgram->setParameter("entry_point", "mainVP"); // Must be same name as in pu_soft_sm20.hlsl
+	//		vertexProgram->load();
 
-			String softFragmentName = "ParticleUniverse_SoftFP"; // Use ParticleUniverse_ to avoid name conflicts.
-			Ogre::HighLevelGpuProgramPtr fragmentProgram = Ogre::HighLevelGpuProgramManager::getSingleton().createProgram( 
-				softFragmentName,
-				Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-				"hlsl",
-				Ogre::GPT_FRAGMENT_PROGRAM);
-			fragmentProgram->setSourceFile("pu_soft_sm20.hlsl");
-			fragmentProgram->setParameter("target", "ps_2_0");
-			fragmentProgram->setParameter("entry_point", "mainFP"); // Must be same name as in pu_soft_sm20.hlsl
-			fragmentProgram->load();
+	//		String softFragmentName = "ParticleUniverse_SoftFP"; // Use ParticleUniverse_ to avoid name conflicts.
+	//		Ogre::HighLevelGpuProgramPtr fragmentProgram = Ogre::HighLevelGpuProgramManager::getSingleton().createProgram( 
+	//			softFragmentName,
+	//			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+	//			"hlsl",
+	//			Ogre::GPT_FRAGMENT_PROGRAM);
+	//		fragmentProgram->setSourceFile("pu_soft_sm20.hlsl");
+	//		fragmentProgram->setParameter("target", "ps_2_0");
+	//		fragmentProgram->setParameter("entry_point", "mainFP"); // Must be same name as in pu_soft_sm20.hlsl
+	//		fragmentProgram->load();
 
-			String resourceGroupName = mParentTechnique->getParentSystem() ? 
-				mParentTechnique->getParentSystem()->getResourceGroupName() : 
-				Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
+	//		String resourceGroupName = mParentTechnique->getParentSystem() ? 
+	//			mParentTechnique->getParentSystem()->getResourceGroupName() : 
+	//			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
 
-			// Create material with depth texture
-			Ogre::MaterialPtr newMaterial = Ogre::MaterialManager::getSingleton().getByName(newMaterialName);
-			if (!newMaterial.getPointer())
-			{
-				newMaterial = Ogre::MaterialManager::getSingleton().create(newMaterialName, resourceGroupName);
-				Ogre::Pass* newPass = newMaterial->getTechnique(0)->getPass(0);
-				newPass->setDepthCheckEnabled(true);
-				newPass->setDepthWriteEnabled(false);
-				newPass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
-				newPass->createTextureUnitState(ParticleSystemManager::getSingleton().getDepthTextureName());
+	//		// Create material with depth texture
+	//		Ogre::MaterialPtr newMaterial = Ogre::MaterialManager::getSingleton().getByName(newMaterialName);
+	//		if (!newMaterial.getPointer())
+	//		{
+	//			newMaterial = Ogre::MaterialManager::getSingleton().create(newMaterialName, resourceGroupName);
+	//			Ogre::Pass* newPass = newMaterial->getTechnique(0)->getPass(0);
+	//			newPass->setDepthCheckEnabled(true);
+	//			newPass->setDepthWriteEnabled(false);
+	//			newPass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+	//			newPass->createTextureUnitState(ParticleSystemManager::getSingleton().getDepthTextureName());
 
-				// Get the first texture from the old material (assume it has at least 1 technique and one pass)
-				Ogre::Pass* oldPass = mParentTechnique->getMaterial()->getBestTechnique()->getPass(0);
-				newPass->setLightingEnabled(oldPass->getLightingEnabled());
-				if (oldPass->getNumTextureUnitStates() > 0)
-				{
-					Ogre::TextureUnitState* oldTextureUnitState = oldPass->getTextureUnitState(0);
-					newPass->createTextureUnitState(oldTextureUnitState->getTextureName());
-				}
+	//			// Get the first texture from the old material (assume it has at least 1 technique and one pass)
+	//			Ogre::Pass* oldPass = mParentTechnique->getMaterial()->getBestTechnique()->getPass(0);
+	//			newPass->setLightingEnabled(oldPass->getLightingEnabled());
+	//			if (oldPass->getNumTextureUnitStates() > 0)
+	//			{
+	//				Ogre::TextureUnitState* oldTextureUnitState = oldPass->getTextureUnitState(0);
+	//				newPass->createTextureUnitState(oldTextureUnitState->getTextureName());
+	//			}
 
-				// Set the vertex and fragment parameters
-				newPass->setVertexProgram(softVertexName);
-				newPass->setFragmentProgram(softFragmentName);
-				Ogre::GpuProgramParametersSharedPtr vertexParams = newPass->getVertexProgramParameters();
-				vertexParams->setNamedAutoConstant("worldViewProj", Ogre::GpuProgramParameters::ACT_WORLDVIEWPROJ_MATRIX);
-				vertexParams->setNamedAutoConstant("depthRange", Ogre::GpuProgramParameters::ACT_SCENE_DEPTH_RANGE);
+	//			// Set the vertex and fragment parameters
+	//			newPass->setVertexProgram(softVertexName);
+	//			newPass->setFragmentProgram(softFragmentName);
+	//			Ogre::GpuProgramParametersSharedPtr vertexParams = newPass->getVertexProgramParameters();
+	//			vertexParams->setNamedAutoConstant("worldViewProj", Ogre::GpuProgramParameters::ACT_WORLDVIEWPROJ_MATRIX);
+	//			vertexParams->setNamedAutoConstant("depthRange", Ogre::GpuProgramParameters::ACT_SCENE_DEPTH_RANGE);
 
-				// Depth scale must be the same as used in creation of the depth map
-				vertexParams->setNamedConstant("depthScale", ParticleSystemManager::getSingleton().getDepthScale());
+	//			// Depth scale must be the same as used in creation of the depth map
+	//			vertexParams->setNamedConstant("depthScale", ParticleSystemManager::getSingleton().getDepthScale());
 
-				Ogre::GpuProgramParametersSharedPtr fragmentParams = newPass->getFragmentProgramParameters();
-				fragmentParams->setNamedConstant("contrastPower", mSoftParticlesContrastPower);
-				fragmentParams->setNamedConstant("scale", mSoftParticlesScale);
-				fragmentParams->setNamedConstant("delta", mSoftParticlesDelta);
-			}
+	//			Ogre::GpuProgramParametersSharedPtr fragmentParams = newPass->getFragmentProgramParameters();
+	//			fragmentParams->setNamedConstant("contrastPower", mSoftParticlesContrastPower);
+	//			fragmentParams->setNamedConstant("scale", mSoftParticlesScale);
+	//			fragmentParams->setNamedConstant("delta", mSoftParticlesDelta);
+	//		}
 
-			// Set the new material
-			mParentTechnique->setMaterialName(newMaterialName);
-		}
-	}
+	//		// Set the new material
+	//		mParentTechnique->setMaterialName(newMaterialName);
+	//	}
+	//}
 	//-----------------------------------------------------------------------
 	void ParticleRenderer::copyAttributesTo (ParticleRenderer* renderer)
 	{
@@ -438,11 +438,11 @@ namespace ParticleUniverse
 		renderer->mTextureCoordsColumns = mTextureCoordsColumns;
 		renderer->mTextureCoordsRowsAndColumnsSet = mTextureCoordsRowsAndColumnsSet;
 		renderer->mTextureCoordsSet = mTextureCoordsSet;
-		renderer->mUseSoftParticles = mUseSoftParticles;
-		renderer->mSoftParticlesContrastPower = mSoftParticlesContrastPower;
-		renderer->mSoftParticlesScale = mSoftParticlesScale;
-		renderer->mSoftParticlesDelta = mSoftParticlesDelta;
-		renderer->mNotifiedDepthMap = mNotifiedDepthMap;
+		//renderer->mUseSoftParticles = mUseSoftParticles;
+		//renderer->mSoftParticlesContrastPower = mSoftParticlesContrastPower;
+		//renderer->mSoftParticlesScale = mSoftParticlesScale;
+		//renderer->mSoftParticlesDelta = mSoftParticlesDelta;
+		//renderer->mNotifiedDepthMap = mNotifiedDepthMap;
 		renderer->_mRendererScale = _mRendererScale;
 
 		if (mUVList.empty())
