@@ -102,13 +102,14 @@ namespace ParticleUniverse
 			@remarks
 				This function must not be used directly.
 	        */
-			ParticleSystem* _createSystemImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			ParticleSystem* _createSystemImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager);
 
 			/** Implementation of creating a particle system used by the MovableObject factory.
 			@remarks
 				This function must not be used directly.
 	        */
-			ParticleSystem* _createSystemImpl(const String& templateName, Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			ParticleSystem* _createSystemImpl(const String& templateName, Ogre::IdType id,
+												Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager);
 
 			/** Delete a particle system.
 			@remarks
@@ -699,7 +700,7 @@ namespace ParticleUniverse
 	{
 		protected:
 			Ogre::MovableObject* createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
-													const Ogre::NameValuePairList* params = 0);
+													Ogre::SceneManager* manager, const Ogre::NameValuePairList* params = 0);
 		
 		public:
 			ParticleSystemFactory(void) {};

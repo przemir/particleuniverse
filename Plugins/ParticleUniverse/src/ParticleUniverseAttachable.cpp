@@ -34,9 +34,9 @@ namespace ParticleUniverse
 	// Constants
 	String Attachable::PU_ATTACHABLE = "PUAttachable";
 	//-----------------------------------------------------------------------
-	Attachable::Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
+	Attachable::Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager) :
 		Extern(),
-		MovableObject(id, objectMemoryManager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
+		MovableObject(id, objectMemoryManager, manager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
 		mDistanceThreshold(std::numeric_limits<float>::max()),
 		mDistanceThresholdSet(false)
 	{

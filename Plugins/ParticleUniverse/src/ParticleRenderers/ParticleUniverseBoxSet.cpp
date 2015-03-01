@@ -38,8 +38,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	BoxSet::BoxSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, unsigned int poolSize, bool externalData) :
-		PrimitiveShapeSet(id, objectMemoryManager),
+	BoxSet::BoxSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager,
+					unsigned int poolSize, bool externalData) :
+		PrimitiveShapeSet(id, objectMemoryManager, manager),
 		mAutoExtendPool(true),
 		mVertexData(0),
 		mIndexData(0),
@@ -677,7 +678,7 @@ namespace ParticleUniverse
 	}
 	//-----------------------------------------------------------------------
 	Ogre::MovableObject* BoxSetFactory::createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
-															const Ogre::NameValuePairList* params)
+															Ogre::SceneManager *manager, const Ogre::NameValuePairList* params)
 	{
 		bool externalData = false;
 		unsigned int poolSize = 0;
@@ -696,7 +697,7 @@ namespace ParticleUniverse
 			}
 		}
 
-		return PU_NEW BoxSet(id, objectMemoryManager, poolSize, externalData);
+		return PU_NEW BoxSet(id, objectMemoryManager, manager, poolSize, externalData);
 	}
 	//-----------------------------------------------------------------------
 	void BoxSetFactory::destroyInstance(Ogre::MovableObject* obj)

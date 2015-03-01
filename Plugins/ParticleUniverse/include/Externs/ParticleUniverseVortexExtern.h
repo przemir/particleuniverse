@@ -41,8 +41,8 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport VortexExtern : public Attachable, public VortexAffector
 	{
 		public:
-			VortexExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
-			Attachable(id, objectMemoryManager),
+			VortexExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager) :
+			Attachable(id, objectMemoryManager, manager),
 			VortexAffector(){};
 	        virtual ~VortexExtern(void) {};
 

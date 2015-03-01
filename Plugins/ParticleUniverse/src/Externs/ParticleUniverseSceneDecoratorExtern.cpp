@@ -35,7 +35,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	SceneDecoratorExtern::SceneDecoratorExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
+	SceneDecoratorExtern::SceneDecoratorExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager) :
 		Extern(),
 		mEntity(0),
 		mEntitySet(false),

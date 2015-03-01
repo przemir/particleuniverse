@@ -68,7 +68,7 @@ namespace ParticleUniverse
 		public:
 			/** Default constructor.
 			*/
-			PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager);
 
 			/** Default destructor.
 			*/

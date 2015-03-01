@@ -36,8 +36,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
-	PrimitiveShapeSet::PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
-		MovableObject(id, objectMemoryManager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
+	PrimitiveShapeSet::PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager) :
+		MovableObject(id, objectMemoryManager, manager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
 		mWorldSpace(false),
 		mCullIndividual(false),
 		mZRotated(false),

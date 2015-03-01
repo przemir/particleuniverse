@@ -49,9 +49,9 @@ namespace ParticleUniverse
 
 			/** 
 			*/
-			Extern* createExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
+			Extern* createExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager)
 			{
-				return _createExtern<GravityExtern>(id, objectMemoryManager);
+				return _createExtern<GravityExtern>(id, objectMemoryManager, manager);
 			};
 
 			/** See ScriptReader */

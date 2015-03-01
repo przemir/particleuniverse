@@ -48,7 +48,7 @@ namespace ParticleUniverse
 			// Constants
 			static String PU_ATTACHABLE;
 
-			Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
+			Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager);
 	        virtual ~Attachable(void){};
 
 			/** Get the Distance Threshold

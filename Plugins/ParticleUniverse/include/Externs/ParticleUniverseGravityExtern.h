@@ -41,8 +41,8 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport GravityExtern : public Attachable, public GravityAffector
 	{
 		public:
-			GravityExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
-			Attachable(id, objectMemoryManager),
+			GravityExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager) :
+			Attachable(id, objectMemoryManager, manager),
 			GravityAffector() {};
 	        virtual ~GravityExtern(void) {};
 

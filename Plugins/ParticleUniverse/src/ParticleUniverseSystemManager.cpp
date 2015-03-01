@@ -695,7 +695,7 @@ namespace ParticleUniverse
 				"ParticleSystemManager::createExtern");
 		}
 
-		return it->second->createExtern(Ogre::Id::generateNewId<Extern>(), &mPUMemoryManager);
+		return it->second->createExtern(Ogre::Id::generateNewId<Extern>(), &mPUMemoryManager, 0);
 	}
 	//-----------------------------------------------------------------------
 	Extern* ParticleSystemManager::cloneExtern(Extern* externObject)
@@ -822,7 +822,8 @@ namespace ParticleUniverse
 		//Dont want to waist MovableObject id numbers on tempaltes, so just us ParticleSystem object id
 		ParticleSystem* particleSystemTemplate = PU_NEW ParticleSystem(resourceGroupName,
 																		Ogre::Id::generateNewId<ParticleSystem>(),
-																		&mPUMemoryManager);
+																		&mPUMemoryManager,
+																		0);
 		particleSystemTemplate->setName(expName);
 		addParticleSystemTemplate(expName, particleSystemTemplate);
 		mLastCreatedParticleSystemTemplateName = expName;
@@ -1010,14 +1011,15 @@ namespace ParticleUniverse
 		}
 	}
 	//-----------------------------------------------------------------------
-	ParticleSystem* ParticleSystemManager::_createSystemImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager)
+	ParticleSystem* ParticleSystemManager::_createSystemImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+															Ogre::SceneManager *manager)
 	{
-		ParticleSystem* sys = PU_NEW ParticleSystem(id, objectMemoryManager);
+		ParticleSystem* sys = PU_NEW ParticleSystem(id, objectMemoryManager, manager);
 		return sys;
 	}
 	//-----------------------------------------------------------------------
 	ParticleSystem* ParticleSystemManager::_createSystemImpl(const String& templateName, Ogre::IdType id,
-															Ogre::ObjectMemoryManager *objectMemoryManager)
+															Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager)
 	{
 		// Look up template
 		ParticleSystem* pTemplate = getParticleSystemTemplate(templateName);
@@ -1026,7 +1028,7 @@ namespace ParticleUniverse
 			EXCEPT(Exception::ERR_INVALIDPARAMS, "PU: Cannot find required template '" + templateName + "'", "ParticleSystemManager::createSystem");
 		}
 
-		ParticleSystem* sys = PU_NEW ParticleSystem(id, objectMemoryManager);
+		ParticleSystem* sys = PU_NEW ParticleSystem(id, objectMemoryManager, manager);
         
 		// Copy template settings
 		*sys = *pTemplate;
@@ -1532,7 +1534,7 @@ namespace ParticleUniverse
 	String ParticleSystemFactory::PU_FACTORY_TYPE_NAME = "PUParticleSystem";
 	//-----------------------------------------------------------------------
 	Ogre::MovableObject* ParticleSystemFactory::createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
-																	const Ogre::NameValuePairList* params)
+																	Ogre::SceneManager *manager, const Ogre::NameValuePairList* params)
 	{
 		if (params != 0)
 		{
@@ -1542,12 +1544,12 @@ namespace ParticleUniverse
 				String templateName = ni->second;
 				
 				// Create using manager
-				return ParticleSystemManager::getSingleton()._createSystemImpl(templateName, id, objectMemoryManager);
+				return ParticleSystemManager::getSingleton()._createSystemImpl(templateName, id, objectMemoryManager, manager);
 			}
 		}
 		
 		// Not template based, just create one with the given name
-		return ParticleSystemManager::getSingleton()._createSystemImpl(id, objectMemoryManager);
+		return ParticleSystemManager::getSingleton()._createSystemImpl(id, objectMemoryManager, manager);
 	}
 	//-----------------------------------------------------------------------
 	const String& ParticleSystemFactory::getType(void) const

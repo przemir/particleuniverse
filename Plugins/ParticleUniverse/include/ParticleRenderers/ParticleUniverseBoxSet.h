@@ -163,7 +163,8 @@ namespace ParticleUniverse
 		public:
 			/** Default constructor.
 			*/
-			BoxSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, unsigned int poolSize = 20, bool externalData = false);
+			BoxSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager,
+					unsigned int poolSize = 20, bool externalData = false);
 
 			/** Default destructor.
 			*/
@@ -287,7 +288,7 @@ namespace ParticleUniverse
 	
 		protected:
 			Ogre::MovableObject* createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
-													const Ogre::NameValuePairList* params = 0);
+													Ogre::SceneManager* manager, const Ogre::NameValuePairList* params = 0);
 
 		public:
 			BoxSetFactory(void) {}

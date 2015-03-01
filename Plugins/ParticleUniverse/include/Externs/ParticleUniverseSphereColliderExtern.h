@@ -37,8 +37,8 @@ namespace ParticleUniverse
 	class _ParticleUniverseExport SphereColliderExtern : public Attachable, public SphereCollider
 	{
 		public:
-			SphereColliderExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
-				Attachable(id, objectMemoryManager),
+			SphereColliderExtern(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager *manager) :
+				Attachable(id, objectMemoryManager, manager),
 				SphereCollider() {};
 	        virtual ~SphereColliderExtern(void) {};
 

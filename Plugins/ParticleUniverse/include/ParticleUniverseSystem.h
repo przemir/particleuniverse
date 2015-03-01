@@ -77,9 +77,9 @@ namespace ParticleUniverse
 			typedef vector<ParticleSystemListener*>::iterator ParticleSystemListenerIterator;
 			typedef vector<ParticleSystemListener*> ParticleSystemListenerList;
 
-			ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager);
-			ParticleSystem(const String& resourceGroupName, Ogre::IdType id,
-							Ogre::ObjectMemoryManager *objectMemoryManager);
+			ParticleSystem(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager);
+			ParticleSystem(const String& resourceGroupName, Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager,
+							Ogre::SceneManager* manager);
 	        virtual ~ParticleSystem(void);
 
 			/** Gets the derived position of the particle system (i.e derived from the parent node, if available).
