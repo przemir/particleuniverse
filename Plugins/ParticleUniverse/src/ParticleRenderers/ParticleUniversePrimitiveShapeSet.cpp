@@ -37,7 +37,7 @@ namespace ParticleUniverse
 {
 	//-----------------------------------------------------------------------
 	PrimitiveShapeSet::PrimitiveShapeSet(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
-		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
+		MovableObject(id, objectMemoryManager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
 		mWorldSpace(false),
 		mCullIndividual(false),
 		mZRotated(false),

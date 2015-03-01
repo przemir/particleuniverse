@@ -36,7 +36,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	Attachable::Attachable(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager) :
 		Extern(),
-		MovableObject(id, objectMemoryManager, Ogre::RenderQueueGroupID::RENDER_QUEUE_MAIN),
+		MovableObject(id, objectMemoryManager, ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP),
 		mDistanceThreshold(std::numeric_limits<float>::max()),
 		mDistanceThresholdSet(false)
 	{

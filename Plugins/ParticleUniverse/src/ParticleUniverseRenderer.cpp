@@ -36,7 +36,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ParticleUniverse
 {
 	// Constants
-	const uint8 ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP = Ogre::RENDER_QUEUE_MAIN;
+	const uint8 ParticleRenderer::DEFAULT_RENDER_QUEUE_GROUP = 1;
 	const bool ParticleRenderer::DEFAULT_SORTED = false;
 	const uchar ParticleRenderer::DEFAULT_TEXTURECOORDS_ROWS = 1;
 	const uchar ParticleRenderer::DEFAULT_TEXTURECOORDS_COLUMNS = 1;
