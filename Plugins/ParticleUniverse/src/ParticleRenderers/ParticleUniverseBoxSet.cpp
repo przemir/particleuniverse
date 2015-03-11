@@ -295,8 +295,6 @@ namespace ParticleUniverse
 			}
 			endBoxes();
 		}
-
-		queue->addRenderable(this, mRenderQueueID, mRenderQueuePriority);
 	}
 	//-----------------------------------------------------------------------
 	void BoxSet::getRenderOperation(Ogre::v1::RenderOperation& op)

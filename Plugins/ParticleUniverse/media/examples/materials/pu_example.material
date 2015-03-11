@@ -7,22 +7,11 @@
 // You can find a copy of the Commercial License in the Particle Universe package.
 //-----------------------------------------------------------------------------------------------------------------------
 
-material mp_fire_02
+hlms mp_fire_02 unlit
 {
-    technique
-    {
-        pass
-        {
-            lighting off
-            depth_write off
-            scene_blend add
-
-            texture_unit
-            {
-                texture mp_fire_02_2x2.dds
-            }
-        }
-    }
+	depth_write off
+	scene_blend alpha_blend
+	diffuse_map mp_fire_02_2x2.dds
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 material ParticleUniverse/Tornado
@@ -361,18 +350,9 @@ material ParticleUniverse/GreenBall
     }
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-material ParticleUniverse/Crate
+hlms ParticleUniverse/Crate unlit
 {
-    technique
-    {
-        pass
-        {
-            texture_unit
-            {
-                texture crate6.png
-            }
-        }
-    }
+	diffuse_map crate6.png
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 material ParticleUniverse/Star
@@ -431,18 +411,9 @@ material ParticleUniverse/Interpolate
     }
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-material ParticleUniverse/Fish
+hlms ParticleUniverse/Fish unlit
 {
-    technique
-    {
-        pass
-        {
-            texture_unit
-            {
-                texture steelhead.png
-            }
-        }
-    }
+    diffuse_map steelhead.png
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 material ParticleUniverse/Flare
@@ -463,24 +434,12 @@ material ParticleUniverse/Flare
     }
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-material ParticleUniverse/RibbonTrail
+hlms ParticleUniverse/RibbonTrail unlit
 {
-    technique
-    {
-        pass
-        {
-            lighting off
-            scene_blend add
-            depth_write off
+	scene_blend add
+	depth_write off
 
-            texture_unit
-            {
-                texture pu_ribbontrail.png 1d
-                tex_address_mode clamp
-                filtering none
-            }
-        }
-    }
+	diffuse_map pu_ribbontrail.png
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 material ParticleUniverse/Rain
@@ -520,22 +479,12 @@ material ParticleUniverse/Beam_1
     }
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-material ParticleUniverse/Beam_2
+hlms ParticleUniverse/Beam_2 unlit
 {
-    technique
-    {
-        pass
-        {
-            lighting off
-            scene_blend add
-            depth_write off
 
-            texture_unit
-            {
-                texture pu_beam_02.png 1d
-                tex_address_mode clamp
-                filtering none
-            }
-        }
-    }
+	scene_blend add
+	depth_write off
+
+    diffuse_map pu_beam_02.png 
+
 }

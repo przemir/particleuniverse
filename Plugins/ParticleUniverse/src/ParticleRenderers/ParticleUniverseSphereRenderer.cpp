@@ -29,6 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "ParticleRenderers/ParticleUniverseSphereRenderer.h"
 #include "ParticleRenderers/ParticleUniverseSphere.h"
+#include "OgreResourceGroupManager.h"
 
 namespace ParticleUniverse
 {
@@ -73,8 +74,15 @@ namespace ParticleUniverse
 		_notifyDefaultDimensions(_mRendererScale.x * technique->getDefaultWidth(),
 								_mRendererScale.y * technique->getDefaultHeight(),
 								_mRendererScale.z * technique->getDefaultDepth());
+
+		//make sure vertex data is initialised before the material is set.
+		mSphereSet->_createBuffers();
+
 		_setMaterialName(technique->getMaterialName());
 		mSphereSet->setRenderQueueGroup(mQueueId);
+
+		//add renderable
+		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mSphereSet);
 		mRendererInitialised = true;
 	}
 	//-----------------------------------------------------------------------
@@ -144,7 +152,7 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void SphereRenderer::_setMaterialName(const String& materialName)
 	{
-		mSphereSet->setMaterialName(materialName);
+		mSphereSet->setDatablockOrMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 	}
 	//-----------------------------------------------------------------------
 	void SphereRenderer::_notifyParticleQuota(size_t quota)

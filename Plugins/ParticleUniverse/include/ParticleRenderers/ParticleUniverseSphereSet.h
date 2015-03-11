@@ -139,11 +139,7 @@ namespace ParticleUniverse
 			/** Is external sphere data in use?
 			*/
 			bool mExternalData;
-
-			/** Internal method creates vertex and index buffers.
-			*/
-			void _createBuffers(void);
-        
+       
 			/** Internal method destroys vertex and index buffers.
 			*/
 			void _destroyBuffers(void);
@@ -157,6 +153,11 @@ namespace ParticleUniverse
 			/** Default destructor.
 			*/
 	        virtual ~SphereSet(void);
+
+			/** Internal method creates vertex and index buffers.
+				Do not use
+			*/
+			void _createBuffers(void);
 
 			/** Creates a new sphere and adds it to this set.
 			*/

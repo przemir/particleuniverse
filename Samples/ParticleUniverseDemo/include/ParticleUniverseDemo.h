@@ -49,8 +49,8 @@ protected:
 		mCamera->setNearClipDistance(0.1);
 
 		Ogre::Root::getSingleton().getCompositorManager2()->createBasicWorkspaceDef("BasicWorkspace",
-		Ogre::ColourValue(0.6f, 0.0f, 0.6f),
-		Ogre::IdString());
+																				Ogre::ColourValue(0.6f, 0.0f, 0.6f),
+																				Ogre::IdString());
 
 		Ogre::Root::getSingleton().getCompositorManager2()->addWorkspace(mSceneMgr, mWindow, mCamera, "BasicWorkspace", true);
 		

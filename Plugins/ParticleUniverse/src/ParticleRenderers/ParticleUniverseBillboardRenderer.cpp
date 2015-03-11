@@ -108,6 +108,12 @@ namespace ParticleUniverse
 			mBillboardSet->setTextureStacksAndSlices(mTextureCoordsRows, mTextureCoordsColumns);
 		}
 		
+		//add renderable
+		// This billboard set movable object (MO) is not created by the scene manager (SM) and so the SM does not know about it,
+		// as a result its renderables are never added to the render queue. So we add the billboard renderable to
+		// the particle system MO as that is created by the SM, and so the SM is aware of it
+		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardSet);
+
 		mRendererInitialised = true;
 	}
 	//-----------------------------------------------------------------------
@@ -297,9 +303,6 @@ namespace ParticleUniverse
 		}
 
         mBillboardSet->endBillboards();
-
-		// Update the queue
-		mBillboardSet->_updateRenderQueue(queue, camera, lodCamera);
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyAttached(Ogre::Node* parent)
@@ -309,7 +312,10 @@ namespace ParticleUniverse
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_setMaterialName(const String& materialName)
 	{
-		mBillboardSet->setMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+		if (mBillboardSet)
+		{
+			mBillboardSet->setDatablockOrMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+		}
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyCurrentCamera(Camera* cam)

@@ -304,8 +304,6 @@ namespace ParticleUniverse
 			}
 			endSpheres();
 		}
-
-		queue->addRenderable(this, mRenderQueueID, mRenderQueuePriority);
 	}
 	//-----------------------------------------------------------------------
 	void SphereSet::getRenderOperation(Ogre::v1::RenderOperation& op)

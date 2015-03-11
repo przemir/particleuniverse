@@ -242,7 +242,7 @@ namespace ParticleUniverse
 			mTrail->setName(mRibbonTrailName);
 			mTrail->setNumberOfChains(mQuota);
 			mTrail->setMaxChainElements(mMaxChainElements);
-			mTrail->setMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+			mTrail->setDatablockOrMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 			mTrail->setRenderQueueGroup(mQueueId);
 			if (mSetLength)
 			{
@@ -288,6 +288,9 @@ namespace ParticleUniverse
 				}
 			}
 			mChildNode->attachObject(mTrail);
+
+			//Ribbon trail does not currently acutally add its own renderabl to itself. The SceneManager is aware of it and will try to render it
+			mTrail->mRenderables.push_back(mTrail);
 			mRendererInitialised = true;
 		}
 	}
@@ -350,7 +353,7 @@ namespace ParticleUniverse
 	{
 		if (mTrail)
 		{
-			mTrail->setMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+			mTrail->setDatablockOrMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 		}
 	}
 	//-----------------------------------------------------------------------

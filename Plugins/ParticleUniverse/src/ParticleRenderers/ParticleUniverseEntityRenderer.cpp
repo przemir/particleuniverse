@@ -223,7 +223,7 @@ namespace ParticleUniverse
 			{
 				Ogre::v1::Entity* clonedEntity = entity->clone();
 				entity->setName(mEntityName + StringConverter::toString(j));
-				clonedEntity->setMaterialName(technique->getMaterialName());
+				clonedEntity->setDatablockOrMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 				clonedEntity->setRenderQueueGroup(mQueueId);
 				mEntities.push_back(clonedEntity);
 				(*it)->node->attachObject(clonedEntity);
@@ -287,6 +287,10 @@ namespace ParticleUniverse
 						{
 							_rotateTexture(particle, static_cast<Ogre::v1::Entity*>(node->getAttachedObject(0))); // We know for sure there is only one and it is an Entity*
 						}
+
+						//TODO: This is really horrible, but I am assuming this will all be re-written!
+						// force node trasform to update as we updated the node after updateAllTransforms was called
+						node->_getFullTransformUpdated();
 					}
 				}
 			}
@@ -308,7 +312,7 @@ namespace ParticleUniverse
 		vector<Ogre::v1::Entity*>::const_iterator itEntityEnd = mEntities.end();
 		for (itEntity = mEntities.begin(); itEntity != itEntityEnd; ++itEntity)
 		{
-			(*itEntity)->setMaterialName(materialName);
+			(*itEntity)->setDatablockOrMaterialName(materialName, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 		}
 	}
 	//-----------------------------------------------------------------------

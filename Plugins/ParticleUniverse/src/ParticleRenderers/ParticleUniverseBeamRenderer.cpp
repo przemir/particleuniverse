@@ -191,11 +191,14 @@ namespace ParticleUniverse
 			mBillboardChain->setDynamic(true);
 			mBillboardChain->setNumberOfChains(mQuota);
 			mBillboardChain->setMaxChainElements(mMaxChainElements);
-			mBillboardChain->setMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+			mBillboardChain->setDatablockOrMaterialName(technique->getMaterialName(), Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 			mBillboardChain->setRenderQueueGroup(mQueueId);
 			mBillboardChain->setTextureCoordDirection(mTexCoordDirection);
 			setUseVertexColours(mUseVertexColours);
 			mBillboardChain->setOtherTextureCoordRange(0.0f, 1.0f);
+
+			//add renderable
+			this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardChain);
 
 			// Create number of VisualData objects
 			for (size_t i = 0; i < mQuota; i++)
@@ -218,6 +221,11 @@ namespace ParticleUniverse
 			}
 			mRendererInitialised = true;
 			parentNode->attachObject(mBillboardChain);
+
+			//Billboard chain does not currently acutally add its own renderabl to itself. The SceneManager is aware of it and will try to render it
+			mBillboardChain->mRenderables.push_back(mBillboardChain);
+
+			this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardChain);
 		}
 	}
 

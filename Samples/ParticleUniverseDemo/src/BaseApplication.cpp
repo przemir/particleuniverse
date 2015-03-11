@@ -4,6 +4,9 @@
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
 #include <OIS.h>
+#include <OgreArchiveManager.h>
+#include <OgreHlmsManager.h>
+#include <Hlms\Unlit\OgreHlmsUnlit.h>
 
 using namespace Ogre;
 
@@ -24,10 +27,14 @@ void BaseApplication::run()
 	mRoot = new Root(
         /* plugins.cfg file*/	"plugins.cfg",
         /* config file */ 		"ogre.cfg",
-		/* log file */ 			""
+		/* log file */ 			"ogre.log"
 	);
 
-	mRoot->loadPlugin(OGRE_PLUGIN_DIR_REL + std::string("/RenderSystem_GL"));
+#if _DEBUG
+	mRoot->loadPlugin(("./RenderSystem_GL3Plus_d"));
+#else
+	mRoot->loadPlugin(("./RenderSystem_GL3Plus"));
+#endif
 	mRoot->loadPlugin("./Plugin_ParticleUniverse");
 
     // Fire up Ogre::Root
@@ -41,6 +48,23 @@ void BaseApplication::run()
 	Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
 	Ogre::String sec, type, arch;
 
+	//register HLMS units
+	Ogre::String dataFolder = cf.getSetting("FileSystem", "HLMS", "");
+
+	if (dataFolder.empty())
+		dataFolder = "./";
+	else if (*(dataFolder.end() - 1) != '/')
+		dataFolder += "/";
+
+	Ogre::Archive *archiveUnlit = Ogre::ArchiveManager::getSingletonPtr()->load(
+		dataFolder + "Unlit/GLSL",
+		"FileSystem", true);
+
+	Ogre::HlmsUnlit *hlmsUnlit = OGRE_NEW Ogre::HlmsUnlit(archiveUnlit);
+	Ogre::Root::getSingleton().getHlmsManager()->registerHlms(hlmsUnlit);
+
+	Ogre::Root::getSingleton().getHlmsManager()->useDefaultDatablockFrom(Ogre::HLMS_UNLIT);
+
 	// go through all specified resource groups
 	while (seci.hasMoreElements())
 	{
@@ -48,16 +72,23 @@ void BaseApplication::run()
 		Ogre::ConfigFile::SettingsMultiMap* settings = seci.getNext();
 		Ogre::ConfigFile::SettingsMultiMap::iterator i;
 
-		// go through all resource paths
-		for (i = settings->begin(); i != settings->end(); i++)
+		//dont register HLMS specific shaders in normal resource pool
+		if (sec != "HLMS")
 		{
-			type = i->first;
-			arch = i->second;
-			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(arch, type, sec);
+			// go through all resource paths
+			for (i = settings->begin(); i != settings->end(); i++)
+			{
+				type = i->first;
+				arch = i->second;
+				Ogre::ResourceGroupManager::getSingleton().addResourceLocation(arch, type, sec);
+			}
 		}
 	}
 
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+
+
 
 	WindowEventUtilities::addWindowEventListener(mWindow, this);
 	
@@ -90,6 +121,8 @@ void BaseApplication::run()
 	mRoot->addFrameListener(this);
 	mRoot->startRendering();
 	destroyScene();
+	//Ogre::ResourceManager:: 
+	
 	
 	// Shutdown
 	if (mOISMouse)

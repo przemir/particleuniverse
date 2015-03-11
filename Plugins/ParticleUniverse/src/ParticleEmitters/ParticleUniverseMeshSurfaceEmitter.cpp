@@ -185,7 +185,8 @@ namespace ParticleUniverse
 		const Vector3& scale) : 
 		mDistribution(distribution)
 	{
-		Ogre::v1::MeshPtr mesh = Ogre::v1::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		Ogre::v1::MeshPtr mesh = Ogre::v1::MeshManager::getSingleton().load(meshName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+																			Ogre::v1::HardwareBuffer::HBU_STATIC, Ogre::v1::HardwareBuffer::HBU_STATIC);
 		getMeshInformation(mesh, Vector3::ZERO, orientation, scale);
 	}
 	//-----------------------------------------------------------------------

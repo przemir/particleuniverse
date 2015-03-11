@@ -151,11 +151,7 @@ namespace ParticleUniverse
 			/** Is external box data in use?
 			*/
 			bool mExternalData;
-
-			/** Internal method creates vertex and index buffers.
-			*/
-			void _createBuffers(void);
-        
+       
 			/** Internal method destroys vertex and index buffers.
 			*/
 			void _destroyBuffers(void);
@@ -169,6 +165,11 @@ namespace ParticleUniverse
 			/** Default destructor.
 			*/
 	        virtual ~BoxSet(void);
+
+			/** Internal PU method creates vertex and index buffers.
+				Do not use
+			*/
+			void _createBuffers(void);
 
 			/** Creates a new box and adds it to this set.
 			*/
