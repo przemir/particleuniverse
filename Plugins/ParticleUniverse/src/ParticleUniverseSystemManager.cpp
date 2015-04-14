@@ -38,7 +38,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "OgreViewport.h"
 #include "OgreTextureManager.h"
 #include "OgreTechnique.h"
-#include "Compositor\OgreCompositorManager2.h"
+#include "Compositor/OgreCompositorManager2.h"
 #include "Compositor/OgreCompositorNode.h"
 #include "Compositor/OgreCompositorNodeDef.h"
 #include "Compositor/OgreCompositorWorkspace.h"
@@ -175,7 +175,7 @@ namespace ParticleUniverse
 	
 		BoxSet* obj = static_cast<BoxSet*>(
 			sceneManager->createMovableObject(BoxSetFactory::PU_FACTORY_TYPE_NAME, 
-												&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+												&sceneManager->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC),
 												&params));
 		obj->setName(name);
 		return obj;
@@ -195,7 +195,7 @@ namespace ParticleUniverse
 	
 		SphereSet* obj = static_cast<SphereSet*>(
 			sceneManager->createMovableObject(SphereSetFactory::PU_FACTORY_TYPE_NAME,
-												&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+												&sceneManager->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC),
 												&params));
 		obj->setName(name);
 		return obj;
@@ -910,7 +910,7 @@ namespace ParticleUniverse
 	
 		ParticleSystem* system = static_cast<ParticleSystem*>(
 			sceneManager->createMovableObject(ParticleSystemFactory::PU_FACTORY_TYPE_NAME,
-								&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+								&sceneManager->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC),
 								&params));
 		system->setName(name);
 		system->setSceneManager(sceneManager);
@@ -933,7 +933,7 @@ namespace ParticleUniverse
 		Ogre::NameValuePairList params;
 		ParticleSystem* system = static_cast<ParticleSystem*>(
 		sceneManager->createMovableObject(ParticleSystemFactory::PU_FACTORY_TYPE_NAME, 
-											&sceneManager->_getEntityMemoryManager(Ogre::SceneMemoryMgrTypes::SCENE_DYNAMIC),
+											&sceneManager->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC),
 											&params));
 		system->setSceneManager(sceneManager);
 		system->setName(name);
