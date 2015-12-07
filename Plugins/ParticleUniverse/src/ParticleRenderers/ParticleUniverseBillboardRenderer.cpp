@@ -258,6 +258,8 @@ namespace ParticleUniverse
 		if (pool->isEmpty(Particle::PT_VISUAL))
 			return;
 
+		mBillboardSet->_notifyCurrentCamera(camera);
+
 		mBillboardSet->setCullIndividually(mCullIndividual);
 
 		mBillboardSet->beginBillboards(pool->getSize(Particle::PT_VISUAL));
