@@ -56,11 +56,18 @@ void BaseApplication::run()
 	else if (*(dataFolder.end() - 1) != '/')
 		dataFolder += "/";
 
+    Ogre::Archive *archiveCommon = Ogre::ArchiveManager::getSingletonPtr()->load(
+        dataFolder + "Common/GLSL",
+        "FileSystem", true);
+
+    Ogre::ArchiveVec libraryCommon;
+    libraryCommon.push_back(archiveCommon);
+
 	Ogre::Archive *archiveUnlit = Ogre::ArchiveManager::getSingletonPtr()->load(
 		dataFolder + "Unlit/GLSL",
 		"FileSystem", true);
 
-	Ogre::HlmsUnlit *hlmsUnlit = OGRE_NEW Ogre::HlmsUnlit(archiveUnlit);
+	Ogre::HlmsUnlit *hlmsUnlit = OGRE_NEW Ogre::HlmsUnlit(archiveUnlit, &libraryCommon);
 	Ogre::Root::getSingleton().getHlmsManager()->registerHlms(hlmsUnlit);
 
 	Ogre::Root::getSingleton().getHlmsManager()->useDefaultDatablockFrom(Ogre::HLMS_UNLIT);

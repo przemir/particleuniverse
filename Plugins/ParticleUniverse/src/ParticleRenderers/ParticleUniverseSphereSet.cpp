@@ -306,7 +306,7 @@ namespace ParticleUniverse
 		}
 	}
 	//-----------------------------------------------------------------------
-	void SphereSet::getRenderOperation(Ogre::v1::RenderOperation& op)
+	void SphereSet::getRenderOperation(Ogre::v1::RenderOperation& op, bool casterPass)
 	{
 		op.vertexData = mVertexData;
 		op.vertexData->vertexStart = 0;

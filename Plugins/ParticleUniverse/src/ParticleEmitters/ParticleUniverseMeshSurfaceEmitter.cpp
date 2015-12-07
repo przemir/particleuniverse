@@ -299,17 +299,17 @@ namespace ParticleUniverse
 			{
 				if( !added_shared )
 				{
-					vertexCount += mesh->sharedVertexData->vertexCount;
+					vertexCount += mesh->sharedVertexData[0]->vertexCount;
 					added_shared = true;
 				}
 			}
 			else
 			{
-				vertexCount += submesh->vertexData->vertexCount;
+				vertexCount += submesh->vertexData[0]->vertexCount;
 			}
 
 			// Add the indices
-			indexCount += submesh->indexData->indexCount;
+			indexCount += submesh->indexData[0]->indexCount;
 		}
 
 		// Allocate space for the vertices and indices
@@ -322,7 +322,7 @@ namespace ParticleUniverse
 		for ( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
 		{
 			Ogre::v1::SubMesh* submesh = mesh->getSubMesh(i);
-			Ogre::v1::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
+			Ogre::v1::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData[0] : submesh->vertexData[0];
 
 			if((!submesh->useSharedVertices)||(submesh->useSharedVertices && !added_shared))
 			{
@@ -353,7 +353,7 @@ namespace ParticleUniverse
 				next_offset += vertex_data->vertexCount;
 			}
 
-			Ogre::v1::IndexData* index_data = submesh->indexData;
+			Ogre::v1::IndexData* index_data = submesh->indexData[0];
 			size_t numTris = index_data->indexCount / 3;
 			Ogre::v1::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
 			bool use32bitindexes = (ibuf->getType() == Ogre::v1::HardwareIndexBuffer::IT_32BIT);

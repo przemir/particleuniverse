@@ -268,7 +268,7 @@ namespace ParticleUniverse
 			@see
 				Renderable
 			*/
-			virtual void getRenderOperation(Ogre::v1::RenderOperation& op);
+			virtual void getRenderOperation(Ogre::v1::RenderOperation& op, bool casterPass);
 
 			/** Overridden from MovableObject 
 			*/

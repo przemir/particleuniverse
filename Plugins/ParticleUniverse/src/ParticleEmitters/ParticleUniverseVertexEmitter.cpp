@@ -254,7 +254,7 @@ namespace ParticleUniverse
 	{
 		if (mMaxVertexCount == 0 && mMesh)
 		{
-			mVertexData = mMesh->sharedVertexData;
+			mVertexData = mMesh->sharedVertexData[0];
 			if (!mVertexData)
 			{
 				mMeshProcessed = true;
@@ -274,7 +274,7 @@ namespace ParticleUniverse
 	{
 		if (mMaxVertexCount == 0 && mSubMesh)
 		{
-			mVertexData = mSubMesh->vertexData;
+			mVertexData = mSubMesh->vertexData[0];
 			if (!mVertexData)
 			{
 				return;

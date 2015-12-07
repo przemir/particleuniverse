@@ -55,7 +55,7 @@ protected:
 		Ogre::Root::getSingleton().getCompositorManager2()->addWorkspace(mSceneMgr, mWindow, mCamera, "BasicWorkspace", true);
 		
 		// setup some basic lighting for our scene
-        mSceneMgr->setAmbientLight(ColourValue(0.3, 0.3, 0.3));
+        mSceneMgr->setAmbientLight(ColourValue(0.3, 0.3, 0.3), ColourValue(0.3, 0.3, 0.3), Ogre::Vector3::UNIT_Y);
 		SceneNode* lightNode = mSceneMgr->createSceneNode();
         lightNode->attachObject(mSceneMgr->createLight());
 		lightNode->setPosition(20, 80, 50);
