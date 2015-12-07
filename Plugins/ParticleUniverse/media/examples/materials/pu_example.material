@@ -9,8 +9,8 @@
 
 hlms mp_fire_02 unlit
 {
-	depth_write off
-	scene_blend alpha_blend
+  depth_write off
+	scene_blend add
 	diffuse_map mp_fire_02_2x2.dds
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------
