@@ -224,8 +224,6 @@ namespace ParticleUniverse
 
 			//Billboard chain does not currently acutally add its own renderabl to itself. The SceneManager is aware of it and will try to render it
 			mBillboardChain->mRenderables.push_back(mBillboardChain);
-
-			this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardChain);
 		}
 	}
 
@@ -294,6 +292,8 @@ namespace ParticleUniverse
 			}
 			particle = static_cast<Particle*>(pool->getNext());
 		}
+
+		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardChain);
 	}
 	//-----------------------------------------------------------------------
 	void BeamRenderer::_processParticle(ParticleTechnique* particleTechnique, 

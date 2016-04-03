@@ -108,12 +108,6 @@ namespace ParticleUniverse
 			mBillboardSet->setTextureStacksAndSlices(mTextureCoordsRows, mTextureCoordsColumns);
 		}
 		
-		//add renderable
-		// This billboard set movable object (MO) is not created by the scene manager (SM) and so the SM does not know about it,
-		// as a result its renderables are never added to the render queue. So we add the billboard renderable to
-		// the particle system MO as that is created by the SM, and so the SM is aware of it
-		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardSet);
-
 		mRendererInitialised = true;
 	}
 	//-----------------------------------------------------------------------
@@ -305,6 +299,9 @@ namespace ParticleUniverse
 		}
 
         mBillboardSet->endBillboards();
+
+		//add this billboard set to renderables so Ogre renders it
+		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBillboardSet);
 	}
 	//-----------------------------------------------------------------------
 	void BillboardRenderer::_notifyAttached(Ogre::Node* parent)

@@ -81,8 +81,6 @@ namespace ParticleUniverse
 		_setMaterialName(technique->getMaterialName());
 		mBoxSet->setRenderQueueGroup(mQueueId);
 
-		//add renderable
-		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBoxSet);
 		mRendererInitialised = true;
 	}
 	//-----------------------------------------------------------------------
@@ -143,6 +141,9 @@ namespace ParticleUniverse
 
 		// Update the queue
 		mBoxSet->_updateRenderQueue(queue, camera, lodCamera);
+
+		//add renderable
+		this->getParentTechnique()->getParentSystem()->mRenderables.push_back(mBoxSet);
 	}
 	//-----------------------------------------------------------------------
 	void BoxRenderer::_notifyAttached(Ogre::Node* parent)

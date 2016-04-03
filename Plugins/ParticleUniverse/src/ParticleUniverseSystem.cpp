@@ -760,6 +760,9 @@ namespace ParticleUniverse
 		unsigned short index = 0;
 		bool doCamera = !mMainCameraNameSet || (mMainCameraNameSet && mMainCameraName == camera->getName());
 
+		//remove all renderables here, and allow techniques/renderers to add if they have anything to render per frame
+		mRenderables.clear();
+
 		for (it = mTechniques.begin(); it != itEnd; ++it)
 		{
 			// Calculate the distance between the camera and each ParticleTechnique (although it isn´t always used).
