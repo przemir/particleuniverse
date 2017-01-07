@@ -310,7 +310,7 @@ namespace ParticleUniverse
 	{
 		op.vertexData = mVertexData;
 		op.vertexData->vertexStart = 0;
-		op.operationType = Ogre::v1::RenderOperation::OT_TRIANGLE_LIST;
+		op.operationType = Ogre::OT_TRIANGLE_LIST;
 		op.useIndexes = true;
 		op.vertexData->vertexCount = mNumVisibleSpheres * mVertexCountPerSphere;
 		op.indexData = mIndexData;
