@@ -78,11 +78,6 @@ namespace ParticleUniverse
 			*/
 			virtual void _updateRenderQueue(Ogre::RenderQueue* queue, Ogre::Camera* camera, const Ogre::Camera* lodCamera);
 
-			/** @see MovableObject
-		    */
-			virtual void visitRenderables(Ogre::Renderable::Visitor* visitor,
-				bool debugRenderables = false) {/* No implementation */};
-
 			/** Copy attributes to another Extern object.
 	        */
 			virtual void copyAttributesTo (Extern* externObject);

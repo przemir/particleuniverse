@@ -470,11 +470,6 @@ namespace ParticleUniverse
 			*/
 			void pushEvent(ParticleUniverseEvent& particleUniverseEvent);
 
-			/** @see MovableObject
-		    */
-			virtual void visitRenderables (Ogre::Renderable::Visitor* visitor,
-				bool debugRenderables = false) {/* No implementation */};
-
 			/** Returns the time of a pause (if set)
 			*/
 			Real getPauseTime (void) const;
